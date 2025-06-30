@@ -1,0 +1,1346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jungian Cognitive Function Assessment</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #ff8c00 0%, #ff6347 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .screen {
+            display: none;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            overflow: hidden;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        .screen.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .screen-header {
+            background: linear-gradient(45deg, #ff8c00, #ff6347);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .screen-content {
+            padding: 2rem;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        h2 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: #ff8c00;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 1rem;
+        }
+
+        .language-selection {
+            margin: 2rem 0;
+        }
+
+        .language-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .language-btn {
+            padding: 0.8rem 2rem;
+            border: 2px solid #ff8c00;
+            background: transparent;
+            color: #ff8c00;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+            font-weight: 500;
+        }
+
+        .language-btn.active,
+        .language-btn:hover {
+            background: #ff8c00;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(255, 140, 0, 0.4);
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background: linear-gradient(45deg, #ff8c00, #ff6347);
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            border: none;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            margin: 0.5rem;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 140, 0, 0.4);
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, #ff8c00, #ff6347);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(45deg, #74b9ff, #0984e3);
+        }
+
+        .progress-container {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        .progress-bar {
+            background: #e9ecef;
+            height: 10px;
+            border-radius: 5px;
+            overflow: hidden;
+            margin-bottom: 0.5rem;
+        }
+
+        .progress-fill {
+            background: linear-gradient(45deg, #ff8c00, #ff6347);
+            height: 100%;
+            transition: width 0.3s ease;
+            border-radius: 5px;
+        }
+
+        .progress-text {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9rem;
+            color: #6c757d;
+        }
+
+        .question-container {
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .question-text {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            line-height: 1.8;
+            color: #333;
+        }
+
+        .rating-container {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+        }
+
+        .rating-btn {
+            width: 60px;
+            height: 60px;
+            border: 2px solid #ff8c00;
+            background: white;
+            color: #ff8c00;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2rem;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .rating-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 4px 15px rgba(255, 140, 0, 0.3);
+        }
+
+        .rating-btn.selected {
+            background: linear-gradient(45deg, #ff8c00, #ff6347);
+            color: white;
+            transform: scale(1.2);
+            box-shadow: 0 6px 20px rgba(255, 140, 0, 0.4);
+        }
+
+        .rating-labels {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            color: #6c757d;
+        }
+
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            padding: 1rem 2rem;
+            background: #f8f9fa;
+        }
+
+        .participant-info {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            border-radius: 10px;
+            border-left: 4px solid #ff8c00;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: #333;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #ff8c00;
+            box-shadow: 0 0 0 2px rgba(255, 140, 0, 0.2);
+        }
+
+        .results-container {
+            padding: 2rem;
+        }
+
+        .results-summary {
+            background: linear-gradient(45deg, #ff8c00, #ff6347);
+            color: white;
+            padding: 2rem;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .function-scores {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .function-card {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 10px;
+            border-left: 4px solid #ff8c00;
+        }
+
+        .function-name {
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+
+        .function-score {
+            font-size: 1.5rem;
+            color: #ff8c00;
+            font-weight: bold;
+        }
+
+        .thank-you-message {
+            text-align: center;
+            padding: 2rem;
+            background: #e8f5e8;
+            border-radius: 10px;
+            margin-top: 2rem;
+            border-left: 4px solid #28a745;
+        }
+
+        .completion-id {
+            font-family: monospace;
+            background: #f8f9fa;
+            padding: 0.5rem;
+            border-radius: 5px;
+            margin: 1rem 0;
+            color: #666;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .rating-container {
+                gap: 0.5rem;
+            }
+            
+            .rating-btn {
+                width: 50px;
+                height: 50px;
+                font-size: 1rem;
+            }
+            
+            .language-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .function-scores {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .loading {
+            text-align: center;
+            padding: 2rem;
+            color: #ff8c00;
+        }
+
+        .error-message {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 1rem;
+            border-radius: 5px;
+            margin: 1rem 0;
+            border-left: 4px solid #dc3545;
+        }
+
+        .success-message {
+            background: #d4edda;
+            color: #155724;
+            padding: 1rem;
+            border-radius: 5px;
+            margin: 1rem 0;
+            border-left: 4px solid #28a745;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Welcome Screen -->
+        <div id="welcome-screen" class="screen active">
+            <div class="screen-header">
+                <h1 id="main-title">Jungian Cognitive Function Assessment</h1>
+                <p class="subtitle" id="main-subtitle">Discover your psychological type through Carl Jung's cognitive function theory</p>
+            </div>
+            <div class="screen-content">
+                <div class="language-selection">
+                    <h3 id="language-title">Choose Language / 選擇語言</h3>
+                    <div class="language-buttons">
+                        <button id="btn-english" class="language-btn active" data-lang="en">English</button>
+                        <button id="btn-chinese" class="language-btn" data-lang="zh">繁體中文</button>
+                    </div>
+                </div>
+                
+                <div class="participant-info">
+                    <h3 id="participant-info-title">Participant Information (Optional)</h3>
+                    <div class="form-group">
+                        <label for="participant-id" id="participant-id-label">Participant ID (for research purposes):</label>
+                        <input type="text" id="participant-id" placeholder="e.g., P001, or leave blank for anonymous">
+                    </div>
+                    <div class="form-group">
+                        <label for="participant-age" id="participant-age-label">Age:</label>
+                        <select id="participant-age">
+                            <option value="" id="age-select">Select age range</option>
+                            <option value="18-25">18-25</option>
+                            <option value="26-35">26-35</option>
+                            <option value="36-45">36-45</option>
+                            <option value="46-55">46-55</option>
+                            <option value="56-65">56-65</option>
+                            <option value="65+">65+</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="participant-education" id="participant-education-label">Education Level:</label>
+                        <select id="participant-education">
+                            <option value="" id="education-select">Select education level</option>
+                            <option value="high-school" id="education-hs">High School</option>
+                            <option value="some-college" id="education-sc">Some College</option>
+                            <option value="bachelors" id="education-ba">Bachelor's Degree</option>
+                            <option value="masters" id="education-ma">Master's Degree</option>
+                            <option value="phd" id="education-phd">PhD/Doctorate</option>
+                            <option value="other" id="education-other">Other</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div style="text-align: center;">
+                    <button id="start-btn" class="btn btn-primary">Start Assessment</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Assessment Screen -->
+        <div id="assessment-screen" class="screen">
+            <div class="progress-container">
+                <div class="progress-bar">
+                    <div id="progress-fill" class="progress-fill" style="width: 0%"></div>
+                </div>
+                <div class="progress-text">
+                    <span id="question-number">Question 1 of 80</span>
+                    <span id="time-estimate">Estimated time: 15 minutes</span>
+                </div>
+            </div>
+            
+            <div class="question-container">
+                <div id="question-text" class="question-text">Loading question...</div>
+                <div class="rating-container" id="rating-container">
+                    <button class="rating-btn" data-value="1">1</button>
+                    <button class="rating-btn" data-value="2">2</button>
+                    <button class="rating-btn" data-value="3">3</button>
+                    <button class="rating-btn" data-value="4">4</button>
+                    <button class="rating-btn" data-value="5">5</button>
+                </div>
+                <div class="rating-labels">
+                    <span id="strongly-disagree">Strongly Disagree</span>
+                    <span id="neutral">Neutral</span>
+                    <span id="strongly-agree">Strongly Agree</span>
+                </div>
+            </div>
+            
+            <div class="navigation">
+                <button id="prev-btn" class="btn btn-secondary" style="display: none;">Previous</button>
+                <button id="next-btn" class="btn btn-primary" disabled>Next</button>
+            </div>
+        </div>
+
+        <!-- Results Screen -->
+        <div id="results-screen" class="screen">
+            <div class="screen-header">
+                <h1 id="results-title">Assessment Complete</h1>
+                <p class="subtitle" id="results-subtitle">Your Jungian Cognitive Function Results</p>
+            </div>
+            <div class="results-container">
+                <div id="results-content">
+                    <!-- Results will be dynamically generated -->
+                </div>
+                
+                <div class="thank-you-message">
+                    <h3 id="thank-you-title">Thank You for Participating!</h3>
+                    <p id="thank-you-text">Your responses have been recorded. If you provided a participant ID, your results are linked to that identifier.</p>
+                    <div class="completion-id">
+                        <span id="completion-id-label">Completion ID:</span> <span id="completion-id"></span>
+                    </div>
+                </div>
+                
+                <div style="text-align: center; margin-top: 2rem;">
+                    <button id="download-btn" class="btn btn-secondary">Download Results</button>
+                    <button id="restart-btn" class="btn btn-primary">Take Assessment Again</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+
+    <!-- Assessment Logic -->
+    <script src="questions.js"></script>
+    <script>
+        // Translation dictionary
+        const translations = {
+            en: {
+                mainTitle: "Jungian Cognitive Function Assessment",
+                mainSubtitle: "Discover your psychological type through Carl Jung's cognitive function theory",
+                languageTitle: "Choose Language / 選擇語言",
+                participantInfoTitle: "Participant Information (Optional)",
+                participantIdLabel: "Participant ID (for research purposes):",
+                participantIdPlaceholder: "e.g., P001, or leave blank for anonymous",
+                ageLabel: "Age:",
+                ageSelect: "Select age range",
+                educationLabel: "Education Level:",
+                educationSelect: "Select education level",
+                educationHS: "High School",
+                educationSC: "Some College",
+                educationBA: "Bachelor's Degree",
+                educationMA: "Master's Degree",
+                educationPhD: "PhD/Doctorate",
+                educationOther: "Other",
+                startBtn: "Start Assessment",
+                stronglyDisagree: "Strongly Disagree",
+                neutral: "Neutral",
+                stronglyAgree: "Strongly Agree",
+                previous: "Previous",
+                next: "Next",
+                finish: "Finish",
+                resultsTitle: "Assessment Complete",
+                resultsSubtitle: "Your Jungian Cognitive Function Results",
+                thankYouTitle: "Thank You for Participating!",
+                thankYouText: "Your responses have been recorded. If you provided a participant ID, your results are linked to that identifier.",
+                completionIdLabel: "Completion ID:",
+                downloadResults: "Download Results",
+                takeAgain: "Take Assessment Again",
+                questionOf: "Question {current} of {total}",
+                estimatedTime: "Estimated time: 15 minutes"
+            },
+            zh: {
+                mainTitle: "榮格認知功能評估",
+                mainSubtitle: "透過卡爾·榮格的認知功能理論發現你的心理類型",
+                languageTitle: "選擇語言 / Choose Language",
+                participantInfoTitle: "參與者資訊（可選）",
+                participantIdLabel: "參與者ID（用於研究目的）：",
+                participantIdPlaceholder: "例如：P001，或留空表示匿名",
+                ageLabel: "年齡：",
+                ageSelect: "選擇年齡範圍",
+                educationLabel: "教育程度：",
+                educationSelect: "選擇教育程度",
+                educationHS: "高中",
+                educationSC: "大學肄業",
+                educationBA: "學士學位",
+                educationMA: "碩士學位",
+                educationPhD: "博士學位",
+                educationOther: "其他",
+                startBtn: "開始評估",
+                stronglyDisagree: "強烈不同意",
+                neutral: "中立",
+                stronglyAgree: "強烈同意",
+                previous: "上一題",
+                next: "下一題",
+                finish: "完成",
+                resultsTitle: "評估完成",
+                resultsSubtitle: "您的榮格認知功能結果",
+                thankYouTitle: "感謝您的參與！",
+                thankYouText: "您的回答已被記錄。如果您提供了參與者ID，您的結果將與該標識符關聯。",
+                completionIdLabel: "完成ID：",
+                downloadResults: "下載結果",
+                takeAgain: "重新評估",
+                questionOf: "第 {current} 題，共 {total} 題",
+                estimatedTime: "預計時間：15分鐘"
+            }
+        };
+
+        // Web-optimized Jungian Assessment Application
+        class WebJungianAssessment {
+            constructor() {
+                this.currentLanguage = 'en';
+                this.questions = this.getQuestionsForLanguage(this.currentLanguage);
+                this.currentQuestionIndex = 0;
+                this.answers = {};
+                this.scores = {};
+                this.results = null;
+                this.startTime = null;
+                this.participantInfo = {};
+                this.completionId = null;
+                
+                this.initializeApp();
+                this.initializeFirebase();
+            }
+            
+            getQuestionsForLanguage(lang) {
+                // Check if getAllQuestions function exists and supports the language
+                if (typeof getAllQuestions === 'function') {
+                    try {
+                        const questions = getAllQuestions(lang);
+                        if (questions && questions.length > 0) {
+                            return questions;
+                        }
+                    } catch (error) {
+                        console.warn('Error getting questions for language:', lang, error);
+                    }
+                }
+                
+                // Fallback: create basic questions if questions.js doesn't have the language
+                return this.getDefaultQuestions(lang);
+            }
+            
+            getDefaultQuestions(lang) {
+                const functions = ['Te', 'Ti', 'Fe', 'Fi', 'Se', 'Si', 'Ne', 'Ni'];
+                const questions = [];
+                
+                const questionTemplates = {
+                    en: {
+                        Te: [
+                            "I naturally organize external systems according to logical principles that others can verify.",
+                            "My thinking gains energy when I can apply established frameworks to improve real-world efficiency.",
+                            "I tend to make decisions using objective data that is independent of personal opinions.",
+                            "I am most intellectually satisfied when my logical analysis produces measurable external results.",
+                            "I tend to evaluate ideas primarily based on their practical applicability to concrete situations.",
+                            "I am inclined to create systematized approaches that can be universally implemented.",
+                            "I focus on establishing cause-and-effect relationships that can be observed in the external world.",
+                            "I prefer working with concrete, provable facts rather than abstract theoretical speculation.",
+                            "I measure the value of thinking by how well it corresponds to objective reality.",
+                            "I feel energized when I can translate logical principles into effective external action."
+                        ],
+                        Ti: [
+                            "I am primarily concerned with developing my own internal logical framework, even if it's difficult to explain to others.",
+                            "I often find myself silently questioning accepted ideas, following inner logical processes that others rarely see.",
+                            "I tend to develop theories from internal intuition rather than external data, though I may struggle to prove this to others.",
+                            "My thinking begins with subjective insights and returns to refining my internal understanding.",
+                            "I formulate problems and create theories that emerge from my own internal logical development.",
+                            "I find it difficult to articulate my thought processes because they follow my own internal logical sequences.",
+                            "I am more interested in the subjective logical relationships between ideas than their external applications.",
+                            "I tend to be skeptical of ideas simply because they are widely accepted, preferring my own silent standards.",
+                            "I often have clear internal convictions about logical truth that I cannot easily communicate to others.",
+                            "I feel most satisfied when I achieve internally consistent understanding, regardless of external validation."
+                        ],
+                        Fe: [
+                            "I naturally attune to and respond to the emotional atmosphere of the groups around me.",
+                            "I feel energized when I can create harmony and positive emotional connections between people.",
+                            "I tend to make decisions based on what will benefit the collective well-being of those involved.",
+                            "I find myself naturally perceiving others' emotional needs and adjusting my behavior accordingly.",
+                            "I prefer to follow universally accepted values and social standards in interpersonal relationships.",
+                            "I feel uncomfortable when there is emotional tension or discord in my environment.",
+                            "I tend to express emotions in ways that are appropriate to the social context I'm in.",
+                            "I am motivated by contributing to shared emotional experiences and collective harmony.",
+                            "I naturally adjust my communication style to connect with different types of people.",
+                            "I feel most fulfilled when I can help others feel emotionally valued and supported."
+                        ],
+                        Fi: [
+                            "I make decisions based on deeply personal values that I find difficult to explain or justify to others.",
+                            "I tend to have strong internal emotional reactions that are largely invisible to the outside world.",
+                            "I maintain my personal authenticity even when it conflicts with external expectations or social pressure.",
+                            "I feel energized when my actions are in complete alignment with my personal conscience and inner moral standards.",
+                            "I form deep, selective emotional connections while maintaining silent inner standards for relationships.",
+                            "I find it nearly impossible to explain my value judgments because they feel self-evidently right to me.",
+                            "I am primarily concerned with maintaining inner emotional harmony according to my personal moral compass.",
+                            "I tend to be very selective about who I allow into my inner emotional world.",
+                            "I prefer to process my feelings privately before expressing them, if I express them at all.",
+                            "I feel most satisfied when my external actions perfectly reflect my inner values, even if others don't understand."
+                        ],
+                        Se: [
+                            "I am naturally drawn to rich, immediate sensory experiences in my current environment.",
+                            "I feel most alive when I am actively engaged with concrete reality in real-time.",
+                            "I tend to notice and quickly respond to changes and opportunities in my physical environment.",
+                            "I gain energy through hands-on interaction with tangible objects and situations.",
+                            "I prefer learning through direct sensory experience rather than theoretical instruction.",
+                            "I find myself naturally noticing aesthetic details like colors, textures, and spatial arrangements.",
+                            "I tend to trust information gained through my direct, immediate sensory observations.",
+                            "I am motivated by opportunities to have new and varied physical experiences.",
+                            "I naturally adapt my behavior to match the immediate concrete demands of situations.",
+                            "I feel most satisfied when I can fully engage my senses in present-moment activities."
+                        ],
+                        Si: [
+                            "I tend to compare new experiences against my internal catalog of past sensory memories, each uniquely colored by my subjective reactions.",
+                            "I naturally notice subtle changes in my internal bodily sensations and their distinctive subjective qualities.",
+                            "My past experiences seem to have a timeless quality that continuously colors and influences my current perceptions.",
+                            "I am more concerned with my subjective response to stimuli than the objective qualities of the stimuli themselves.",
+                            "I tend to notice discrepancies between how I internally sense things should feel versus external reality.",
+                            "I gain energy through preserving and maintaining the subjective qualities of meaningful sensory experiences.",
+                            "I prefer to process sensory information slowly, allowing my unique internal reactions to fully develop.",
+                            "I have strong preferences for specific sensory experiences based on their personal, subjective meaning to me.",
+                            "My sensory perceptions are influenced more by my internal subjective state than by objective properties.",
+                            "Present experiences often seem to exist in a mythical world where objects carry deeper, more personal significance than their surface reality."
+                        ],
+                        Ne: [
+                            "I naturally see multiple possibilities and potential outcomes emerging from any external situation.",
+                            "I feel energized when I can explore new connections between different ideas and external concepts.",
+                            "I tend to focus on what might emerge or develop from current external circumstances.",
+                            "I am drawn to collaborating with others in brainstorming and generating creative alternatives.",
+                            "I prefer to keep my options open rather than committing to a single predetermined external path.",
+                            "I find myself naturally seeing patterns and relationships in the external world that others might miss.",
+                            "I am motivated by the potential for innovation and transformation in external systems and situations.",
+                            "I tend to get excited about new external possibilities but may struggle with practical follow-through.",
+                            "I naturally encourage others to consider alternative perspectives and unexplored external options.",
+                            "I feel most satisfied when I can inspire others to see new possibilities and potential in their environment."
+                        ],
+                        Ni: [
+                            "I tend to receive sudden insights about archetypal patterns and symbolic meanings behind experiences.",
+                            "I am naturally drawn to understanding universal, symbolic elements that govern life and human experience.",
+                            "I find myself having internal visions or clear symbolic images about how deeper patterns will unfold.",
+                            "I prefer to develop one central archetypal insight deeply rather than exploring many surface options.",
+                            "I tend to synthesize complex information into unified, symbolic understanding that feels timeless and universal.",
+                            "I gain energy through pursuing a single, meaningful direction that feels connected to archetypal or eternal patterns.",
+                            "I feel compulsively driven by internal images and visions that demand to be understood and expressed.",
+                            "I find it difficult to explain my insights because they emerge as complete, symbolic wholes rather than logical sequences.",
+                            "I tend to be future-oriented, perceiving archetypal patterns that will emerge from current unconscious processes.",
+                            "These internal archetypal visions sometimes feel so compelling that they seem more real to me than external circumstances."
+                        ]
+                    },
+                    zh: {
+                        Te: [
+                            "我自然地根據他人可以驗證的邏輯原則來組織外部系統。",
+                            "當我能將既定框架應用於改善現實世界的效率時，我的思維會獲得能量。",
+                            "我傾向於使用獨立於個人意見的客觀數據來做決定。",
+                            "當我的邏輯分析產生可測量的外部結果時，我在智力上最感滿足。",
+                            "我傾向於主要根據想法對具體情況的實際適用性來評估想法。",
+                            "我傾向於創建可以普遍實施的系統化方法。",
+                            "我專注於建立可以在外部世界中觀察到的因果關係。",
+                            "我偏好使用具體、可證明的事實，而非抽象的理論推測。",
+                            "我通過思維與客觀現實的對應程度來衡量思維的價值。",
+                            "當我能將邏輯原則轉化為有效的外部行動時，我感到精力充沛。"
+                        ],
+                        Ti: [
+                            "我主要關心發展自己的內在邏輯框架，即使很難向他人解釋。",
+                            "我經常發現自己默默質疑被接受的想法，遵循他人很少看到的內在邏輯過程。",
+                            "我傾向於從內在直覺而非外部數據發展理論，儘管我可能難以向他人證明這一點。",
+                            "我的思維始於主觀洞察，並回歸於完善我的內在理解。",
+                            "我制定問題並創建從我自己內在邏輯發展中產生的理論。",
+                            "我發現很難表達我的思維過程，因為它們遵循我自己的內在邏輯序列。",
+                            "我對想法之間的主觀邏輯關係比它們的外在應用更感興趣。",
+                            "我傾向於僅僅因為想法被普遍接受而對其持懷疑態度，更偏好我自己的無聲標準。",
+                            "我經常對邏輯真理有清楚的內在信念，但無法輕易向他人傳達。",
+                            "當我達到內在一致的理解時，我感到最滿足，無論是否得到外部驗證。"
+                        ],
+                        Fe: [
+                            "我自然地調節並回應周圍群體的情感氛圍。",
+                            "當我能在人與人之間創造和諧和積極的情感聯繫時，我感到精力充沛。",
+                            "我傾向於根據什麼能使相關人員的集體福祉受益來做決定。",
+                            "我發現自己自然地察覺他人的情感需求並相應地調整我的行為。",
+                            "我偏好在人際關係中遵循普遍接受的價值觀和社會標準。",
+                            "當我的環境中存在情感緊張或不和諧時，我感到不舒服。",
+                            "我傾向於以適合我所處社會環境的方式表達情感。",
+                            "我受到對共享情感體驗和集體和諧做出貢獻的激勵。",
+                            "我自然地調整我的溝通風格以與不同類型的人建立聯繫。",
+                            "當我能幫助他人感到情感上受到重視和支持時，我感到最充實。"
+                        ],
+                        Fi: [
+                            "我根據我發現難以向他人解釋或證明的深層個人價值觀做決定。",
+                            "我傾向於有強烈的內在情感反應，這些反應在很大程度上對外界是不可見的。",
+                            "即使與外部期望或社會壓力衝突，我也會保持我的個人真實性。",
+                            "當我的行為與我的個人良心和內在道德標準完全一致時，我感到精力充沛。",
+                            "我建立深層、選擇性的情感聯繫，同時保持對關係的無聲內在標準。",
+                            "我發現幾乎不可能解釋我的價值判斷，因為它們對我來說感覺是不言而喻的正確。",
+                            "我主要關心根據我個人的道德指南針維持內在情感和諧。",
+                            "我傾向於對誰允許進入我的內在情感世界非常有選擇性。",
+                            "我偏好私下處理我的感情，然後表達它們，如果我表達的話。",
+                            "當我的外在行動完美地反映我的內在價值觀時，我感到最滿足，即使他人不理解。"
+                        ],
+                        Se: [
+                            "我自然地被當前環境中豐富、即時的感官體驗所吸引。",
+                            "當我積極參與實時的具體現實時，我感到最有活力。",
+                            "我傾向於注意並快速回應我身體環境中的變化和機會。",
+                            "我通過與有形物體和情況的實際互動體驗而獲得能量。",
+                            "我偏好通過直接感官體驗而非理論指導來學習。",
+                            "我發現自己自然地察覺美學細節，如顏色、質地和空間安排。",
+                            "我傾向於信任通過我直接、即時感官觀察獲得的信息。",
+                            "我受到擁有新的和多樣的身體體驗的機會所激勵。",
+                            "我自然地調整我的行為以匹配情況的即時具體要求。",
+                            "當我能在當下活動中充分調動我的感官時，我感到最滿足。"
+                        ],
+                        Si: [
+                            "我傾向於將新體驗與我內在的過去感官記憶目錄進行比較，每個記憶都被我的主觀反應獨特地著色。",
+                            "我自然地察覺我內在身體感覺的細微變化及其獨特的主觀品質。",
+                            "我的過去體驗似乎具有永恆的品質，持續地著色並影響我當前的感知。",
+                            "我更關注我對刺激的主觀反應，而不是刺激本身的客觀品質。",
+                            "我傾向於注意我內在感覺事物應該如何感覺與外部現實之間的差異。",
+                            "我通過保存和維持有意義感官體驗的主觀品質而獲得能量。",
+                            "我偏好緩慢地處理感官信息，讓我獨特的內在反應充分發展。",
+                            "我對特定感官體驗有強烈的偏好，基於它們對我的個人、主觀意義。",
+                            "我的感官感知更多地受到我內在主觀狀態而非客觀屬性的影響。",
+                            "當前體驗經常似乎存在於一個神話世界中，物體承載著比其表面現實更深、更個人的意義。"
+                        ],
+                        Ne: [
+                            "我自然地看到從任何外部情況中出現的多種可能性和潛在結果。",
+                            "當我能探索不同想法和外部概念之間的新聯繫時，我感到精力充沛。",
+                            "我傾向於關注當前外部環境中可能出現或發展的東西。",
+                            "我被與他人合作進行頭腦風暴和產生創意替代方案所吸引。",
+                            "我偏好保持我的選擇開放，而不是承諾單一的預定外部路徑。",
+                            "我發現自己自然地看到外部世界中他人可能錯過的模式和關係。",
+                            "我受到外部系統和情況中創新和變革潛力的激勵。",
+                            "我傾向於對新的外部可能性感到興奮，但可能在實際後續行動中有困難。",
+                            "我自然地鼓勵他人考慮替代觀點和未探索的外部選項。",
+                            "當我能激勵他人看到他們環境中的新可能性和潛力時，我感到最滿足。"
+                        ],
+                        Ni: [
+                            "我傾向於接收關於體驗背後原型模式和象徵意義的突然洞察。",
+                            "我自然地被理解支配生活和人類體驗的普遍、象徵元素所吸引。",
+                            "我發現自己有內在願景或清晰的象徵圖像，關於更深層模式將如何展開。",
+                            "我偏好深度發展一個中心原型洞察，而不是探索許多表面選項。",
+                            "我傾向於將複雜信息綜合為統一的、象徵性的理解，感覺永恆和普遍。",
+                            "我通過追求感覺與原型或永恆模式相連的單一、有意義的方向而獲得能量。",
+                            "我感到被內在圖像和願景強迫性地驅動，這些圖像和願景要求被理解和表達。",
+                            "我發現很難解釋我的洞察，因為它們作為完整的、象徵性的整體而非邏輯序列出現。",
+                            "我傾向於面向未來，感知將從當前無意識過程中出現的原型模式。",
+                            "這些內在原型願景有時感覺如此強迫，以至於它們對我來說比外部環境更真實。"
+                        ]
+                    }
+                };
+                
+                const templates = questionTemplates[lang] || questionTemplates.en;
+                
+                functions.forEach(func => {
+                    const funcTemplates = templates[func] || templates.Te;
+                    funcTemplates.forEach((text, index) => {
+                        questions.push({
+                            id: `${func}_${index + 1}`,
+                            text: text,
+                            function: func
+                        });
+                    });
+                });
+                
+                return questions;
+            }
+            
+            updateUILanguage() {
+                const t = translations[this.currentLanguage];
+                
+                // Update static text elements
+                document.getElementById('main-title').textContent = t.mainTitle;
+                document.getElementById('main-subtitle').textContent = t.mainSubtitle;
+                document.getElementById('language-title').textContent = t.languageTitle;
+                document.getElementById('participant-info-title').textContent = t.participantInfoTitle;
+                document.getElementById('participant-id-label').textContent = t.participantIdLabel;
+                document.getElementById('participant-id').placeholder = t.participantIdPlaceholder;
+                document.getElementById('participant-age-label').textContent = t.ageLabel;
+                document.getElementById('age-select').textContent = t.ageSelect;
+                document.getElementById('participant-education-label').textContent = t.educationLabel;
+                document.getElementById('education-select').textContent = t.educationSelect;
+                document.getElementById('education-hs').textContent = t.educationHS;
+                document.getElementById('education-sc').textContent = t.educationSC;
+                document.getElementById('education-ba').textContent = t.educationBA;
+                document.getElementById('education-ma').textContent = t.educationMA;
+                document.getElementById('education-phd').textContent = t.educationPhD;
+                document.getElementById('education-other').textContent = t.educationOther;
+                document.getElementById('start-btn').textContent = t.startBtn;
+                document.getElementById('strongly-disagree').textContent = t.stronglyDisagree;
+                document.getElementById('neutral').textContent = t.neutral;
+                document.getElementById('strongly-agree').textContent = t.stronglyAgree;
+                document.getElementById('prev-btn').textContent = t.previous;
+                document.getElementById('results-title').textContent = t.resultsTitle;
+                document.getElementById('results-subtitle').textContent = t.resultsSubtitle;
+                document.getElementById('thank-you-title').textContent = t.thankYouTitle;
+                document.getElementById('thank-you-text').textContent = t.thankYouText;
+                document.getElementById('completion-id-label').textContent = t.completionIdLabel;
+                document.getElementById('download-btn').textContent = t.downloadResults;
+                document.getElementById('restart-btn').textContent = t.takeAgain;
+                
+                // Update dynamic elements
+                const nextBtn = document.getElementById('next-btn');
+                if (this.currentQuestionIndex < this.questions.length - 1) {
+                    nextBtn.textContent = t.next;
+                } else {
+                    nextBtn.textContent = t.finish;
+                }
+                
+                // Update progress text if in assessment
+                if (document.getElementById('assessment-screen').classList.contains('active')) {
+                    const questionNumber = document.getElementById('question-number');
+                    questionNumber.textContent = t.questionOf
+                        .replace('{current}', this.currentQuestionIndex + 1)
+                        .replace('{total}', this.questions.length);
+                    document.getElementById('time-estimate').textContent = t.estimatedTime;
+                }
+            }
+            
+            initializeFirebase() {
+                // Firebase configuration for data collection
+                const firebaseConfig = {
+                    apiKey: "AIzaSyDGVfBm3zO3K3EKN38ekZex9pIi4aHVk0o",
+                    authDomain: "jung8-a7bcc.firebaseapp.com",
+                    projectId: "jung8-a7bcc",
+                    storageBucket: "jung8-a7bcc.firebasestorage.app",
+                    messagingSenderId: "141359013150",
+                    appId: "1:141359013150:web:490eadf4c4a6b1ef50bd0f"
+                };
+                
+                try {
+                    if (typeof firebase !== 'undefined') {
+                        firebase.initializeApp(firebaseConfig);
+                        this.db = firebase.firestore();
+                        this.auth = firebase.auth();
+                        console.log('Firebase initialized for data collection');
+                    }
+                } catch (error) {
+                    console.log('Firebase not available, using local storage only:', error);
+                }
+            }
+            
+            async saveResultsToCloud(data) {
+                if (!this.db || !this.auth) return { success: false, error: 'Firebase not available' };
+                
+                try {
+                    // Sign in anonymously for data collection
+                    if (!this.auth.currentUser) {
+                        await this.auth.signInAnonymously();
+                    }
+                    
+                    const docRef = await this.db.collection('interview-responses').add({
+                        ...data,
+                        timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+                        sessionId: this.auth.currentUser.uid,
+                        userAgent: navigator.userAgent,
+                        screenResolution: `${screen.width}x${screen.height}`,
+                        completionTime: Date.now() - this.startTime
+                    });
+                    
+                    return { success: true, id: docRef.id };
+                } catch (error) {
+                    console.error('Error saving to Firebase:', error);
+                    return { success: false, error: error.message };
+                }
+            }
+            
+            initializeApp() {
+                this.bindEvents();
+                this.showWelcomeScreen();
+                this.updateUILanguage();
+            }
+            
+            bindEvents() {
+                // Language selection
+                document.querySelectorAll('.language-btn').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        this.switchLanguage(e.target.dataset.lang);
+                    });
+                });
+                
+                // Start button
+                document.getElementById('start-btn').addEventListener('click', () => {
+                    this.startAssessment();
+                });
+                
+                // Rating buttons
+                document.querySelectorAll('.rating-btn').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        this.selectRating(parseInt(e.target.dataset.value));
+                    });
+                });
+                
+                // Navigation
+                document.getElementById('prev-btn').addEventListener('click', () => {
+                    this.previousQuestion();
+                });
+                
+                document.getElementById('next-btn').addEventListener('click', () => {
+                    this.nextQuestion();
+                });
+                
+                // Results actions
+                document.getElementById('download-btn').addEventListener('click', () => {
+                    this.downloadResults();
+                });
+                
+                document.getElementById('restart-btn').addEventListener('click', () => {
+                    this.restartAssessment();
+                });
+            }
+            
+            switchLanguage(lang) {
+                console.log('Switching to language:', lang);
+                this.currentLanguage = lang;
+                
+                // Force reload questions for new language
+                this.questions = this.getQuestionsForLanguage(lang);
+                console.log('New questions loaded:', this.questions.length);
+                console.log('Sample question:', this.questions[0]?.text);
+                
+                // Update UI
+                document.querySelectorAll('.language-btn').forEach(btn => {
+                    btn.classList.toggle('active', btn.dataset.lang === lang);
+                });
+                
+                // Update all UI text
+                this.updateUILanguage();
+                
+                // If we're in assessment, immediately update the current question display
+                const wasInAssessment = document.getElementById('assessment-screen').classList.contains('active');
+                if (wasInAssessment) {
+                    // Force immediate question update
+                    setTimeout(() => {
+                        this.displayCurrentQuestion();
+                    }, 50);
+                }
+                
+                console.log(`Language switched to ${lang}, showing question:`, this.questions[this.currentQuestionIndex]?.text);
+            }
+            
+            startAssessment() {
+                // Collect participant info
+                this.participantInfo = {
+                    participantId: document.getElementById('participant-id').value || null,
+                    age: document.getElementById('participant-age').value || null,
+                    education: document.getElementById('participant-education').value || null,
+                    language: this.currentLanguage
+                };
+                
+                this.startTime = Date.now();
+                this.currentQuestionIndex = 0;
+                this.answers = {};
+                this.showAssessmentScreen();
+                this.displayCurrentQuestion();
+            }
+            
+            displayCurrentQuestion() {
+                if (!this.questions || this.questions.length === 0) {
+                    console.error('No questions available');
+                    return;
+                }
+                
+                const question = this.questions[this.currentQuestionIndex];
+                if (!question) {
+                    console.error('Question not found at index:', this.currentQuestionIndex);
+                    return;
+                }
+                
+                console.log('Displaying question:', question.text);
+                document.getElementById('question-text').textContent = question.text;
+                
+                // Update progress
+                const progress = ((this.currentQuestionIndex + 1) / this.questions.length) * 100;
+                document.getElementById('progress-fill').style.width = `${progress}%`;
+                
+                const t = translations[this.currentLanguage];
+                document.getElementById('question-number').textContent = t.questionOf
+                    .replace('{current}', this.currentQuestionIndex + 1)
+                    .replace('{total}', this.questions.length);
+                
+                // Clear previous selection
+                document.querySelectorAll('.rating-btn').forEach(btn => {
+                    btn.classList.remove('selected');
+                });
+                
+                // Show previous answer if exists
+                const savedAnswer = this.answers[this.currentQuestionIndex];
+                if (savedAnswer) {
+                    const selectedBtn = document.querySelector(`[data-value="${savedAnswer}"]`);
+                    if (selectedBtn) {
+                        selectedBtn.classList.add('selected');
+                        document.getElementById('next-btn').disabled = false;
+                    }
+                } else {
+                    document.getElementById('next-btn').disabled = true;
+                }
+                
+                this.updateNavigationButtons();
+            }
+            
+            selectRating(value) {
+                this.answers[this.currentQuestionIndex] = value;
+                
+                // Update UI
+                document.querySelectorAll('.rating-btn').forEach(btn => {
+                    btn.classList.remove('selected');
+                });
+                document.querySelector(`[data-value="${value}"]`).classList.add('selected');
+                document.getElementById('next-btn').disabled = false;
+            }
+            
+            updateNavigationButtons() {
+                document.getElementById('prev-btn').style.display = 
+                    this.currentQuestionIndex > 0 ? 'inline-block' : 'none';
+                
+                const t = translations[this.currentLanguage];
+                document.getElementById('next-btn').textContent = 
+                    this.currentQuestionIndex < this.questions.length - 1 ? t.next : t.finish;
+            }
+            
+            previousQuestion() {
+                if (this.currentQuestionIndex > 0) {
+                    this.currentQuestionIndex--;
+                    this.displayCurrentQuestion();
+                }
+            }
+            
+            nextQuestion() {
+                if (this.currentQuestionIndex < this.questions.length - 1) {
+                    this.currentQuestionIndex++;
+                    this.displayCurrentQuestion();
+                } else {
+                    this.finishAssessment();
+                }
+            }
+            
+            async finishAssessment() {
+                this.calculateScores();
+                this.generateResults();
+                
+                // Generate completion ID
+                this.completionId = 'JUNG-' + Date.now().toString(36).toUpperCase();
+                
+                // Save results
+                const resultsData = {
+                    participantInfo: this.participantInfo,
+                    answers: this.answers,
+                    scores: this.scores,
+                    results: this.results,
+                    completionId: this.completionId,
+                    completionTime: Date.now() - this.startTime,
+                    timestamp: new Date().toISOString()
+                };
+                
+                // Save to cloud if available
+                await this.saveResultsToCloud(resultsData);
+                
+                // Save locally as backup
+                localStorage.setItem(`assessment_${this.completionId}`, JSON.stringify(resultsData));
+                
+                this.showResultsScreen();
+            }
+            
+            calculateScores() {
+                // Initialize scores for all 8 cognitive functions
+                this.scores = {
+                    Te: 0, Ti: 0, Fe: 0, Fi: 0,
+                    Se: 0, Si: 0, Ne: 0, Ni: 0
+                };
+                
+                // Calculate scores based on questions
+                this.questions.forEach((question, index) => {
+                    const answer = this.answers[index];
+                    if (answer) {
+                        this.scores[question.function] += answer;
+                    }
+                });
+            }
+            
+            generateResults() {
+                // Convert scores to percentages
+                const maxPossibleScore = Math.max(...Object.values(this.scores)) || 1;
+                const percentageScores = {};
+                
+                Object.keys(this.scores).forEach(func => {
+                    percentageScores[func] = Math.round((this.scores[func] / maxPossibleScore) * 100);
+                });
+                
+                // Determine dominant functions
+                const sortedFunctions = Object.entries(percentageScores)
+                    .sort(([,a], [,b]) => b - a);
+                
+                this.results = {
+                    percentageScores,
+                    dominantFunction: sortedFunctions[0],
+                    auxiliaryFunction: sortedFunctions[1],
+                    tertiaryFunction: sortedFunctions[2],
+                    inferiorFunction: sortedFunctions[7],
+                    functionStack: sortedFunctions,
+                    interpretation: this.generateInterpretation(sortedFunctions)
+                };
+            }
+            
+            generateInterpretation(functionStack) {
+                const functionNames = {
+                    en: {
+                        Te: 'Extraverted Thinking',
+                        Ti: 'Introverted Thinking', 
+                        Fe: 'Extraverted Feeling',
+                        Fi: 'Introverted Feeling',
+                        Se: 'Extraverted Sensation',
+                        Si: 'Introverted Sensation',
+                        Ne: 'Extraverted Intuition',
+                        Ni: 'Introverted Intuition'
+                    },
+                    zh: {
+                        Te: '外向思維',
+                        Ti: '內向思維',
+                        Fe: '外向情感',
+                        Fi: '內向情感',
+                        Se: '外向感覺',
+                        Si: '內向感覺',
+                        Ne: '外向直覺',
+                        Ni: '內向直覺'
+                    }
+                };
+                
+                const names = functionNames[this.currentLanguage] || functionNames.en;
+                const [dominant, auxiliary] = functionStack;
+                
+                return {
+                    dominant: {
+                        function: names[dominant[0]],
+                        score: dominant[1],
+                        description: this.getFunctionDescription(dominant[0])
+                    },
+                    auxiliary: {
+                        function: names[auxiliary[0]],
+                        score: auxiliary[1],
+                        description: this.getFunctionDescription(auxiliary[0])
+                    }
+                };
+            }
+            
+            getFunctionDescription(func) {
+                const descriptions = {
+                    en: {
+                        Te: "Focuses on organizing the external world efficiently and logically.",
+                        Ti: "Seeks to understand systems and find logical consistency in ideas.",
+                        Fe: "Attunes to others' emotions and seeks social harmony.",
+                        Fi: "Maintains strong personal values and authentic emotional expression.",
+                        Se: "Lives in the present moment and responds quickly to environmental changes.",
+                        Si: "Compares present experiences with past patterns and maintains traditions.",
+                        Ne: "Sees possibilities and connections between ideas and people.",
+                        Ni: "Synthesizes information to arrive at insights and future visions."
+                    },
+                    zh: {
+                        Te: "專注於高效和邏輯地組織外部世界。",
+                        Ti: "尋求理解系統並在想法中找到邏輯一致性。",
+                        Fe: "調節他人的情感並尋求社會和諧。",
+                        Fi: "保持強烈的個人價值觀和真實的情感表達。",
+                        Se: "活在當下並快速響應環境變化。",
+                        Si: "將現在的經歷與過去的模式進行比較並維護傳統。",
+                        Ne: "看到想法和人之間的可能性和聯繫。",
+                        Ni: "綜合資訊以獲得洞察和未來願景。"
+                    }
+                };
+                
+                const desc = descriptions[this.currentLanguage] || descriptions.en;
+                return desc[func] || "Function description not available.";
+            }
+            
+            showWelcomeScreen() {
+                this.hideAllScreens();
+                document.getElementById('welcome-screen').classList.add('active');
+                this.updateUILanguage();
+            }
+            
+            showAssessmentScreen() {
+                this.hideAllScreens();
+                document.getElementById('assessment-screen').classList.add('active');
+                this.updateUILanguage();
+            }
+            
+            showResultsScreen() {
+                this.hideAllScreens();
+                this.displayResults();
+                document.getElementById('results-screen').classList.add('active');
+                this.updateUILanguage();
+            }
+            
+            hideAllScreens() {
+                document.querySelectorAll('.screen').forEach(screen => {
+                    screen.classList.remove('active');
+                });
+            }
+            
+            displayResults() {
+                const container = document.getElementById('results-content');
+                const { percentageScores, interpretation } = this.results;
+                
+                const t = translations[this.currentLanguage];
+                const dominantTitle = this.currentLanguage === 'zh' ? '您的主導功能' : 'Your Dominant Function';
+                const scoreLabel = this.currentLanguage === 'zh' ? '得分：' : 'Score: ';
+                
+                let html = `
+                    <div class="results-summary">
+                        <h2>${dominantTitle}</h2>
+                        <h3>${interpretation.dominant.function}</h3>
+                        <p>${scoreLabel}${interpretation.dominant.score}%</p>
+                        <p>${interpretation.dominant.description}</p>
+                    </div>
+                    
+                    <div class="function-scores">
+                `;
+                
+                const functionNames = {
+                    en: {
+                        Te: 'Extraverted Thinking',
+                        Ti: 'Introverted Thinking',
+                        Fe: 'Extraverted Feeling', 
+                        Fi: 'Introverted Feeling',
+                        Se: 'Extraverted Sensation',
+                        Si: 'Introverted Sensation',
+                        Ne: 'Extraverted Intuition',
+                        Ni: 'Introverted Intuition'
+                    },
+                    zh: {
+                        Te: '外向思維',
+                        Ti: '內向思維',
+                        Fe: '外向情感',
+                        Fi: '內向情感',
+                        Se: '外向感覺',
+                        Si: '內向感覺',
+                        Ne: '外向直覺',
+                        Ni: '內向直覺'
+                    }
+                };
+                
+                const names = functionNames[this.currentLanguage] || functionNames.en;
+                
+                Object.entries(percentageScores).forEach(([func, score]) => {
+                    html += `
+                        <div class="function-card">
+                            <div class="function-name">${names[func]}</div>
+                            <div class="function-score">${score}%</div>
+                        </div>
+                    `;
+                });
+                
+                html += '</div>';
+                container.innerHTML = html;
+                
+                // Set completion ID
+                document.getElementById('completion-id').textContent = this.completionId;
+            }
+            
+            downloadResults() {
+                const data = {
+                    participantInfo: this.participantInfo,
+                    scores: this.scores,
+                    results: this.results,
+                    completionId: this.completionId,
+                    timestamp: new Date().toISOString()
+                };
+                
+                const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `jung-assessment-${this.completionId}.json`;
+                a.click();
+                URL.revokeObjectURL(url);
+            }
+            
+            restartAssessment() {
+                this.currentQuestionIndex = 0;
+                this.answers = {};
+                this.scores = {};
+                this.results = null;
+                this.startTime = null;
+                this.completionId = null;
+                this.showWelcomeScreen();
+            }
+        }
+        
+        // Initialize the application when DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            new WebJungianAssessment();
+        });
+    </script>
+</body>
+</html>
