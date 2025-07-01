@@ -128,7 +128,7 @@
         }
 
         .btn-secondary {
-            background: linear-gradient(45deg, #74b9ff, #0984e3);
+            background: #FFA366;
         }
 
         .progress-container {
@@ -367,6 +367,312 @@
             margin: 1rem 0;
             border-left: 4px solid #28a745;
         }
+
+        /* Radar Chart Visualization */
+        .radar-container {
+            margin: 2rem auto;
+            width: 500px;
+            height: 500px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 20px;
+            padding: 30px;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .radar-chart {
+            position: relative;
+            width: 440px;
+            height: 440px;
+        }
+
+        .radar-chart svg {
+            width: 100%;
+            height: 100%;
+            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.1));
+        }
+
+        .radar-grid {
+            fill: none;
+            stroke: #e0e0e0;
+            stroke-width: 1.5;
+            opacity: 0.7;
+        }
+
+        .radar-grid-strong {
+            fill: none;
+            stroke: #bbb;
+            stroke-width: 2;
+            opacity: 0.8;
+        }
+
+        .radar-axis {
+            stroke: #777;
+            stroke-width: 1.5;
+            opacity: 0.8;
+        }
+
+        .radar-data {
+            fill: rgba(255, 140, 0, 0.25);
+            stroke: #ff8c00;
+            stroke-width: 3;
+            stroke-linejoin: round;
+            filter: url(#glow);
+            animation: pulseRadar 3s ease-in-out infinite;
+        }
+
+        .radar-point {
+            fill: #ff8c00;
+            stroke: white;
+            stroke-width: 3;
+            r: 6;
+            opacity: 0;
+            animation: fadeInPoints 1s ease-out forwards;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .radar-point:hover {
+            r: 9;
+            fill: #ff6347;
+            stroke-width: 4;
+        }
+
+        .radar-label {
+            font-size: 14px;
+            font-weight: bold;
+            text-anchor: middle;
+            dominant-baseline: central;
+            fill: #333;
+            opacity: 0;
+            animation: fadeInLabels 1s ease-out 0.5s forwards;
+        }
+
+        .radar-value {
+            font-size: 12px;
+            text-anchor: middle;
+            dominant-baseline: central;
+            fill: #666;
+            font-weight: 600;
+            opacity: 0;
+            animation: fadeInLabels 1s ease-out 0.7s forwards;
+        }
+
+        .radar-legend {
+            text-align: center;
+            margin-top: 1.5rem;
+            font-size: 1rem;
+            color: #666;
+            opacity: 0;
+            animation: fadeInLabels 1s ease-out 1s forwards;
+        }
+
+        .radar-grid-label {
+            font-size: 11px;
+            fill: #888;
+            text-anchor: middle;
+            opacity: 0.8;
+        }
+
+        /* Animation keyframes */
+        @keyframes pulseRadar {
+            0%, 100% { 
+                transform: scale(1);
+                opacity: 0.8;
+            }
+            50% { 
+                transform: scale(1.02);
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeInPoints {
+            0% { 
+                opacity: 0;
+                transform: scale(0);
+            }
+            100% { 
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes fadeInLabels {
+            0% { 
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            100% { 
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes drawPath {
+            0% {
+                stroke-dasharray: 1000;
+                stroke-dashoffset: 1000;
+            }
+            100% {
+                stroke-dasharray: 1000;
+                stroke-dashoffset: 0;
+            }
+        }
+
+        @keyframes pulseGlow {
+            0%, 100% { 
+                opacity: 0.2;
+                transform: scale(1);
+            }
+            50% { 
+                opacity: 0.6;
+                transform: scale(1.2);
+            }
+        }
+
+        /* Function Axes Display */
+        .function-axes {
+            margin: 2rem auto;
+            max-width: 800px;
+            background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%);
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .function-axes h3 {
+            text-align: center;
+            color: #ff8c00;
+            margin-bottom: 2rem;
+            font-size: 1.5rem;
+        }
+
+        .axes-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .axis-display {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 1.5rem;
+            border-left: 4px solid #ff8c00;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .axis-display::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,140,0,0.1), transparent);
+            animation: shimmer 2s ease-in-out infinite;
+        }
+
+        @keyframes shimmer {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        .axis-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .axis-icon {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #ff8c00;
+            margin-right: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .function-pair {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding: 0.8rem;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .function-item {
+            text-align: center;
+            flex: 1;
+        }
+
+        .function-name {
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 0.3rem;
+        }
+
+        .function-score {
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: #ff8c00;
+        }
+
+        .function-role {
+            font-size: 0.9rem;
+            color: #666;
+            margin-top: 0.3rem;
+        }
+
+        .axis-line {
+            height: 2px;
+            background: linear-gradient(to right, #ff8c00, #ff6347);
+            margin: 0 1rem;
+            border-radius: 1px;
+            flex: 0 0 40px;
+        }
+
+        @media (max-width: 768px) {
+            .radar-container {
+                width: 350px;
+                height: 350px;
+                padding: 20px;
+            }
+            
+            .radar-chart {
+                width: 310px;
+                height: 310px;
+            }
+
+            .function-axes {
+                margin: 1rem;
+                padding: 1rem;
+            }
+
+            .axes-container {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .axis-display {
+                padding: 1rem;
+            }
+        }
     </style>
 </head>
 <body>
@@ -454,7 +760,7 @@
             
             <div class="navigation">
                 <button id="prev-btn" class="btn btn-secondary" style="display: none;">Previous</button>
-                <button id="next-btn" class="btn btn-primary" disabled>Next</button>
+                <!-- Next button removed - auto-advance after answer selection -->
             </div>
         </div>
 
@@ -491,7 +797,8 @@
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
 
     <!-- Assessment Logic -->
-    <script src="questions.js"></script>
+    <script src="questions-en.js"></script>
+    <script src="questions-zh.js"></script>
     <script>
         // Translation dictionary
         const translations = {
@@ -583,19 +890,34 @@
             }
             
             getQuestionsForLanguage(lang) {
-                // Check if getAllQuestions function exists and supports the language
+                console.log('Loading questions for language:', lang);
+                
+                // Try language-specific question banks first
+                if (lang === 'zh' && typeof getChineseQuestions === 'function') {
+                    const questions = getChineseQuestions();
+                    console.log(`Loaded ${questions.length} Chinese questions`);
+                    return questions;
+                } else if (lang === 'en' && typeof getEnglishQuestions === 'function') {
+                    const questions = getEnglishQuestions();
+                    console.log(`Loaded ${questions.length} English questions`);
+                    return questions;
+                }
+                
+                // Fallback to original questions.js file
                 if (typeof getAllQuestions === 'function') {
                     try {
                         const questions = getAllQuestions(lang);
                         if (questions && questions.length > 0) {
+                            console.log(`Loaded ${questions.length} questions from getAllQuestions for ${lang}`);
                             return questions;
                         }
                     } catch (error) {
-                        console.warn('Error getting questions for language:', lang, error);
+                        console.warn('Error getting questions from getAllQuestions:', error);
                     }
                 }
                 
-                // Fallback: create basic questions if questions.js doesn't have the language
+                // Final fallback to default questions
+                console.log(`Using fallback questions for ${lang}`);
                 return this.getDefaultQuestions(lang);
             }
             
@@ -852,12 +1174,7 @@
                 document.getElementById('restart-btn').textContent = t.takeAgain;
                 
                 // Update dynamic elements
-                const nextBtn = document.getElementById('next-btn');
-                if (this.currentQuestionIndex < this.questions.length - 1) {
-                    nextBtn.textContent = t.next;
-                } else {
-                    nextBtn.textContent = t.finish;
-                }
+                // Next button removed - auto-advance after rating selection
                 
                 // Update progress text if in assessment
                 if (document.getElementById('assessment-screen').classList.contains('active')) {
@@ -924,7 +1241,7 @@
             }
             
             bindEvents() {
-                // Language selection
+                // Language selection (both welcome and assessment screens)
                 document.querySelectorAll('.language-btn').forEach(btn => {
                     btn.addEventListener('click', (e) => {
                         this.switchLanguage(e.target.dataset.lang);
@@ -948,9 +1265,7 @@
                     this.previousQuestion();
                 });
                 
-                document.getElementById('next-btn').addEventListener('click', () => {
-                    this.nextQuestion();
-                });
+                // Next button removed - auto-advance after rating selection
                 
                 // Results actions
                 document.getElementById('download-btn').addEventListener('click', () => {
@@ -966,29 +1281,44 @@
                 console.log('Switching to language:', lang);
                 this.currentLanguage = lang;
                 
-                // Force reload questions for new language
-                this.questions = this.getQuestionsForLanguage(lang);
-                console.log('New questions loaded:', this.questions.length);
-                console.log('Sample question:', this.questions[0]?.text);
-                
-                // Update UI
+                // Update all language button states
                 document.querySelectorAll('.language-btn').forEach(btn => {
                     btn.classList.toggle('active', btn.dataset.lang === lang);
                 });
                 
+                // Load questions for the new language
+                this.questions = this.getQuestionsForLanguage(lang);
+                console.log(`Loaded ${this.questions.length} questions for ${lang}`);
+                
                 // Update all UI text
                 this.updateUILanguage();
                 
-                // If we're in assessment, immediately update the current question display
-                const wasInAssessment = document.getElementById('assessment-screen').classList.contains('active');
-                if (wasInAssessment) {
-                    // Force immediate question update
-                    setTimeout(() => {
-                        this.displayCurrentQuestion();
-                    }, 50);
+                // If in assessment, update the current question
+                const assessmentScreen = document.getElementById('assessment-screen');
+                if (assessmentScreen && assessmentScreen.classList.contains('active')) {
+                    this.displayCurrentQuestion();
                 }
                 
-                console.log(`Language switched to ${lang}, showing question:`, this.questions[this.currentQuestionIndex]?.text);
+                console.log(`Language switch complete to ${lang}`);
+            }
+            
+            // Debug method for testing language switching
+            debugLanguageSwitch(lang) {
+                console.log('=== DEBUG LANGUAGE SWITCH ===');
+                console.log('Current language:', this.currentLanguage);
+                console.log('Target language:', lang);
+                console.log('Current question index:', this.currentQuestionIndex);
+                console.log('Current questions length:', this.questions?.length);
+                console.log('Current question:', this.questions?.[this.currentQuestionIndex]);
+                
+                this.switchLanguage(lang);
+                
+                console.log('After switch:');
+                console.log('New language:', this.currentLanguage);
+                console.log('New questions length:', this.questions?.length);
+                console.log('New question:', this.questions?.[this.currentQuestionIndex]);
+                console.log('Question element text:', document.getElementById('question-text')?.textContent);
+                console.log('=== END DEBUG ===');
             }
             
             startAssessment() {
@@ -1042,10 +1372,7 @@
                     const selectedBtn = document.querySelector(`[data-value="${savedAnswer}"]`);
                     if (selectedBtn) {
                         selectedBtn.classList.add('selected');
-                        document.getElementById('next-btn').disabled = false;
                     }
-                } else {
-                    document.getElementById('next-btn').disabled = true;
                 }
                 
                 this.updateNavigationButtons();
@@ -1059,16 +1386,24 @@
                     btn.classList.remove('selected');
                 });
                 document.querySelector(`[data-value="${value}"]`).classList.add('selected');
-                document.getElementById('next-btn').disabled = false;
+                
+                // Auto-advance to next question after a short delay
+                setTimeout(() => {
+                    if (this.currentQuestionIndex < this.questions.length - 1) {
+                        this.currentQuestionIndex++;
+                        this.displayCurrentQuestion();
+                    } else {
+                        this.finishAssessment();
+                    }
+                }, 500); // 500ms delay to show selection before advancing
             }
             
             updateNavigationButtons() {
                 document.getElementById('prev-btn').style.display = 
                     this.currentQuestionIndex > 0 ? 'inline-block' : 'none';
                 
-                const t = translations[this.currentLanguage];
-                document.getElementById('next-btn').textContent = 
-                    this.currentQuestionIndex < this.questions.length - 1 ? t.next : t.finish;
+                // Hide the next button since we auto-advance
+                document.getElementById('next-btn').style.display = 'none';
             }
             
             previousQuestion() {
@@ -1250,11 +1585,19 @@
             
             displayResults() {
                 const container = document.getElementById('results-content');
-                const { percentageScores, interpretation } = this.results;
+                const { percentageScores, interpretation, functionStack } = this.results;
                 
                 const t = translations[this.currentLanguage];
                 const dominantTitle = this.currentLanguage === 'zh' ? '您的主導功能' : 'Your Dominant Function';
                 const scoreLabel = this.currentLanguage === 'zh' ? '得分：' : 'Score: ';
+                const visualizationTitle = this.currentLanguage === 'zh' ? '認知功能分佈圖' : 'Cognitive Function Distribution';
+                const axesTitle = this.currentLanguage === 'zh' ? '榮格八功能軸系' : 'Jung 8 Function Axes';
+                
+                // Create radar chart visualization
+                const radarHTML = this.createRadarChartVisualization(percentageScores);
+                
+                // Create function axes visualization
+                const axesHTML = this.createFunctionAxesVisualization(functionStack);
                 
                 let html = `
                     <div class="results-summary">
@@ -1262,6 +1605,16 @@
                         <h3>${interpretation.dominant.function}</h3>
                         <p>${scoreLabel}${interpretation.dominant.score}%</p>
                         <p>${interpretation.dominant.description}</p>
+                    </div>
+                    
+                    <div style="text-align: center; margin: 2rem 0;">
+                        <h3>${visualizationTitle}</h3>
+                        ${radarHTML}
+                    </div>
+
+                    <div class="function-axes">
+                        <h3>${axesTitle}</h3>
+                        ${axesHTML}
                     </div>
                     
                     <div class="function-scores">
@@ -1303,43 +1656,449 @@
                 
                 html += '</div>';
                 container.innerHTML = html;
+                        <h3>${interpretation.dominant.function}</h3>
+                        <p>${scoreLabel}${interpretation.dominant.score}%</p>// Set completion ID
+                        <p>${interpretation.dominant.description}</p>d').textContent = this.completionId;
+                    </div>
+                    
+                    <div style="text-align: center; margin: 2rem 0;">Visualization(percentageScores) {
+                        <h3>${visualizationTitle}</h3>ns with their positions
+                        ${radarHTML}i', 'Si', 'Ti', 'Ni', 'Fe', 'Se'];
+                    </div>
+
+                    <div class="function-axes">
+                        <h3>${axesTitle}</h3>: 'Se', Si: 'Si', Ne: 'Ne', Ni: 'Ni'
+                        ${axesHTML}},
+                    </div>
+                    Fi: 'Fi',
+                    <div class="function-scores">: 'Si', Ne: 'Ne', Ni: 'Ni'
+                        <h3>${this.currentLanguage === 'zh' ? '認知功能得分' : 'Cognitive Function Scores'}</h3>
+                        ${this.createBarChart(percentageScores)}                };
+                    </div>
+                `;[this.currentLanguage] || functionLabels.en;
+                 // SVG center point
+                const functionNames = {adius = 160; // Maximum radius for 100% (reduced for better visibility)
+                    en: {t levels = 5; // Number of grid levels (20%, 40%, 60%, 80%, 100%)
+                        Te: 'Extraverted Thinking',
+                        Ti: 'Introverted Thinking',
+                        Fe: 'Extraverted Feeling', 
+                        Fi: 'Introverted Feeling',core = Math.min(...scores);
+                        Se: 'Extraverted Sensation',nst maxScore = Math.max(...scores);
+                        Si: 'Introverted Sensation',const scoreRange = maxScore - minScore;
+                        Ne: 'Extraverted Intuition',
+                        Ni: 'Introverted Intuition' normalized scores that enhance differences
+                    },
+                    zh: {rEach(([func, score]) => {
+                        Te: '外向思維',
+                        Ti: '內向思維',0; // If all scores are equal
+                        Fe: '外向情感',
+                        Fi: '內向情感',00% of the radius for better visibility
+                        Se: '外向感覺',ore - minScore) / scoreRange) * 70;
+                        Si: '內向感覺',th.round(normalized);
+                        Ne: '外向直覺',
+                        Ni: '內向直覺'
+                    }
+                };hs and points
                 
-                // Set completion ID
-                document.getElementById('completion-id').textContent = this.completionId;
+                const names = functionNames[this.currentLanguage] || functionNames.en;
+                
+                // Bar chart replaces the old function cards
+                container.innerHTML = html;
+                ions for effects
+                // Set completion ID svgDefs = `
+                document.getElementById('completion-id').textContent = this.completionId;  <defs>
+            }        <filter id="glow">
+            
+            createRadarChartVisualization(percentageScores) {            <feMerge> 
+                // Define the 8 cognitive functions with their positions"/>
+                const functions = ['Te', 'Ne', 'Fi', 'Si', 'Ti', 'Ni', 'Fe', 'Se'];e in="SourceGraphic"/>
+                const functionLabels = {            </feMerge>
+                    en: {
+                        Te: 'Te', Ti: 'Ti', Fe: 'Fe', Fi: 'Fi',00%">
+                        Se: 'Se', Si: 'Si', Ne: 'Ne', Ni: 'Ni'               <stop offset="0%" style="stop-color:#ff8c00;stop-opacity:0.4" />
+                    },                <stop offset="100%" style="stop-color:#ff6347;stop-opacity:0.2" />
+                    zh: {
+                        Te: 'Te', Ti: 'Ti', Fe: 'Fe', Fi: 'Fi',50%" r="50%">
+                        Se: 'Se', Si: 'Si', Ne: 'Ne', Ni: 'Ni'y:0.8" />
+                    }="100%" style="stop-color:#ff8c00;stop-opacity:1" />
+                };/radialGradient>
+
+                const labels = functionLabels[this.currentLanguage] || functionLabels.en;
+                const center = 220; // SVG center point
+                const maxRadius = 160; // Maximum radius for 100% (reduced for better visibility)rid circles with enhanced styling
+                const levels = 5; // Number of grid levels (20%, 40%, 60%, 80%, 100%)
+
+                // Normalize scores to better show differences (scale between 20% and 100%)onst strokeClass = i === levels ? 'radar-grid-strong' : 'radar-grid';
+                const scores = Object.values(percentageScores);  gridSVG += `<circle cx="${center}" cy="${center}" r="${radius}" class="${strokeClass}"/>`;
+                const minScore = Math.min(...scores);                    
+                const maxScore = Math.max(...scores);
+                const scoreRange = maxScore - minScore;r(levels/2)) {
+                
+                // Create normalized scores that enhance differencesr-grid-label">${(i * 20)}%</text>`;
+                const normalizedScores = {};                    }
+                Object.entries(percentageScores).forEach(([func, score]) => {
+                    if (scoreRange === 0) {
+                        normalizedScores[func] = 50; // If all scores are equal
+                    } else {
+                        // Scale scores to use 30%-100% of the radius for better visibility
+                        const normalized = 30 + ((score - minScore) / scoreRange) * 70;    const angle = (index / functions.length) * 2 * Math.PI - Math.PI / 2; // Start from top
+                        normalizedScores[func] = Math.round(normalized);
+                    }
+                });
+h.sin(angle) * maxRadius;
+                // Generate SVG paths and points
+                let gridSVG = '';axis line
+                let axesSVG = '';dar-axis"/>`;
+                let labelsSVG = '';
+                let dataSVG = '';ores for shape, original for display
+onst normalizedScore = normalizedScores[func] || 30;
+                // Add SVG definitions for effects const originalScore = percentageScores[func] || 0;
+                const svgDefs = `                    const dataRadius = (normalizedScore / 100) * maxRadius;
+                    <defs>cos(angle) * dataRadius;
+                        <filter id="glow"> center + Math.sin(angle) * dataRadius;
+                            <feGaussianBlur stdDeviation="3" result="coloredBlur"/>sh({ x: dataX, y: dataY, score: originalScore, normalizedScore, func });
+                            <feMerge> 
+                                <feMergeNode in="coloredBlur"/>abels outside the chart
+                                <feMergeNode in="SourceGraphic"/>                    const labelRadius = maxRadius + 50;
+                            </feMerge>os(angle) * labelRadius;
+                        </filter>= center + Math.sin(angle) * labelRadius;
+                        <linearGradient id="dataGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#ff8c00;stop-opacity:0.4" />based on position
+                            <stop offset="100%" style="stop-color:#ff6347;stop-opacity:0.2" />
+                        </linearGradient>r - 20) textAnchor = 'end';
+                        <radialGradient id="pointGradient" cx="50%" cy="50%" r="50%"> 'start';
+                            <stop offset="0%" style="stop-color:#ffffff;stop-opacity:0.8" />
+                            <stop offset="100%" style="stop-color:#ff8c00;stop-opacity:1" />bels with enhanced styling
+                        </radialGradient>`<text x="${labelX}" y="${labelY}" class="radar-label" text-anchor="${textAnchor}" style="font-size: 16px; font-weight: bold;">${func}</text>`;
+                    </defs>ext-anchor="${textAnchor}" style="font-size: 13px;">${originalScore}%</text>`;
+                `;
+
+                // Draw grid circles with enhanced stylingolygon with smoother curves
+                for (let i = 1; i <= levels; i++) {).join(' ');
+                    const radius = (maxRadius / levels) * i;dataGradient)" style="animation-delay: 0.5s;"/>`;
+                    const strokeClass = i === levels ? 'radar-grid-strong' : 'radar-grid';
+                    gridSVG += `<circle cx="${center}" cy="${center}" r="${radius}" class="${strokeClass}"/>`;ts with enhanced styling and staggered delays
+                    forEach((point, index) => {
+                    // Add percentage labels on key circles  const delay = 1 + (index * 0.15);
+                    if (i === levels || i === Math.floor(levels/2)) {                    const pointSize = 6 + (point.normalizedScore / 100) * 4; // Variable size based on score
+                        const labelY = center - radius + 8;="${point.y}" r="${pointSize}" class="radar-point" fill="url(#pointGradient)" style="animation-delay: ${delay}s;">
+                        gridSVG += `<text x="${center + 8}" y="${labelY}" class="radar-grid-label">${(i * 20)}%</text>`;nt.score}%</title>
+                    }
+                }
+
+                // Draw axes and labelsif (point.normalizedScore > 70) {
+                const dataPoints = []; cy="${point.y}" r="${pointSize + 3}" fill="none" stroke="#ff8c00" stroke-width="1" opacity="0.3" style="animation: pulseGlow 2s ease-in-out infinite; animation-delay: ${delay}s;">
+                functions.forEach((func, index) => {
+                    const angle = (index / functions.length) * 2 * Math.PI - Math.PI / 2; // Start from top
+                    const x1 = center;
+                    const y1 = center;
+                    const x2 = center + Math.cos(angle) * maxRadius;onst legendText = this.currentLanguage === 'zh' ? 
+                    const y2 = center + Math.sin(angle) * maxRadius;                    '互動式雷達圖，清楚顯示您各項認知功能的相對強度' : 
+chart clearly showing the relative strength of each cognitive function';
+                    // Draw axis line
+                    axesSVG += `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" class="radar-axis"/>`;
+                    <div class="radar-container">
+                        <div class="radar-chart">
+                            <svg viewBox="0 0 440 440">
+                                ${svgDefs}
+                                ${gridSVG}
+                                ${axesSVG}
+                                ${dataSVG}
+                                ${labelsSVG}
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="radar-legend">
+                        ${legendText}
+                    </div>
+                `;
             }
             
-            downloadResults() {
-                const data = {
-                    participantInfo: this.participantInfo,
-                    scores: this.scores,
-                    results: this.results,
-                    completionId: this.completionId,
-                    timestamp: new Date().toISOString()
+            createFunctionAxesVisualization(functionStack) {
+                // Define the 4 classic Jung cognitive axes
+                const axes = {
+                    'Ni-Se': { axis: ['Ni', 'Se'], name: { en: 'Intuition ↔ Sensation (Ni-Se)', zh: '直覺 ↔ 感覺 (Ni-Se)' }},
+                    'Ne-Si': { axis: ['Ne', 'Si'], name: { en: 'Intuition ↔ Sensation (Ne-Si)', zh: '直覺 ↔ 感覺 (Ne-Si)' }},
+                    'Te-Fi': { axis: ['Te', 'Fi'], name: { en: 'Thinking ↔ Feeling (Te-Fi)', zh: '思維 ↔ 情感 (Te-Fi)' }},
+                    'Ti-Fe': { axis: ['Ti', 'Fe'], name: { en: 'Thinking ↔ Feeling (Ti-Fe)', zh: '思維 ↔ 情感 (Ti-Fe)' }}
                 };
+
+                const functionNames = {
+                    en: {
+                        Te: 'Extraverted Thinking', Ti: 'Introverted Thinking',
+                        Fe: 'Extraverted Feeling', Fi: 'Introverted Feeling',
+                        Se: 'Extraverted Sensation', Si: 'Introverted Sensation',
+                        Ne: 'Extraverted Intuition', Ni: 'Introverted Intuition'
+                    },
+                    zh: {
+                        Te: '外向思維', Ti: '內向思維',
+                        Fe: '外向情感', Fi: '內向情感',
+                        Se: '外向感覺', Si: '內向感覺',
+                        Ne: '外向直覺', Ni: '內向直覺'
+                    }
+                };
+
+                const roleNames = {
+                    en: ['Dominant', 'Auxiliary', 'Tertiary', 'Inferior'],
+                    zh: ['主導功能', '輔助功能', '第三功能', '劣勢功能']
+                };
+
+                const names = functionNames[this.currentLanguage] || functionNames.en;
+                const roles = roleNames[this.currentLanguage] || roleNames.en;
+
+                // Get the top 4 functions from user results
+                const topFunctions = functionStack.slice(0, 4);
+                const dominant = topFunctions[0][0];  // e.g., 'Ni'
+                const auxiliary = topFunctions[1][0]; // e.g., 'Fe'
+
+                // Determine the theoretical cognitive stack based on dominant and auxiliary
+                const theoreticalResult = this.calculateTheoreticalStack(dominant, auxiliary);
+                const theoreticalStack = theoreticalResult.stack;
                 
-                const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-                const url = URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = `jung-assessment-${this.completionId}.json`;
-                a.click();
-                URL.revokeObjectURL(url);
+                // Get scores for easier access
+                const scores = {};
+                functionStack.forEach(([func, score]) => {
+                    scores[func] = score;
+                });
+
+                // Create the visualization
+                let html = `
+                    <div style="margin-bottom: 2rem; text-align: center; padding: 1.5rem; background: linear-gradient(135deg, #fff3e6 0%, #ffe8d1 100%); border-radius: 10px; border: 2px solid #ff8c00;">
+                        <h4 style="color: #ff8c00; margin-bottom: 1rem; font-size: 1.3rem;">
+                            ${this.currentLanguage === 'zh' ? '基於榮格理論的認知功能堆疊' : 'Theoretical Jung Cognitive Function Stack'}
+                        </h4>
+                        <div style="margin-bottom: 1rem; padding: 1rem; background: ${theoreticalResult.isValidPairing ? '#e8f5e8' : '#ffebee'}; border-radius: 8px; border: 2px solid ${theoreticalResult.isValidPairing ? '#4caf50' : '#f44336'};">
+                            <div style="color: ${theoreticalResult.isValidPairing ? '#2e7d32' : '#c62828'}; font-weight: bold; margin-bottom: 0.5rem;">
+                                ${theoreticalResult.isValidPairing ? 
+                                    (this.currentLanguage === 'zh' ? '✓ 符合榮格理論' : '✓ Follows Jung Theory') : 
+                                    (this.currentLanguage === 'zh' ? '⚠ 不符合榮格理論' : '⚠ Violates Jung Theory')}
+                            </div>
+                            <div style="font-size: 0.9rem; color: #666;">
+                                <strong>${this.currentLanguage === 'zh' ? '主導功能' : 'Dominant'}:</strong> ${dominant} (${this.currentLanguage === 'zh' ? 
+                                    (theoreticalResult.dominantType.includes('Irrational') ? '非理性功能' : '理性功能') : 
+                                    theoreticalResult.dominantType})
+                                <br>
+                                <strong>${this.currentLanguage === 'zh' ? '輔助功能' : 'Auxiliary'}:</strong> ${auxiliary} (${this.currentLanguage === 'zh' ? 
+                                    (theoreticalResult.auxiliaryType.includes('Irrational') ? '非理性功能' : '理性功能') : 
+                                    theoreticalResult.auxiliaryType})
+                            </div>
+                        </div>
+                        <div style="display: flex; justify-content: center; align-items: center; flex-wrap: wrap; gap: 1rem;">
+                `;
+
+                // Display theoretical stack
+                const stackLabels = this.currentLanguage === 'zh' ? 
+                    ['主導功能', '輔助功能', '第三功能', '劣勢功能'] : 
+                    ['Dominant', 'Auxiliary', 'Tertiary', 'Inferior'];
+                
+                theoreticalStack.forEach((func, index) => {
+                    const score = scores[func] || 0;
+                    const color = this.getFunctionColor(index);
+                    const irrationalFunctions = ['Ni', 'Ne', 'Si', 'Se'];
+                    const functionType = irrationalFunctions.includes(func) ? 
+                        (this.currentLanguage === 'zh' ? '非理性' : 'Irrational') : 
+                        (this.currentLanguage === 'zh' ? '理性' : 'Rational');
+                    
+                    html += `
+                        <div style="text-align: center; padding: 0.8rem; background: white; border-radius: 8px; border: 2px solid ${color}; min-width: 120px;">
+                            <div style="font-weight: bold; color: ${color}; font-size: 1.1rem;">${func}</div>
+                            <div style="font-size: 0.8rem; color: #888; margin: 0.2rem 0;">${functionType}</div>
+                            <div style="font-size: 0.9rem; color: #666; margin: 0.2rem 0;">${stackLabels[index]}</div>
+                            <div style="font-weight: bold; color: #ff8c00;">${score}%</div>
+                        </div>
+                    `;
+                    if (index < 3) {
+                        html += `<div style="color: ${color}; font-size: 1.5rem; font-weight: bold;">→</div>`;
+                    }
+                });
+
+                html += `</div></div>`;
+
+                // Display the 4 axes
+                html += '<div class="axes-container">';
+
+                Object.entries(axes).forEach(([axisKey, axisData], index) => {
+                    const [func1, func2] = axisData.axis;
+                    const axisTitle = axisData.name[this.currentLanguage] || axisData.name.en;
+                    
+                    // Check if this axis contains the dominant or auxiliary function
+                    const isDominantAxis = func1 === dominant || func2 === dominant;
+                    const isAuxiliaryAxis = func1 === auxiliary || func2 === auxiliary;
+                    const isActiveAxis = isDominantAxis || isAuxiliaryAxis;
+
+                    // Determine roles for each function in this axis
+                    const func1Role = this.getFunctionRoleInStack(func1, theoreticalStack, roles);
+                    const func2Role = this.getFunctionRoleInStack(func2, theoreticalStack, roles);
+
+                    html += `
+                        <div class="axis-display" style="${isActiveAxis ? 'border-left: 4px solid #ff8c00; background: linear-gradient(135deg, #fff3e6 0%, #f8f9fa 100%);' : 'border-left: 4px solid #ccc; background: #f8f9fa;'}">
+                            <div class="axis-title">
+                                <div class="axis-icon" style="${isActiveAxis ? 'background: #ff8c00;' : 'background: #ccc;'}">${index + 1}</div>
+                                ${axisTitle} ${isActiveAxis ? '⭐' : ''}
+                            </div>
+                            <div class="function-pair">
+                                <div class="function-item">
+                                    <div class="function-name" style="${func1 === dominant || func1 === auxiliary ? 'color: #ff8c00; font-weight: bold;' : ''}">${func1}</div>
+                                    <div class="function-score" style="${func1 === dominant || func1 === auxiliary ? 'color: #ff8c00;' : 'color: #666;'}">${scores[func1] || 0}%</div>
+                                    <div class="function-role" style="${func1Role !== (this.currentLanguage === 'zh' ? '其他' : 'Other') ? 'color: #ff8c00; font-weight: bold;' : ''}">${func1Role}</div>
+                                </div>
+                                <div class="axis-line" style="${isActiveAxis ? 'background: linear-gradient(to right, #ff8c00, #ff6347);' : 'background: #ccc;'}"></div>
+                                <div class="function-item">
+                                    <div class="function-name" style="${func2 === dominant || func2 === auxiliary ? 'color: #ff8c00; font-weight: bold;' : ''}">${func2}</div>
+                                    <div class="function-score" style="${func2 === dominant || func2 === auxiliary ? 'color: #ff8c00;' : 'color: #666;'}">${scores[func2] || 0}%</div>
+                                    <div class="function-role" style="${func2Role !== (this.currentLanguage === 'zh' ? '其他' : 'Other') ? 'color: #ff8c00; font-weight: bold;' : ''}">${func2Role}</div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                });
+
+                html += '</div>';
+
+                // Add validation section
+                html += this.createStackValidation(theoreticalStack, topFunctions, scores, theoreticalResult);
+
+                return html;
             }
-            
-            restartAssessment() {
-                this.currentQuestionIndex = 0;
-                this.answers = {};
-                this.scores = {};
-                this.results = null;
-                this.startTime = null;
-                this.completionId = null;
-                this.showWelcomeScreen();
+
+            calculateTheoreticalStack(dominant, auxiliary) {
+                // Define the axis pairs
+                const axisPairs = {
+                    'Ni': 'Se', 'Se': 'Ni',
+                    'Ne': 'Si', 'Si': 'Ne', 
+                    'Te': 'Fi', 'Fi': 'Te',
+                    'Ti': 'Fe', 'Fe': 'Ti'
+                };
+
+                // Define function types according to Jung theory
+                const irrationalFunctions = ['Ni', 'Ne', 'Si', 'Se']; // Perceiving functions
+                const rationalFunctions = ['Ti', 'Te', 'Fi', 'Fe'];   // Judging functions
+
+                // Validation: Dominant and Auxiliary must be from different types
+                const isDominantIrrational = irrationalFunctions.includes(dominant);
+                const isAuxiliaryIrrational = irrationalFunctions.includes(auxiliary);
+                
+                // Check if the pairing follows Jung theory (alternating rational/irrational)
+                const isValidPairing = isDominantIrrational !== isAuxiliaryIrrational;
+                
+                if (!isValidPairing) {
+                    console.warn(`Invalid Jung pairing detected: ${dominant} (${isDominantIrrational ? 'Irrational' : 'Rational'}) + ${auxiliary} (${isAuxiliaryIrrational ? 'Irrational' : 'Rational'})`);
+                    console.warn('According to Jung theory, dominant and auxiliary functions must alternate between rational and irrational types.');
+                }
+
+                // Calculate tertiary and inferior functions
+                const inferior = axisPairs[dominant];   // Opposite of dominant (same axis)
+                const tertiary = axisPairs[auxiliary];  // Opposite of auxiliary (same axis)
+
+                return {
+                    stack: [dominant, auxiliary, tertiary, inferior],
+                    isValidPairing: isValidPairing,
+                    dominantType: isDominantIrrational ? 'Irrational (Perceiving)' : 'Rational (Judging)',
+                    auxiliaryType: isAuxiliaryIrrational ? 'Irrational (Perceiving)' : 'Rational (Judging)'
+                };
+            }
+
+            getFunctionRoleInStack(func, theoreticalStack, roleNames) {
+                const index = theoreticalStack.indexOf(func);
+                if (index !== -1 && index < 4) {
+                    return roleNames[index];
+                }
+                return this.currentLanguage === 'zh' ? '其他' : 'Other';
+            }
+
+            createStackValidation(theoreticalStack, actualTopFunctions, scores, theoreticalResult) {
+                const validationTitle = this.currentLanguage === 'zh' ? '理論與實際結果比較' : 'Theory vs. Actual Results Comparison';
+                
+                let html = `
+                    <div style="margin-top: 2rem; padding: 1.5rem; background: linear-gradient(135deg, #f0f8ff 0%, #e6f3ff 100%); border-radius: 10px; border: 2px solid #4a90e2;">
+                        <h4 style="color: #4a90e2; margin-bottom: 1rem; text-align: center;">${validationTitle}</h4>
+                        
+                        ${!theoreticalResult.isValidPairing ? `
+                        <div style="background: #ffebee; padding: 1rem; border-radius: 8px; border-left: 4px solid #f44336; margin-bottom: 1rem;">
+                            <h5 style="color: #c62828; margin-bottom: 0.5rem;">
+                                ${this.currentLanguage === 'zh' ? '⚠ 榮格理論違規' : '⚠ Jung Theory Violation'}
+                            </h5>
+                            <p style="color: #666; font-size: 0.9rem; margin: 0;">
+                                ${this.currentLanguage === 'zh' ? 
+                                    '根據榮格理論，主導功能和輔助功能應該在理性（思維/情感）和非理性（感覺/直覺）功能之間交替。您的結果顯示兩個功能都是同一類型。' :
+                                    'According to Jung theory, dominant and auxiliary functions should alternate between rational (Thinking/Feeling) and irrational (Sensation/Intuition) functions. Your results show both functions are the same type.'}
+                            </p>
+                        </div>
+                        ` : ''}
+                        
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                            <div>
+                                <h5 style="color: #ff8c00; margin-bottom: 0.5rem;">${this.currentLanguage === 'zh' ? '理論預測' : 'Theoretical Prediction'}</h5>
+                `;
+
+                theoreticalStack.forEach((func, index) => {
+                    const roles = this.currentLanguage === 'zh' ? ['主導', '輔助', '第三', '劣勢'] : ['Dom', 'Aux', '3rd', 'Inf'];
+                    const irrationalFunctions = ['Ni', 'Ne', 'Si', 'Se'];
+                    const functionType = irrationalFunctions.includes(func) ? 
+                        (this.currentLanguage === 'zh' ? '非理性' : 'Irr') : 
+                        (this.currentLanguage === 'zh' ? '理性' : 'Rat');
+                    
+                    html += `<div style="margin: 0.3rem 0; padding: 0.5rem; background: white; border-radius: 5px; border-left: 3px solid ${this.getFunctionColor(index)};">
+                        <strong>${roles[index]}:</strong> ${func} (${functionType}) - ${scores[func] || 0}%
+                    </div>`;
+                });
+
+                html += `</div><div>
+                    <h5 style="color: #4a90e2; margin-bottom: 0.5rem;">${this.currentLanguage === 'zh' ? '您的實際結果' : 'Your Actual Results'}</h5>
+                `;
+
+                actualTopFunctions.forEach(([func, score], index) => {
+                    const roles = this.currentLanguage === 'zh' ? ['最高', '第二', '第三', '第四'] : ['1st', '2nd', '3rd', '4th'];
+                    const isMatch = theoreticalStack[index] === func;
+                    const irrationalFunctions = ['Ni', 'Ne', 'Si', 'Se'];
+                    const functionType = irrationalFunctions.includes(func) ? 
+                        (this.currentLanguage === 'zh' ? '非理性' : 'Irr') : 
+                        (this.currentLanguage === 'zh' ? '理性' : 'Rat');
+                    
+                    html += `<div style="margin: 0.3rem 0; padding: 0.5rem; background: white; border-radius: 5px; border-left: 3px solid ${isMatch ? '#28a745' : '#dc3545'};">
+                        <strong>${roles[index]}:</strong> ${func} (${functionType}) - ${score}% ${isMatch ? '✓' : '✗'}
+                    </div>`;
+                });
+
+                // Calculate match percentage
+                let matches = 0;
+                for (let i = 0; i < 4; i++) {
+                    if (theoreticalStack[i] === actualTopFunctions[i][0]) matches++;
+                }
+                const matchPercentage = (matches / 4 * 100).toFixed(0);
+
+                html += `</div></div>
+                    <div style="text-align: center; margin-top: 1rem; padding: 1rem; background: white; border-radius: 8px;">
+                        <strong style="color: ${matchPercentage >= 75 ? '#28a745' : matchPercentage >= 50 ? '#ffc107' : '#dc3545'};">
+                            ${this.currentLanguage === 'zh' ? '匹配度' : 'Match Rate'}: ${matchPercentage}% (${matches}/4)
+                        </strong>
+                        <p style="margin-top: 0.5rem; color: #666; font-size: 0.9rem;">
+                            ${this.currentLanguage === 'zh' 
+                                ? '高匹配度表示您的結果符合榮格理論預測' 
+                                : 'High match rate indicates your results align with Jung theory predictions'}
+                        </p>
+                        ${!theoreticalResult.isValidPairing ? `
+                        <p style="margin-top: 0.5rem; color: #c62828; font-size: 0.9rem; font-style: italic;">
+                            ${this.currentLanguage === 'zh' 
+                                ? '注意：主導和輔助功能類型違反了榮格的交替原則' 
+                                : 'Note: Dominant and auxiliary function types violate Jung\'s alternation principle'}
+                        </p>
+                        ` : ''}
+                    </div>
+                </div>`;
+
+                return html;
+            }
+
+            getFunctionColor(index) {
+                const colors = ['#ff8c00', '#ff6347', '#ffa366', '#ffb84d'];
+                return colors[index] || '#ccc';
             }
         }
         
         // Initialize the application when DOM is loaded
         document.addEventListener('DOMContentLoaded', () => {
-            new WebJungianAssessment();
+            window.jungApp = new WebJungianAssessment();
         });
     </script>
 </body>
