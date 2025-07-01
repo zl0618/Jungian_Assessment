@@ -1773,9 +1773,7 @@
                     labelsSVG += `<text x="${labelX}" y="${labelY + 20}" class="radar-value" text-anchor="${textAnchor}" style="font-size: 13px;">${originalScore}%</text>`;
                 });
 
-               
-
-                // Create animated data polygon with smoother curves
+                               // Create animated data polygon with smoother curves
                 const polygonPoints = dataPoints.map(point => `${point.x},${point.y}`).join(' ');
                 dataSVG = `<polygon points="${polygonPoints}" class="radar-data" fill="url(#dataGradient)" style="animation-delay: 0.5s;"/>`;
 
@@ -2208,5 +2206,7 @@
             window.jungApp = new WebJungianAssessment();
         });
     </script>
+</body>
+</html>
 </body>
 </html>
