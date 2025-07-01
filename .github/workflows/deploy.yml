@@ -1,4 +1,4 @@
-name: Build and Deploy to GitHub Pages
+name: Clean Build and Deploy to GitHub Pages
 
 on:
   push:
@@ -9,48 +9,104 @@ permissions:
   contents: write
 
 jobs:
-  build-and-deploy:
+  clean-and-deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: Checkout source code
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
-      - name: Setup deployment files
+      - name: Clean and prepare build directory
         run: |
-          # Create a clean build directory
+          # Remove any existing build artifacts
+          rm -rf build/
+          rm -rf dist/
+          rm -rf _site/
+          
+          # Create fresh build directory
           mkdir -p build
           
+          # List all files to verify what we have
+          echo "=== Available files ==="
+          ls -la
+          echo "======================="
+
+      - name: Copy application files
+        run: |
           # Copy main HTML file as index.html
-          cp web-interview.html build/index.html
+          if [ -f "web-interview.html" ]; then
+            cp web-interview.html build/index.html
+            echo "✓ Copied web-interview.html as index.html"
+          else
+            echo "❌ web-interview.html not found!"
+            exit 1
+          fi
           
-          # Copy question files if they exist
-          cp questions-en.js build/ 2>/dev/null || echo "questions-en.js not found, using fallback"
-          cp questions-zh.js build/ 2>/dev/null || echo "questions-zh.js not found, using fallback"
+          # Copy all JavaScript question files
+          for file in questions*.js; do
+            if [ -f "$file" ]; then
+              cp "$file" build/
+              echo "✓ Copied $file"
+            fi
+          done
           
-          # Create a README for the gh-pages branch
-          echo "# Jung Assessment - Live Application
+          # Specifically handle the main questions.js file
+          if [ -f "questions.js" ]; then
+            cp questions.js build/
+            echo "✓ Copied questions.js"
+          fi
+          
+          # Create a simple 404.html
+          cat > build/404.html << 'EOF'
+          <!DOCTYPE html>
+          <html>
+          <head>
+            <title>Page Not Found - Jung Assessment</title>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <style>
+              body { font-family: Arial, sans-serif; text-align: center; padding: 50px; }
+              h1 { color: #ff8c00; }
+              a { color: #ff8c00; text-decoration: none; }
+              a:hover { text-decoration: underline; }
+            </style>
+          </head>
+          <body>
+            <h1>404 - Page Not Found</h1>
+            <p>The page you're looking for doesn't exist.</p>
+            <p><a href="/">← Return to Jung Assessment</a></p>
+          </body>
+          </html>
+          EOF
 
-This branch contains the deployed version of the Jung Assessment application.
+      - name: Verify build contents
+        run: |
+          echo "=== Build directory contents ==="
+          ls -la build/
+          echo "================================"
+          
+          # Verify index.html exists and has content
+          if [ -f "build/index.html" ]; then
+            echo "✓ index.html exists ($(wc -c < build/index.html) bytes)"
+            # Check if it contains the Jung assessment title
+            if grep -q "Jung" build/index.html; then
+              echo "✓ index.html contains Jung assessment content"
+            else
+              echo "❌ index.html might be corrupted"
+            fi
+          else
+            echo "❌ index.html missing!"
+            exit 1
+          fi
 
-🌐 **Live Demo:** [https://$(echo $GITHUB_REPOSITORY | cut -d'/' -f1).github.io/$(echo $GITHUB_REPOSITORY | cut -d'/' -f2)](https://$(echo $GITHUB_REPOSITORY | cut -d'/' -f1).github.io/$(echo $GITHUB_REPOSITORY | cut -d'/' -f2))
-
-## Files
-- \`index.html\` - Main application
-- \`questions-en.js\` - English question bank  
-- \`questions-zh.js\` - Chinese question bank
-
-## Last Updated
-$(date)
-
----
-*Automatically deployed from the main branch*" > build/README.md
-
-      - name: Deploy to GitHub Pages
+      - name: Force clean deploy to gh-pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./build
           publish_branch: gh-pages
           force_orphan: true
-        id: deployment
-        uses: actions/deploy-pages@v4
+          enable_jekyll: false
+          exclude_assets: '.github'
+          commit_message: 'Clean deployment - ${{ github.sha }}'

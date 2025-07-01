@@ -1656,147 +1656,149 @@
                 
                 html += '</div>';
                 container.innerHTML = html;
-                        <h3>${interpretation.dominant.function}</h3>
-                        <p>${scoreLabel}${interpretation.dominant.score}%</p>// Set completion ID
-                        <p>${interpretation.dominant.description}</p>d').textContent = this.completionId;
-                    </div>
-                    
-                    <div style="text-align: center; margin: 2rem 0;">Visualization(percentageScores) {
-                        <h3>${visualizationTitle}</h3>ns with their positions
-                        ${radarHTML}i', 'Si', 'Ti', 'Ni', 'Fe', 'Se'];
-                    </div>
-
-                    <div class="function-axes">
-                        <h3>${axesTitle}</h3>: 'Se', Si: 'Si', Ne: 'Ne', Ni: 'Ni'
-                        ${axesHTML}},
-                    </div>
-                    Fi: 'Fi',
-                    <div class="function-scores">: 'Si', Ne: 'Ne', Ni: 'Ni'
-                        <h3>${this.currentLanguage === 'zh' ? '認知功能得分' : 'Cognitive Function Scores'}</h3>
-                        ${this.createBarChart(percentageScores)}                };
-                    </div>
-                `;[this.currentLanguage] || functionLabels.en;
-                 // SVG center point
-                const functionNames = {adius = 160; // Maximum radius for 100% (reduced for better visibility)
-                    en: {t levels = 5; // Number of grid levels (20%, 40%, 60%, 80%, 100%)
-                        Te: 'Extraverted Thinking',
-                        Ti: 'Introverted Thinking',
-                        Fe: 'Extraverted Feeling', 
-                        Fi: 'Introverted Feeling',core = Math.min(...scores);
-                        Se: 'Extraverted Sensation',nst maxScore = Math.max(...scores);
-                        Si: 'Introverted Sensation',const scoreRange = maxScore - minScore;
-                        Ne: 'Extraverted Intuition',
-                        Ni: 'Introverted Intuition' normalized scores that enhance differences
-                    },
-                    zh: {rEach(([func, score]) => {
-                        Te: '外向思維',
-                        Ti: '內向思維',0; // If all scores are equal
-                        Fe: '外向情感',
-                        Fi: '內向情感',00% of the radius for better visibility
-                        Se: '外向感覺',ore - minScore) / scoreRange) * 70;
-                        Si: '內向感覺',th.round(normalized);
-                        Ne: '外向直覺',
-                        Ni: '內向直覺'
-                    }
-                };hs and points
                 
-                const names = functionNames[this.currentLanguage] || functionNames.en;
-                
-                // Bar chart replaces the old function cards
-                container.innerHTML = html;
-                ions for effects
-                // Set completion ID svgDefs = `
-                document.getElementById('completion-id').textContent = this.completionId;  <defs>
-            }        <filter id="glow">
+                // Set completion ID
+                document.getElementById('completion-id').textContent = this.completionId;
+            }
             
-            createRadarChartVisualization(percentageScores) {            <feMerge> 
-                // Define the 8 cognitive functions with their positions"/>
-                const functions = ['Te', 'Ne', 'Fi', 'Si', 'Ti', 'Ni', 'Fe', 'Se'];e in="SourceGraphic"/>
-                const functionLabels = {            </feMerge>
+            createRadarChartVisualization(percentageScores) {
+                // Define the 8 cognitive functions with their positions
+                const functions = ['Te', 'Ne', 'Fi', 'Si', 'Ti', 'Ni', 'Fe', 'Se'];
+                const functionLabels = {
                     en: {
-                        Te: 'Te', Ti: 'Ti', Fe: 'Fe', Fi: 'Fi',00%">
-                        Se: 'Se', Si: 'Si', Ne: 'Ne', Ni: 'Ni'               <stop offset="0%" style="stop-color:#ff8c00;stop-opacity:0.4" />
-                    },                <stop offset="100%" style="stop-color:#ff6347;stop-opacity:0.2" />
+                        Te: 'Te', Ti: 'Ti', Fe: 'Fe', Fi: 'Fi',
+                        Se: 'Se', Si: 'Si', Ne: 'Ne', Ni: 'Ni'
+                    },
                     zh: {
-                        Te: 'Te', Ti: 'Ti', Fe: 'Fe', Fi: 'Fi',50%" r="50%">
-                        Se: 'Se', Si: 'Si', Ne: 'Ne', Ni: 'Ni'y:0.8" />
-                    }="100%" style="stop-color:#ff8c00;stop-opacity:1" />
-                };/radialGradient>
+                        Te: 'Te', Ti: 'Ti', Fe: 'Fe', Fi: 'Fi',
+                        Se: 'Se', Si: 'Si', Ne: 'Ne', Ni: 'Ni'
+                    }
+                };
 
                 const labels = functionLabels[this.currentLanguage] || functionLabels.en;
                 const center = 220; // SVG center point
-                const maxRadius = 160; // Maximum radius for 100% (reduced for better visibility)rid circles with enhanced styling
+                const maxRadius = 160; // Maximum radius for 100% (reduced for better visibility)
                 const levels = 5; // Number of grid levels (20%, 40%, 60%, 80%, 100%)
 
-                // Normalize scores to better show differences (scale between 20% and 100%)onst strokeClass = i === levels ? 'radar-grid-strong' : 'radar-grid';
-                const scores = Object.values(percentageScores);  gridSVG += `<circle cx="${center}" cy="${center}" r="${radius}" class="${strokeClass}"/>`;
-                const minScore = Math.min(...scores);                    
+                // Normalize scores to better show differences (scale between 20% and 100%)
+                const scores = Object.values(percentageScores);
+                const minScore = Math.min(...scores);
                 const maxScore = Math.max(...scores);
-                const scoreRange = maxScore - minScore;r(levels/2)) {
+                const scoreRange = maxScore - minScore;
                 
-                // Create normalized scores that enhance differencesr-grid-label">${(i * 20)}%</text>`;
-                const normalizedScores = {};                    }
+                // Create normalized scores that enhance differences
+                const normalizedScores = {};
                 Object.entries(percentageScores).forEach(([func, score]) => {
                     if (scoreRange === 0) {
                         normalizedScores[func] = 50; // If all scores are equal
                     } else {
                         // Scale scores to use 30%-100% of the radius for better visibility
-                        const normalized = 30 + ((score - minScore) / scoreRange) * 70;    const angle = (index / functions.length) * 2 * Math.PI - Math.PI / 2; // Start from top
+                        const normalized = 30 + ((score - minScore) / scoreRange) * 70;
                         normalizedScores[func] = Math.round(normalized);
                     }
                 });
-h.sin(angle) * maxRadius;
+
                 // Generate SVG paths and points
-                let gridSVG = '';axis line
-                let axesSVG = '';dar-axis"/>`;
+                let gridSVG = '';
+                let axesSVG = '';
                 let labelsSVG = '';
-                let dataSVG = '';ores for shape, original for display
-onst normalizedScore = normalizedScores[func] || 30;
-                // Add SVG definitions for effects const originalScore = percentageScores[func] || 0;
-                const svgDefs = `                    const dataRadius = (normalizedScore / 100) * maxRadius;
-                    <defs>cos(angle) * dataRadius;
-                        <filter id="glow"> center + Math.sin(angle) * dataRadius;
-                            <feGaussianBlur stdDeviation="3" result="coloredBlur"/>sh({ x: dataX, y: dataY, score: originalScore, normalizedScore, func });
+                let dataSVG = '';
+
+                // Add SVG definitions for effects
+                const svgDefs = `
+                    <defs>
+                        <filter id="glow">
+                            <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
                             <feMerge> 
-                                <feMergeNode in="coloredBlur"/>abels outside the chart
-                                <feMergeNode in="SourceGraphic"/>                    const labelRadius = maxRadius + 50;
-                            </feMerge>os(angle) * labelRadius;
-                        </filter>= center + Math.sin(angle) * labelRadius;
+                                <feMergeNode in="coloredBlur"/>
+                                <feMergeNode in="SourceGraphic"/>
+                            </feMerge>
+                        </filter>
                         <linearGradient id="dataGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                            <stop offset="0%" style="stop-color:#ff8c00;stop-opacity:0.4" />based on position
+                            <stop offset="0%" style="stop-color:#ff8c00;stop-opacity:0.4" />
                             <stop offset="100%" style="stop-color:#ff6347;stop-opacity:0.2" />
-                        </linearGradient>r - 20) textAnchor = 'end';
-                        <radialGradient id="pointGradient" cx="50%" cy="50%" r="50%"> 'start';
+                        </linearGradient>
+                        <radialGradient id="pointGradient" cx="50%" cy="50%" r="50%">
                             <stop offset="0%" style="stop-color:#ffffff;stop-opacity:0.8" />
-                            <stop offset="100%" style="stop-color:#ff8c00;stop-opacity:1" />bels with enhanced styling
-                        </radialGradient>`<text x="${labelX}" y="${labelY}" class="radar-label" text-anchor="${textAnchor}" style="font-size: 16px; font-weight: bold;">${func}</text>`;
-                    </defs>ext-anchor="${textAnchor}" style="font-size: 13px;">${originalScore}%</text>`;
+                            <stop offset="100%" style="stop-color:#ff8c00;stop-opacity:1" />
+                        </radialGradient>
+                    </defs>
                 `;
 
-                // Draw grid circles with enhanced stylingolygon with smoother curves
-                for (let i = 1; i <= levels; i++) {).join(' ');
-                    const radius = (maxRadius / levels) * i;dataGradient)" style="animation-delay: 0.5s;"/>`;
+                // Draw grid circles with enhanced styling
+                for (let i = 1; i <= levels; i++) {
+                    const radius = (maxRadius / levels) * i;
                     const strokeClass = i === levels ? 'radar-grid-strong' : 'radar-grid';
-                    gridSVG += `<circle cx="${center}" cy="${center}" r="${radius}" class="${strokeClass}"/>`;ts with enhanced styling and staggered delays
-                    forEach((point, index) => {
-                    // Add percentage labels on key circles  const delay = 1 + (index * 0.15);
-                    if (i === levels || i === Math.floor(levels/2)) {                    const pointSize = 6 + (point.normalizedScore / 100) * 4; // Variable size based on score
-                        const labelY = center - radius + 8;="${point.y}" r="${pointSize}" class="radar-point" fill="url(#pointGradient)" style="animation-delay: ${delay}s;">
-                        gridSVG += `<text x="${center + 8}" y="${labelY}" class="radar-grid-label">${(i * 20)}%</text>`;nt.score}%</title>
+                    gridSVG += `<circle cx="${center}" cy="${center}" r="${radius}" class="${strokeClass}"/>`;
+                    
+                    // Add percentage labels on key circles
+                    if (i === levels || i === Math.floor(levels/2)) {
+                        const labelY = center - radius + 8;
+                        gridSVG += `<text x="${center + 8}" y="${labelY}" class="radar-grid-label">${(i * 20)}%</text>`;
                     }
                 }
 
-                // Draw axes and labelsif (point.normalizedScore > 70) {
-                const dataPoints = []; cy="${point.y}" r="${pointSize + 3}" fill="none" stroke="#ff8c00" stroke-width="1" opacity="0.3" style="animation: pulseGlow 2s ease-in-out infinite; animation-delay: ${delay}s;">
+                // Draw axes and labels
+                const dataPoints = [];
                 functions.forEach((func, index) => {
                     const angle = (index / functions.length) * 2 * Math.PI - Math.PI / 2; // Start from top
                     const x1 = center;
                     const y1 = center;
-                    const x2 = center + Math.cos(angle) * maxRadius;onst legendText = this.currentLanguage === 'zh' ? 
-                    const y2 = center + Math.sin(angle) * maxRadius;                    '互動式雷達圖，清楚顯示您各項認知功能的相對強度' : 
-chart clearly showing the relative strength of each cognitive function';
+                    const x2 = center + Math.cos(angle) * maxRadius;
+                    const y2 = center + Math.sin(angle) * maxRadius;
+
                     // Draw axis line
                     axesSVG += `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" class="radar-axis"/>`;
+
+                    // Calculate data point position using normalized scores for shape, original for display
+                    const normalizedScore = normalizedScores[func] || 30;
+                    const originalScore = percentageScores[func] || 0;
+                    const dataRadius = (normalizedScore / 100) * maxRadius;
+                    const dataX = center + Math.cos(angle) * dataRadius;
+                    const dataY = center + Math.sin(angle) * dataRadius;
+                    dataPoints.push({ x: dataX, y: dataY, score: originalScore, normalizedScore, func });
+
+                    // Position labels outside the chart
+                    const labelRadius = maxRadius + 50;
+                    const labelX = center + Math.cos(angle) * labelRadius;
+                    const labelY = center + Math.sin(angle) * labelRadius;
+
+                    // Adjust text anchor based on position
+                    let textAnchor = 'middle';
+                    if (labelX < center - 20) textAnchor = 'end';
+                    else if (labelX > center + 20) textAnchor = 'start';
+
+                    // Add function labels with enhanced styling
+                    labelsSVG += `<text x="${labelX}" y="${labelY}" class="radar-label" text-anchor="${textAnchor}" style="font-size: 16px; font-weight: bold;">${func}</text>`;
+                    labelsSVG += `<text x="${labelX}" y="${labelY + 20}" class="radar-value" text-anchor="${textAnchor}" style="font-size: 13px;">${originalScore}%</text>`;
+                });
+
+               
+
+                // Create animated data polygon with smoother curves
+                const polygonPoints = dataPoints.map(point => `${point.x},${point.y}`).join(' ');
+                dataSVG = `<polygon points="${polygonPoints}" class="radar-data" fill="url(#dataGradient)" style="animation-delay: 0.5s;"/>`;
+
+                // Add animated data points with enhanced styling and staggered delays
+                dataPoints.forEach((point, index) => {
+                    const delay = 1 + (index * 0.15);
+                    const pointSize = 6 + (point.normalizedScore / 100) * 4; // Variable size based on score
+                    dataSVG += `<circle cx="${point.x}" cy="${point.y}" r="${pointSize}" class="radar-point" fill="url(#pointGradient)" style="animation-delay: ${delay}s;">
+                        <title>${point.func}: ${point.score}%</title>
+                    </circle>`;
+                    
+                    // Add a subtle glow effect around high-scoring points
+                    if (point.normalizedScore > 70) {
+                        dataSVG += `<circle cx="${point.x}" cy="${point.y}" r="${pointSize + 3}" fill="none" stroke="#ff8c00" stroke-width="1" opacity="0.3" style="animation: pulseGlow 2s ease-in-out infinite; animation-delay: ${delay}s;">
+                        </circle>`;
+                    }
+                });
+
+                const legendText = this.currentLanguage === 'zh' ? 
+                    '互動式雷達圖，清楚顯示您各項認知功能的相對強度' : 
+                    'Interactive radar chart clearly showing the relative strength of each cognitive function';
+
+                return `
                     <div class="radar-container">
                         <div class="radar-chart">
                             <svg viewBox="0 0 440 440">
@@ -2093,6 +2095,111 @@ chart clearly showing the relative strength of each cognitive function';
             getFunctionColor(index) {
                 const colors = ['#ff8c00', '#ff6347', '#ffa366', '#ffb84d'];
                 return colors[index] || '#ccc';
+            }
+
+            downloadResults() {
+                if (!this.results) {
+                    alert('No results available to download.');
+                    return;
+                }
+
+                const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+                const filename = `jung-assessment-results-${timestamp}.json`;
+                
+                const resultsData = {
+                    participantInfo: this.participantInfo,
+                    answers: this.answers,
+                    scores: this.scores,
+                    results: this.results,
+                    completionId: this.completionId,
+                    completionTime: Date.now() - this.startTime,
+                    timestamp: new Date().toISOString()
+                };
+
+                const dataStr = JSON.stringify(resultsData, null, 2);
+                const dataBlob = new Blob([dataStr], { type: 'application/json' });
+                
+                const link = document.createElement('a');
+                link.href = URL.createObjectURL(dataBlob);
+                link.download = filename;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                URL.revokeObjectURL(link.href);
+            }
+
+            restartAssessment() {
+                // Reset all state
+                this.currentQuestionIndex = 0;
+                this.answers = {};
+                this.scores = {};
+                this.results = null;
+                this.startTime = null;
+                this.participantInfo = {};
+                this.completionId = null;
+                
+                // Clear form fields
+                document.getElementById('participant-id').value = '';
+                document.getElementById('participant-age').value = '';
+                document.getElementById('participant-education').value = '';
+                
+                // Show welcome screen
+                this.showWelcomeScreen();
+            }
+
+            createBarChart(percentageScores) {
+                const functionNames = {
+                    en: {
+                        Te: 'Extraverted Thinking', Ti: 'Introverted Thinking',
+                        Fe: 'Extraverted Feeling', Fi: 'Introverted Feeling',
+                        Se: 'Extraverted Sensation', Si: 'Introverted Sensation',
+                        Ne: 'Extraverted Intuition', Ni: 'Introverted Intuition'
+                    },
+                    zh: {
+                        Te: '外向思維', Ti: '內向思維',
+                        Fe: '外向情感', Fi: '內向情感',
+                        Se: '外向感覺', Si: '內向感覺',
+                        Ne: '外向直覺', Ni: '內向直覺'
+                    }
+                };
+
+                const names = functionNames[this.currentLanguage] || functionNames.en;
+                const sortedEntries = Object.entries(percentageScores).sort(([,a], [,b]) => b - a);
+                
+                let html = '<div style="max-width: 600px; margin: 0 auto;">';
+                
+                sortedEntries.forEach(([func, score], index) => {
+                    const color = index < 4 ? '#ff8c00' : '#ccc';
+                    const isTopFunction = index < 4;
+                    
+                    html += `
+                        <div style="margin-bottom: 1rem; padding: 1rem; background: white; border-radius: 8px; border-left: 4px solid ${color};">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                                <span style="font-weight: bold; color: ${color};">${func}</span>
+                                <span style="font-weight: bold; color: ${color};">${score}%</span>
+                            </div>
+                            <div style="font-size: 0.9rem; color: #666; margin-bottom: 0.5rem;">${names[func]}</div>
+                            <div style="background: #f0f0f0; border-radius: 10px; overflow: hidden; height: 20px;">
+                                <div style="background: linear-gradient(45deg, ${color}, ${color}aa); height: 100%; width: ${score}%; border-radius: 10px; transition: width 1s ease-out; animation: fillBar 1.5s ease-out ${index * 0.1}s both;"></div>
+                            </div>
+                            ${isTopFunction ? '<div style="font-size: 0.8rem; color: #ff8c00; margin-top: 0.3rem; font-weight: bold;">Top Function</div>' : ''}
+                        </div>
+                    `;
+                });
+                
+                html += '</div>';
+                
+                // Add CSS animation for bar filling
+                html += `
+                    <style>
+                        @keyframes fillBar {
+                            from { width: 0%; }
+                            to { width: var(--target-width); }
+                        }
+                    </style>
+                `;
+                
+                return html;
             }
         }
         
