@@ -102,3 +102,18 @@ const questionsEN = [
 function getEnglishQuestions() {
     return questionsEN;
 }
+
+// Fallback function for compatibility
+function getAllQuestions(lang) {
+    if (lang === 'en') {
+        return getEnglishQuestions();
+    }
+    // Return English as fallback
+    return getEnglishQuestions();
+}
+
+// Global export for direct access
+if (typeof window !== 'undefined') {
+    window.questionsEN = questionsEN;
+    window.getEnglishQuestions = getEnglishQuestions;
+}
