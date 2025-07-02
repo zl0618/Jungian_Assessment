@@ -4,128 +4,128 @@ const cognitiveFunctions = {
         name: 'Extraverted Thinking (Te)',
         description: 'Questions 1-10',
         questions: [
-            "I naturally organize external systems according to logical principles that others can verify.",
-            "My thinking gains energy when I can apply established frameworks to improve real-world efficiency.",
-            "I prefer to make decisions using objective data that exists independently of personal opinion.",
-            "I feel most intellectually satisfied when my logical analysis produces measurable external results.",
-            "I tend to evaluate ideas primarily by their practical applicability to concrete situations.",
-            "I'm drawn to creating systematic approaches that can be universally implemented.",
-            "I focus on establishing cause-and-effect relationships that can be observed in the external world.",
-            "I prefer working with concrete, demonstrable facts rather than abstract theoretical speculation.",
-            "I measure the value of thinking by how well it corresponds with objective reality.",
-            "I feel energized when I can translate logical principles into efficient external action."
+            "I like to organize things so they work better.",
+            "I make decisions based on facts everyone can see.",
+            "I prefer clear rules and systems to guide what I do.",
+            "I enjoy fixing problems in practical ways.",
+            "I want results that can be measured.",
+            "I like to plan ahead and set goals.",
+            "I feel good when things run smoothly and efficiently.",
+            "I often suggest improvements to make things work better.",
+            "I trust information that is proven and objective.",
+            "I like to be in control of projects or tasks."
         ]
     },
     'Ti': {
         name: 'Introverted Thinking (Ti)',
         description: 'Questions 11-20',
         questions: [
-            "I'm primarily concerned with developing my own internal logical framework, even if it's hard to explain to others.",
-            "I often find myself silently questioning accepted ideas, following an inner logical process that others rarely see.",
-            "I prefer to develop theories from internal hunches rather than external data, though I may struggle to justify this to others.",
-            "My thinking begins with subjective insights and returns to refine my internal understanding.",
-            "I formulate questions and create theories that emerge from my own inner logical development.",
-            "I find it difficult to express my thought processes because they follow my own internal logical sequence.",
-            "I'm more interested in the subjective logical relationships between ideas than their external applications.",
-            "I tend to be skeptical of popular ideas simply because they're generally accepted, preferring my own silent standards.",
-            "I often have clear internal convictions about logical truth that I can't easily communicate to others.",
-            "I feel most satisfied when I achieve internally consistent understanding, regardless of external validation."
+            "I often think deeply about how things work inside.",
+            "I care about whether ideas make sense to me.",
+            "I like to figure out my own way of understanding things.",
+            "I question things quietly in my mind.",
+            "I want my ideas to be clear and logical, even if others don't get them.",
+            "I enjoy solving puzzles or problems on my own.",
+            "I often notice inconsistencies in what people say.",
+            "I have high standards for what I believe is true, even if I can't explain them well.",
+            "I like to analyze things until I really understand them.",
+            "I prefer to work things out in my head before talking."
         ]
     },
     'Fe': {
         name: 'Extraverted Feeling (Fe)',
         description: 'Questions 21-30',
         questions: [
-            "I naturally attune to and respond to the emotional atmosphere of groups around me.",
-            "I feel energized when I can create harmony and positive emotional connections between people.",
-            "I tend to make decisions based on what will benefit the collective wellbeing of those involved.",
-            "I find myself naturally aware of others' emotional needs and adjusting my behavior accordingly.",
-            "I prefer to follow generally accepted values and social standards in interpersonal situations.",
-            "I feel uncomfortable when there is emotional tension or discord in my environment.",
-            "I tend to express emotions in ways that are appropriate to the social context I'm in.",
-            "I'm motivated by contributing to shared emotional experiences and collective harmony.",
-            "I naturally adapt my communication style to connect with different types of people.",
-            "I feel most fulfilled when I can help others feel emotionally valued and supported."
+            "I care about how everyone around me feels.",
+            "I want people to get along and be happy together.",
+            "I often adjust what I say to avoid hurting others.",
+            "I notice when someone is uncomfortable in a group.",
+            "I like to help people feel included.",
+            "I try to meet others' needs before my own.",
+            "I feel uneasy when there is conflict between people.",
+            "I often encourage others and boost their confidence.",
+            "I want to create harmony wherever I go.",
+            "I am sensitive to changes in the mood of a group."
         ]
     },
     'Fi': {
         name: 'Introverted Feeling (Fi)',
         description: 'Questions 31-40',
         questions: [
-            "I make decisions based on deeply held personal values that I find difficult to explain or justify to others.",
-            "I tend to have intense inner emotional reactions that remain largely invisible to the outside world.",
-            "I maintain my personal authenticity even when it conflicts with external expectations or social pressure.",
-            "I feel energized when my actions align perfectly with my individual conscience and inner moral standards.",
-            "I form deep, selective emotional connections while maintaining silent inner criteria for relationships.",
-            "I find it nearly impossible to explain my value judgments because they feel self-evidently right to me.",
-            "I'm primarily concerned with maintaining inner emotional harmony according to my personal moral compass.",
-            "I tend to be highly selective about who I allow into my inner emotional world.",
-            "I prefer to process my feelings privately before expressing them, if I express them at all.",
-            "I feel most satisfied when my outer actions perfectly reflect my inner values, even if others don't understand."
+            "I make choices based on what feels right to me inside.",
+            "I have strong personal values that are hard to explain.",
+            "I need time alone to understand my feelings.",
+            "I prefer to act in ways that match my true self.",
+            "I care deeply about a few close people.",
+            "I keep my feelings private unless I trust someone.",
+            "I feel uncomfortable pretending to be someone I'm not.",
+            "I am loyal to my beliefs even if others disagree.",
+            "I notice when something goes against my inner values.",
+            "I want my actions to be true to who I am."
         ]
     },
     'Se': {
         name: 'Extraverted Sensation (Se)',
         description: 'Questions 41-50',
         questions: [
-            "I'm naturally drawn to rich, immediate sensory experiences in my present environment.",
-            "I feel most alive when I'm actively engaged with concrete reality in real-time.",
-            "I tend to notice and respond quickly to changes and opportunities in my physical surroundings.",
-            "I'm energized by hands-on, interactive experiences with tangible objects and situations.",
-            "I prefer to learn through direct sensory experience rather than theoretical instruction.",
-            "I find myself naturally aware of aesthetic details like colors, textures, and spatial arrangements.",
-            "I tend to trust information that comes through my direct, immediate sensory observation.",
-            "I'm motivated by opportunities to have new and varied physical experiences.",
-            "I naturally adapt my behavior to match the immediate concrete demands of the situation.",
-            "I feel most satisfied when I can fully engage my senses in present-moment activities."
+            "I notice what's happening around me right away.",
+            "I like to experience new sights, sounds, and tastes.",
+            "I am quick to react to changes in my environment.",
+            "I enjoy activities that are hands-on and physical.",
+            "I trust what I see and hear directly.",
+            "I like to live in the moment.",
+            "I am drawn to excitement and action.",
+            "I often notice details others miss.",
+            "I like to try new things just for the experience.",
+            "I feel best when I'm fully engaged with the world."
         ]
     },
     'Si': {
         name: 'Introverted Sensation (Si)',
         description: 'Questions 51-60',
         questions: [
-            "I tend to compare new experiences with my internal catalog of past sensory memories, each uniquely colored by my subjective response.",
-            "I'm naturally aware of subtle changes in my internal bodily sensations and their unique subjective quality.",
-            "My past experiences seem to possess a timeless quality that continuously colors and influences my present perception.",
-            "I focus more on my subjective response to stimuli than the objective qualities of the stimuli themselves.",
-            "I tend to notice discrepancies between my inner sense of how things should feel and external reality.",
-            "I'm energized by preserving and maintaining the subjective quality of meaningful sensory experiences.",
-            "I prefer to process sensory information slowly, allowing my unique internal response to fully develop.",
-            "I have strong preferences for specific sensory experiences based on their personal, subjective meaning to me.",
-            "My sensory perceptions are heavily influenced by my internal subjective state rather than objective properties.",
-            "Current experiences often seem to exist in a mythological world where objects carry deeper, more personal significance than their surface reality."
+            "I compare new experiences to memories from my past.",
+            "I remember details about things that matter to me.",
+            "My past experiences affect how I see things now.",
+            "I like routines that make me feel comfortable.",
+            "I notice when something feels different from what I'm used to.",
+            "I am sensitive to changes in my body or surroundings.",
+            "I prefer familiar places and activities.",
+            "I have strong likes and dislikes for certain foods, smells, or sounds.",
+            "I often think about how things used to be.",
+            "Some experiences feel timeless and stay with me for years."
         ]
     },
     'Ne': {
         name: 'Extraverted Intuition (Ne)',
         description: 'Questions 61-70',
         questions: [
-            "I naturally see multiple possibilities and potential outcomes emerging from any external situation.",
-            "I feel energized when I can explore new connections between different ideas and external concepts.",
-            "I tend to focus on what could emerge or develop from current external circumstances.",
-            "I'm drawn to brainstorming and generating creative alternatives in collaboration with others.",
-            "I prefer to keep my options open rather than commit to a single predetermined external path.",
-            "I find myself naturally seeing patterns and relationships in the external world that others might miss.",
-            "I'm motivated by the potential for innovation and change in external systems and situations.",
-            "I tend to become excited about new external possibilities but may struggle with practical follow-through.",
-            "I naturally encourage others to consider alternative perspectives and unexplored external options.",
-            "I feel most satisfied when I can inspire others to see new possibilities and potentials in their environment."
+            "I see lots of possibilities in every situation.",
+            "I get excited by new ideas and opportunities.",
+            "I often connect things that seem unrelated.",
+            "I enjoy brainstorming and coming up with creative solutions.",
+            "I like to imagine how things could be different.",
+            "I am open to change and new experiences.",
+            "I enjoy exploring new topics and interests.",
+            "I often have many ideas at once.",
+            "I like to inspire others with new ways of thinking.",
+            "I feel energized by thinking about the future."
         ]
     },
     'Ni': {
         name: 'Introverted Intuition (Ni)',
         description: 'Questions 71-80',
         questions: [
-            "I tend to receive sudden insights about archetypal patterns and symbolic meanings underlying experiences.",
-            "I'm naturally drawn to understanding the universal, symbolic elements that govern life and human experience.",
-            "I find myself having inner visions or clear symbolic images of how deeper patterns will unfold.",
-            "I prefer to focus deeply on developing one central archetypal insight rather than exploring many surface options.",
-            "I tend to synthesize complex information into unified, symbolic understandings that feel timeless and universal.",
-            "I'm energized by pursuing a single, meaningful direction that feels connected to archetypal or eternal patterns.",
-            "I feel compulsively driven by inner images and visions that demand to be understood and expressed.",
-            "I find it difficult to explain my insights because they come as complete, symbolic wholes rather than logical sequences.",
-            "I tend to be future-focused, sensing archetypal patterns that will emerge from current unconscious processes.",
-            "These inner archetypal visions sometimes feel so compelling that they become more real to me than external circumstances."
+            "I often have sudden insights or \"aha\" moments.",
+            "I think about the deeper meaning behind things.",
+            "I trust my gut feelings about what will happen.",
+            "I focus on one main idea or vision at a time.",
+            "I like to find the hidden patterns in life.",
+            "I am drawn to symbols, dreams, or stories with deeper meaning.",
+            "Sometimes, I feel driven by strong inner images or visions.",
+            "I find it hard to explain my insights to others.",
+            "I often sense what's coming before it happens.",
+            "My imagination feels more real than the outside world at times."
         ]
     }
 };

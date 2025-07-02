@@ -9,12 +9,12 @@ if (typeof typeDescriptions !== 'undefined') {
 }
 console.log('================================');
 
-// Emergency fallback type descriptions
+// Emergency fallback type descriptions - Complete detailed versions
 const fallbackTypeDescriptions = {
     'NITE': {
         description: {
-            en: "These types are guided by profound, often symbolic inner images and archetypal patterns. Their orientation to life is visionary: they sense the underlying currents and inevitable directions of events, often long before others do. This \"inner seeing\" is not vague fantasy, but a focused, almost prophetic perception of what is to come, which they strive to realize through effective, objective action.",
-            zh: "這些類型被深刻的、通常是象徵性的內在圖像和原型模式所引導。他們對生活的取向是有遠見的：他們感知到事件的潛在趨勢和不可避免的方向，通常遠早於其他人。"
+            en: "These types are guided by profound, often symbolic inner images and archetypal patterns. Their orientation to life is visionary: they sense the underlying currents and inevitable directions of events, often long before others do. This \"inner seeing\" is not vague fantasy, but a focused, almost prophetic perception of what is to come, which they strive to realize through effective, objective action. Their auxiliary extraverted thinking gives them a practical, systematic approach to manifesting their visions—they are not content to dream, but must bring order and structure to the world in accordance with what they have foreseen. They may appear enigmatic, intense, or even aloof, as their attention is so often absorbed by the compelling reality of their inner world. They are often misunderstood, as their motivations are shaped by images and meanings that are difficult to articulate. In adaptation, they excel at long-term strategy, innovation, and transformation, but may struggle with the demands of the present moment or with the emotional needs of others.",
+            zh: "這些類型被深刻的、通常是象徵性的內在圖像和原型模式所引導。他們對生活的取向是有遠見的：他們感知到事件的潛在趨勢和不可避免的方向，通常遠早於其他人。這種「內在視野」不是模糊的幻想，而是對即將到來的事物的專注、幾乎是預言性的感知，他們努力通過有效、客觀的行動來實現。他們的輔助外向思考為他們提供了實現願景的實用、系統化方法——他們不滿足於夢想，而必須根據他們所預見的為世界帶來秩序和結構。他們可能顯得神秘、強烈，甚至冷漠，因為他們的注意力經常被內心世界的引人入勝的現實所吸引。他們經常被誤解，因為他們的動機是由難以表達的形象和意義所塑造的。在適應中，他們擅長於長期戰略、創新和轉型，但可能在應對當前時刻的需求或他人的情感需求時掙扎。"
         },
         mostSimilar: {
             en: "NIFE (shares Ni dominance, but with a focus on harmony and empathy)",
@@ -24,8 +24,231 @@ const fallbackTypeDescriptions = {
             en: "SEFI (Se-Fi axis: present-focused, authentic, and attuned to immediate experience, balancing Ni-Te's future orientation and abstraction)",
             zh: "SEFI (Se-Fi軸：專注於當下、真實、並與即時體驗相連，平衡Ni-Te的未來導向和抽象性)"
         }
+    },
+    'SITE': {
+        description: {
+            en: "SITE types are practical, reliable, and tradition-minded. Their dominant introverted sensation gives them a rich, subjective connection to the past, while their auxiliary extraverted thinking enables them to implement proven methods efficiently. They value stability, order, and continuity, and are often found in roles that require careful management, preservation, or stewardship. They may resist change or novelty, preferring what is tried and true, but their dependability and attention to detail are strengths.",
+            zh: "SITE類型實用、可靠、傳統導向。他們的主導內向感覺給了他們與過去豐富、主觀的聯繫，而他們的輔助外向思考使他們能夠有效地實施經過驗證的方法。他們重視穩定、秩序和連續性，經常在需要仔細管理、保護或管理的角色中被發現。他們可能抗拒變化或新奇，偏好經過嘗試和驗證的東西，但他們的可靠性和對細節的關注是優勢。"
+        },
+        mostSimilar: {
+            en: "SIFE (shares Si dominance, but focuses on harmony and relationships)",
+            zh: "SIFE (共享Si主導，但專注於和諧與關係)"
+        },
+        mostComplementary: {
+            en: "NEFI (Ne-Fi axis: open, imaginative, and possibility-oriented, balancing SITE's conservatism and practicality)",
+            zh: "NEFI (Ne-Fi軸：開放、富有想像力、可能性導向，平衡SITE的保守主義和實用性)"
+        }
+    },
+    'NIFE': {
+        description: {
+            en: "NIFE types are deeply attuned to the symbolic and archetypal meaning of life, but their insights are expressed through empathy, diplomacy, and a desire to inspire or guide others. They often have a sense of personal destiny or calling, and seek to harmonize groups or communities around a vision that feels both inevitable and meaningful. Their auxiliary extraverted feeling makes them sensitive to the emotional climate and needs of others, and they may become the \"conscience\" or \"prophet\" of their circle. They are often reserved or mysterious, as their perceptions are difficult to translate into everyday language, but they radiate a quiet conviction and warmth. They may struggle when their inner vision is misunderstood or when they feel disconnected from collective values.",
+            zh: "NIFE類型深深地調節於生活的象徵和原型意義，但他們的洞察通過同理心、外交和激勵或指導他人的願望來表達。他們經常有個人命運或使命感，並尋求圍繞一個既不可避免又有意義的願景來協調群體或社區。他們的輔助外向情感使他們對他人的情感氣候和需求敏感，並且可能成為他們圈子的「良心」或「先知」。他們經常保持內斂或神秘，因為他們的感知難以轉化為日常語言，但他們散發出平靜的信念和溫暖。當他們的內在視野被誤解或感到與集體價值觀脫節時，他們可能會掙扎。"
+        },
+        mostSimilar: {
+            en: "NITE (shares Ni dominance, but with a practical, logical bent)",
+            zh: "NITE (共享Ni主導，但具有實用、邏輯傾向)"
+        },
+        mostComplementary: {
+            en: "SEFI (Se-Fi axis: authentic, present, and spontaneous, offering a grounding counterpoint to NIFE's abstraction and future focus)",
+            zh: "SEFI (Se-Fi軸：真實、當下、自發，為NIFE的抽象和未來焦點提供基礎對比)"
+        }
+    },
+    'NEFI': {
+        description: {
+            en: "NEFI types are open, imaginative, and constantly scanning the external world for new possibilities, patterns, and connections. Their dominant extraverted intuition gives them a restless curiosity and an ability to see potential where others see only what is. Their auxiliary introverted feeling means their explorations are guided by a strong, private sense of personal value and authenticity. They are champions of individuality, both for themselves and others, and are often drawn to causes, the arts, or any field that allows creative self-expression. They may appear scattered or changeable, but their inner values provide a quiet consistency beneath their outward adaptability.",
+            zh: "NEFI類型開放、富有想像力，不斷掃描外部世界尋找新的可能性、模式和聯繫。他們的主導外向直覺給了他們不安分的好奇心，能夠在其他人只看到現實的地方看到潛力。他們的輔助內向情感意味著他們的探索由強烈、私人的個人價值感和真實性所指導。他們是個性的擁護者，無論是對自己還是對他人，經常被事業、藝術或任何允許創造性自我表達的領域所吸引。"
+        },
+        mostSimilar: {
+            en: "NETI (shares Ne dominance, but with a logical, analytical auxiliary)",
+            zh: "NETI (共享Ne主導，但具有邏輯、分析輔助)"
+        },
+        mostComplementary: {
+            en: "SITE (Si-Te axis: tradition- and fact-oriented, providing stability and practical grounding to NEFI's openness)",
+            zh: "SITE (Si-Te軸：傳統和事實導向，為NEFI的開放性提供穩定和實際基礎)"
+        }
+    },
+    'NETI': {
+        description: {
+            en: "NETI types are inventive, theoretical, and endlessly curious. Their dominant extraverted intuition drives them to explore possibilities, question assumptions, and generate new ideas, while their auxiliary introverted thinking provides a framework of internal logic and consistency. They enjoy intellectual debate, brainstorming, and systems analysis, often challenging conventional wisdom. They may sometimes seem eccentric or scattered, as their focus is on what could be rather than what is, but their thinking is original and internally coherent. They excel at innovation, but may struggle with follow-through or practical implementation.",
+            zh: "NETI類型富有創造力、理論性和無盡的好奇心。他們的主導外向直覺驅使他們探索可能性、質疑假設和產生新想法，而他們的輔助內向思考提供內在邏輯和一致性的框架。他們享受智力辯論、頭腦風暴和系統分析，經常挑戰傳統智慧。他們有時可能顯得古怪或分散，因為他們關注的是可能的事情而不是現實，但他們的思維是原創的和內在一致的。"
+        },
+        mostSimilar: {
+            en: "NEFI (shares Ne dominance, but guided by values rather than logic)",
+            zh: "NEFI (共享Ne主導，但由價值觀而非邏輯指導)"
+        },
+        mostComplementary: {
+            en: "SITE (Si-Te axis: practical, detail-oriented, and tradition-minded, balancing NETI's abstract theorizing)",
+            zh: "SITE (Si-Te軸：實用、注重細節、傳統導向，平衡NETI的抽象理論化)"
+        }
+    },
+    'TENI': {
+        description: {
+            en: "TENI types are strategic, decisive, and future-oriented. Their dominant extraverted thinking seeks to organize the external world efficiently, while their auxiliary introverted intuition provides visionary insight into long-term trends and underlying patterns. They are often found in leadership roles, where they can implement far-reaching plans and reforms. Their approach is pragmatic, systematic, and focused on results, but always informed by a sense of what is unfolding beneath the surface. They may sometimes neglect emotional or immediate concerns in pursuit of their vision, and can appear forceful or impersonal.",
+            zh: "TENI類型具有戰略性、決斷力和未來導向。他們的主導外向思考尋求有效地組織外部世界，而他們的輔助內向直覺提供對長期趨勢和潛在模式的遠見洞察。他們經常擔任領導角色，能夠實施深遠的計劃和改革。他們的方法是務實的、系統化的，專注於結果，但總是基於對表面下正在展開的事物的感知。"
+        },
+        mostSimilar: {
+            en: "TESI (shares Te dominance, but grounded in tradition and detail)",
+            zh: "TESI (共享Te主導，但植根於傳統和細節)"
+        },
+        mostComplementary: {
+            en: "FINE (Fi-Ne axis: values-driven, open to possibilities, and attuned to authenticity, offering a counterbalance to TENI's objectivity and structure)",
+            zh: "FINE (Fi-Ne軸：價值觀驅動、對可能性開放、調節真實性，為TENI的客觀性和結構提供平衡)"
+        }
+    },
+    'FENI': {
+        description: {
+            en: "FENI types are empathetic, charismatic, and guided by a profound sense of collective meaning.",
+            zh: "FENI類型富有同理心、魅力，並被深刻的集體意義感所指導。"
+        },
+        mostSimilar: {
+            en: "FESI (shares Fe dominance, but more tradition- and detail-oriented)",
+            zh: "FESI (共享Fe主導，但更傳統和細節導向)"
+        },
+        mostComplementary: {
+            en: "TINE (Ti-Ne axis: independent, analytical, and theoretical)",
+            zh: "TINE (Ti-Ne軸：獨立、分析、理論)"
+        }
+    },
+    'FINE': {
+        description: {
+            en: "FINE types are deeply individualistic, creative, and guided by an inner sense of authenticity.",
+            zh: "FINE類型深度個人主義、創造性，並被內在的真實感所指導。"
+        },
+        mostSimilar: {
+            en: "FISE (shares Fi dominance, but with a focus on sensory experience)",
+            zh: "FISE (共享Fi主導，但專注於感官體驗)"
+        },
+        mostComplementary: {
+            en: "TENI (Te-Ni axis: objective, strategic, and results-oriented)",
+            zh: "TENI (Te-Ni軸：客觀、戰略、結果導向)"
+        }
+    },
+    'TINE': {
+        description: {
+            en: "TINE types are analytical, independent, and theoretical.",
+            zh: "TINE類型分析性、獨立、理論性。"
+        },
+        mostSimilar: {
+            en: "TISE (shares Ti dominance, but is more practical and sensory-focused)",
+            zh: "TISE (共享Ti主導，但更實用和感官導向)"
+        },
+        mostComplementary: {
+            en: "FENI (Fe-Ni axis: empathetic, visionary, and group-oriented)",
+            zh: "FENI (Fe-Ni軸：同理心、遠見、群體導向)"
+        }
+    },
+    'SITE': {
+        description: {
+            en: "SITE types are practical, reliable, and tradition-minded.",
+            zh: "SITE類型實用、可靠、傳統導向。"
+        },
+        mostSimilar: {
+            en: "SIFE (shares Si dominance, but focuses on harmony and relationships)",
+            zh: "SIFE (共享Si主導，但專注於和諧與關係)"
+        },
+        mostComplementary: {
+            en: "NEFI (Ne-Fi axis: open, imaginative, and possibility-oriented)",
+            zh: "NEFI (Ne-Fi軸：開放、富有想像力、可能性導向)"
+        }
+    },
+    'SIFE': {
+        description: {
+            en: "SIFE types are nurturing, loyal, and community-oriented.",
+            zh: "SIFE類型關懷、忠誠、社區導向。"
+        },
+        mostSimilar: {
+            en: "SITE (shares Si dominance, but focuses on efficiency and structure)",
+            zh: "SITE (共享Si主導，但專注於效率和結構)"
+        },
+        mostComplementary: {
+            en: "NEFI (Ne-Fi axis: creative, open, and authenticity-oriented)",
+            zh: "NEFI (Ne-Fi軸：創造性、開放、真實性導向)"
+        }
+    },
+    'SEFI': {
+        description: {
+            en: "SEFI types are spontaneous, authentic, and immersed in the present moment.",
+            zh: "SEFI類型自發、真實，沉浸在當下時刻。"
+        },
+        mostSimilar: {
+            en: "SETI (shares Se dominance, but with a logical, analytical auxiliary)",
+            zh: "SETI (共享Se主導，但具有邏輯、分析輔助)"
+        },
+        mostComplementary: {
+            en: "NITE (Ni-Te axis: visionary, strategic, and future-focused)",
+            zh: "NITE (Ni-Te軸：遠見、戰略、未來焦點)"
+        }
+    },
+    'SETI': {
+        description: {
+            en: "SETI types are practical, observant, and hands-on.",
+            zh: "SETI類型實用、觀察力強、動手能力強。"
+        },
+        mostSimilar: {
+            en: "SEFI (shares Se dominance, but with a values-driven auxiliary)",
+            zh: "SEFI (共享Se主導，但具有價值觀驅動的輔助)"
+        },
+        mostComplementary: {
+            en: "NIFE (Ni-Fe axis: visionary, empathetic, and future-oriented)",
+            zh: "NIFE (Ni-Fe軸：遠見、同理心、未來導向)"
+        }
+    },
+    'TESI': {
+        description: {
+            en: "TESI types are organized, disciplined, and pragmatic.",
+            zh: "TESI類型有組織、有紀律、實用。"
+        },
+        mostSimilar: {
+            en: "TENI (shares Te dominance, but is more visionary and abstract)",
+            zh: "TENI (共享Te主導，但更有遠見和抽象)"
+        },
+        mostComplementary: {
+            en: "FINE (Fi-Ne axis: authentic, open, and possibilities-focused)",
+            zh: "FINE (Fi-Ne軸：真實、開放、可能性焦點)"
+        }
+    },
+    'FESI': {
+        description: {
+            en: "FESI types are warm, supportive, and tradition-oriented.",
+            zh: "FESI類型溫暖、支持、傳統導向。"
+        },
+        mostSimilar: {
+            en: "FENI (shares Fe dominance, but is more visionary and abstract)",
+            zh: "FENI (共享Fe主導，但更有遠見和抽象)"
+        },
+        mostComplementary: {
+            en: "TINE (Ti-Ne axis: analytical, independent, and theoretical)",
+            zh: "TINE (Ti-Ne軸：分析、獨立、理論)"
+        }
+    },
+    'FISE': {
+        description: {
+            en: "FISE types are authentic, passionate, and attuned to the sensory world.",
+            zh: "FISE類型真實、熱情，調節於感官世界。"
+        },
+        mostSimilar: {
+            en: "FINE (shares Fi dominance, but is more imaginative and future-focused)",
+            zh: "FINE (共享Fi主導，但更富有想像力和未來焦點)"
+        },
+        mostComplementary: {
+            en: "TENI (Te-Ni axis: objective, strategic, and results-oriented)",
+            zh: "TENI (Te-Ni軸：客觀、戰略、結果導向)"
+        }
+    },
+    'TISE': {
+        description: {
+            en: "TISE types are analytical, precise, and hands-on.",
+            zh: "TISE類型分析性、精確、動手能力強。"
+        },
+        mostSimilar: {
+            en: "TINE (shares Ti dominance, but is more theoretical and imaginative)",
+            zh: "TINE (共享Ti主導，但更理論和富有想像力)"
+        },
+        mostComplementary: {
+            en: "FENI (Fe-Ni axis: empathetic, visionary, and group-oriented)",
+            zh: "FENI (Fe-Ni軸：同理心、遠見、群體導向)"
+        }
     }
-    // Add more types as needed
 };
 
 function getFallbackTypeDescription(type, currentLanguage) {
@@ -87,174 +310,209 @@ class WebJungianAssessment {
     }
     
     getDefaultQuestions(lang) {
-        const functions = ['Te', 'Ti', 'Fe', 'Fi', 'Se', 'Si', 'Ne', 'Ni'];
         const questions = [];
         
-        const questionTemplates = {
-            en: {
-                Te: [
-                    "I naturally organize external systems according to logical principles that others can verify.",
-                    "My thinking gains energy when I can apply established frameworks to improve real-world efficiency.",
-                    "I tend to make decisions using objective data that is independent of personal opinions.",
-                    "I am most intellectually satisfied when my logical analysis produces measurable external results.",
-                    "I tend to evaluate ideas primarily based on their practical applicability to concrete situations.",
-                    "I am inclined to create systematized approaches that can be universally implemented.",
-                    "I focus on establishing cause-and-effect relationships that can be observed in the external world."
-                ],
-                Ti: [
-                    "I am primarily concerned with developing my own internal logical framework, even if it's difficult to explain to others.",
-                    "I often find myself silently questioning accepted ideas, following inner logical processes that others rarely see.",
-                    "I tend to develop theories from internal intuition rather than external data, though I may struggle to prove this to others.",
-                    "My thinking begins with subjective insights and returns to refining my internal understanding.",
-                    "I formulate problems and create theories that emerge from my own internal logical development.",
-                    "I find it difficult to articulate my thought processes because they follow my own internal logical sequences.",
-                    "I am more interested in the subjective logical relationships between ideas than their external applications."
-                ],
-                Fe: [
-                    "I naturally attune to and respond to the emotional atmosphere of the groups around me.",
-                    "I feel energized when I can create harmony and positive emotional connections between people.",
-                    "I tend to make decisions based on what will benefit the collective well-being of those involved.",
-                    "I find myself naturally perceiving others' emotional needs and adjusting my behavior accordingly.",
-                    "I prefer to follow universally accepted values and social standards in interpersonal relationships.",
-                    "I feel uncomfortable when there is emotional tension or discord in my environment.",
-                    "I tend to express emotions in ways that are appropriate to the social context I'm in."
-                ],
-                Fi: [
-                    "I make decisions based on deeply personal values that I find difficult to explain or justify to others.",
-                    "I tend to have strong internal emotional reactions that are largely invisible to the outside world.",
-                    "I maintain my personal authenticity even when it conflicts with external expectations or social pressure.",
-                    "I feel energized when my actions are in complete alignment with my personal conscience and inner moral standards.",
-                    "I form deep, selective emotional connections while maintaining silent inner standards for relationships.",
-                    "I find it nearly impossible to explain my value judgments because they feel self-evidently right to me.",
-                    "I am primarily concerned with maintaining inner emotional harmony according to my personal moral compass."
-                ],
-                Se: [
-                    "I am naturally drawn to rich, immediate sensory experiences in my current environment.",
-                    "I feel most alive when I am actively engaged with concrete reality in real-time.",
-                    "I tend to notice and quickly respond to changes and opportunities in my physical environment.",
-                    "I gain energy through hands-on interaction with tangible objects and situations.",
-                    "I prefer learning through direct sensory experience rather than theoretical instruction.",
-                    "I find myself naturally noticing aesthetic details like colors, textures, and spatial arrangements.",
-                    "I tend to trust information gained through my direct, immediate sensory observations."
-                ],
-                Si: [
-                    "I tend to compare new experiences against my internal catalog of past sensory memories, each uniquely colored by my subjective reactions.",
-                    "I naturally notice subtle changes in my internal bodily sensations and their distinctive subjective qualities.",
-                    "My past experiences seem to have a timeless quality that continuously colors and influences my current perceptions.",
-                    "I am more concerned with my subjective response to stimuli than the objective qualities of the stimuli themselves.",
-                    "I tend to notice discrepancies between how I internally sense things should feel versus external reality.",
-                    "I gain energy through preserving and maintaining the subjective qualities of meaningful sensory experiences.",
-                    "I prefer to process sensory information slowly, allowing my unique internal reactions to fully develop."
-                ],
-                Ne: [
-                    "I naturally see multiple possibilities and potential outcomes emerging from any external situation.",
-                    "I feel energized when I can explore new connections between different ideas and external concepts.",
-                    "I tend to focus on what might emerge or develop from current external circumstances.",
-                    "I am drawn to collaborating with others in brainstorming and generating creative alternatives.",
-                    "I prefer to keep my options open rather than committing to a single predetermined external path.",
-                    "I find myself naturally seeing patterns and relationships in the external world that others might miss.",
-                    "I am motivated by the potential for innovation and transformation in external systems and situations."
-                ],
-                Ni: [
-                    "I tend to receive sudden insights about archetypal patterns and symbolic meanings behind experiences.",
-                    "I am naturally drawn to understanding universal, symbolic elements that govern life and human experience.",
-                    "I find myself having internal visions or clear symbolic images about how deeper patterns will unfold.",
-                    "I prefer to develop one central archetypal insight deeply rather than exploring many surface options.",
-                    "I tend to synthesize complex information into unified, symbolic understanding that feels timeless and universal.",
-                    "I gain energy through pursuing a single, meaningful direction that feels connected to archetypal or eternal patterns.",
-                    "I feel compulsively driven by internal images and visions that demand to be understood and expressed."
-                ]
-            },
-            zh: {
-                Te: [
-                    "我自然地根據他人可以驗證的邏輯原則來組織外部系統。",
-                    "當我能將既定框架應用於改善現實世界的效率時，我的思維會獲得能量。",
-                    "我傾向於使用獨立於個人意見的客觀數據來做決定。",
-                    "當我的邏輯分析產生可測量的外部結果時，我在智力上最感滿足。",
-                    "我傾向於主要根據想法對具體情況的實際適用性來評估想法。",
-                    "我傾向於創建可以普遍實施的系統化方法。",
-                    "我專注於建立可以在外部世界中觀察到的因果關係。"
-                ],
-                Ti: [
-                    "我主要關心發展自己的內在邏輯框架，即使很難向他人解釋。",
-                    "我經常發現自己默默質疑被接受的想法，遵循他人很少看到的內在邏輯過程。",
-                    "我傾向於從內在直覺而非外部數據發展理論，儘管我可能難以向他人證明這一點。",
-                    "我的思維始於主觀洞察，並回歸於完善我的內在理解。",
-                    "我制定問題並創建從我自己內在邏輯發展中產生的理論。",
-                    "我發現很難表達我的思維過程，因為它們遵循我自己的內在邏輯序列。",
-                    "我對想法之間的主觀邏輯關係比它們的外在應用更感興趣。"
-                ],
-                Fe: [
-                    "我自然地調節並回應周圍群體的情感氛圍。",
-                    "當我能在人與人之間創造和諧和積極的情感聯繫時，我感到精力充沛。",
-                    "我傾向於根據什麼能使相關人員的集體福祉受益來做決定。",
-                    "我發現自己自然地察覺他人的情感需求並相應地調整我的行為。",
-                    "我偏好在人際關係中遵循普遍接受的價值觀和社會標準。",
-                    "當我的環境中存在情感緊張或不和諧時，我感到不舒服。",
-                    "我傾向於以適合我所處社會環境的方式表達情感。"
-                ],
-                Fi: [
-                    "我根據我發現難以向他人解釋或證明的深層個人價值觀做決定。",
-                    "我傾向於有強烈的內在情感反應，這些反應在很大程度上對外界是不可見的。",
-                    "即使與外部期望或社會壓力衝突，我也會保持我的個人真實性。",
-                    "當我的行為與我的個人良心和內在道德標準完全一致時，我感到精力充沛。",
-                    "我建立深層、選擇性的情感聯繫，同時保持對關係的無聲內在標準。",
-                    "我發現幾乎不可能解釋我的價值判斷，因為它們對我來說感覺是不言而喻的正確。",
-                    "我主要關心根據我個人的道德指南針維持內在情感和諧。"
-                ],
-                Se: [
-                    "我自然地被當前環境中豐富、即時的感官體驗所吸引。",
-                    "當我積極參與實時的具體現實時，我感到最有活力。",
-                    "我傾向於注意並快速回應我身體環境中的變化和機會。",
-                    "我通過與有形物體和情況的實際互動體驗而獲得能量。",
-                    "我偏好通過直接感官體驗而非理論指導來學習。",
-                    "我發現自己自然地察覺美學細節，如顏色、質地和空間安排。",
-                    "我傾向於信任通過我直接、即時感官觀察獲得的信息。"
-                ],
-                Si: [
-                    "我傾向於將新體驗與我內在的過去感官記憶目錄進行比較，每個記憶都被我的主觀反應獨特地著色。",
-                    "我自然地察覺我內在身體感覺的細微變化及其獨特的主觀品質。",
-                    "我的過去體驗似乎具有永恆的品質，持續地著色並影響我當前的感知。",
-                    "我更關注我對刺激的主觀反應，而不是刺激本身的客觀品質。",
-                    "我傾向於注意我內在感覺事物應該如何感覺與外部現實之間的差異。",
-                    "我通過保存和維持有意義感官體驗的主觀品質而獲得能量。",
-                    "我偏好緩慢地處理感官信息，讓我獨特的內在反應充分發展。"
-                ],
-                Ne: [
-                    "我自然地看到從任何外部情況中出現的多種可能性和潛在結果。",
-                    "當我能探索不同想法和外部概念之間的新聯繫時，我感到精力充沛。",
-                    "我傾向於關注當前外部環境中可能出現或發展的東西。",
-                    "我被與他人合作進行頭腦風暴和產生創意替代方案所吸引。",
-                    "我偏好保持我的選擇開放，而不是承諾單一的預定外部路徑。",
-                    "我發現自己自然地看到外部世界中他人可能錯過的模式和關係。",
-                    "我受到外部系統和情況中創新和變革潛力的激勵。"
-                ],
-                Ni: [
-                    "我傾向於接收關於體驗背後原型模式和象徵意義的突然洞察。",
-                    "我自然地被理解支配生活和人類體驗的普遍、象徵元素所吸引。",
-                    "我發現自己有內在願景或清晰的象徵圖像，關於更深層模式將如何展開。",
-                    "我偏好深度發展一個中心原型洞察，而不是探索許多表面選項。",
-                    "我傾向於將複雜信息綜合為統一的、象徵性的理解，感覺永恆和普遍。",
-                    "我通過追求感覺與原型或永恆模式相連的單一、有意義的方向而獲得能量。",
-                    "我感到被內在圖像和願景強迫性地驅動，這些圖像和願景要求被理解和表達。"
-                ]
-            }
-        };
-        
-        const templates = questionTemplates[lang] || questionTemplates.en;
-        
-        functions.forEach(func => {
-            const funcTemplates = templates[func] || templates.Te;
-            funcTemplates.forEach((text, index) => {
-                questions.push({
-                    id: `${func}_${index + 1}`,
-                    text: text,
-                    function: func
-                });
-            });
-        });
-        
-        return questions;
+        if (lang === 'zh') {
+            // Chinese questions - 80 questions total (10 per function)
+            const chineseQuestions = [
+                // EXTRAVERTED THINKING (Te) – Questions 1-10
+                { id: 'Te_1', text: '我喜歡把事情整理得更有效率。', function: 'Te' },
+                { id: 'Te_2', text: '我做決定時會根據大家都能看到的事實。', function: 'Te' },
+                { id: 'Te_3', text: '我比較喜歡有明確規則和系統來指引我。', function: 'Te' },
+                { id: 'Te_4', text: '我喜歡用實際的方法解決問題。', function: 'Te' },
+                { id: 'Te_5', text: '我希望看到可以衡量的成果。', function: 'Te' },
+                { id: 'Te_6', text: '我喜歡事先計畫並設定目標。', function: 'Te' },
+                { id: 'Te_7', text: '當事情順利有效地進行時，我會感到很滿意。', function: 'Te' },
+                { id: 'Te_8', text: '我常常提出改進建議讓事情做得更好。', function: 'Te' },
+                { id: 'Te_9', text: '我信任那些被證實且客觀的資訊。', function: 'Te' },
+                { id: 'Te_10', text: '我喜歡掌控專案或任務的進行。', function: 'Te' },
+
+                // INTROVERTED THINKING (Ti) – Questions 11-20
+                { id: 'Ti_1', text: '我常常深入思考事情內部的運作方式。', function: 'Ti' },
+                { id: 'Ti_2', text: '我在意想法對我來說是否合理。', function: 'Ti' },
+                { id: 'Ti_3', text: '我喜歡用自己的方式理解事物。', function: 'Ti' },
+                { id: 'Ti_4', text: '我會在心裡默默質疑事情。', function: 'Ti' },
+                { id: 'Ti_5', text: '我希望自己的想法清楚且有邏輯，即使別人不懂也沒關係。', function: 'Ti' },
+                { id: 'Ti_6', text: '我喜歡自己解決謎題或問題。', function: 'Ti' },
+                { id: 'Ti_7', text: '我常常注意到別人說話中的矛盾。', function: 'Ti' },
+                { id: 'Ti_8', text: '我對自己認為正確的事情有很高的標準，即使我不太會解釋。', function: 'Ti' },
+                { id: 'Ti_9', text: '我喜歡分析事情直到我真正理解為止。', function: 'Ti' },
+                { id: 'Ti_10', text: '我喜歡先在腦中想清楚再說出來。', function: 'Ti' },
+
+                // EXTRAVERTED FEELING (Fe) – Questions 21-30
+                { id: 'Fe_1', text: '我很在意身邊每個人的感受。', function: 'Fe' },
+                { id: 'Fe_2', text: '我希望大家能和睦相處、一起快樂。', function: 'Fe' },
+                { id: 'Fe_3', text: '我經常調整自己的話語以避免傷害別人。', function: 'Fe' },
+                { id: 'Fe_4', text: '當有人在團體中不自在時，我會察覺到。', function: 'Fe' },
+                { id: 'Fe_5', text: '我喜歡讓大家都有參與感。', function: 'Fe' },
+                { id: 'Fe_6', text: '我會優先考慮別人的需求。', function: 'Fe' },
+                { id: 'Fe_7', text: '當人與人之間有衝突時，我會感到不安。', function: 'Fe' },
+                { id: 'Fe_8', text: '我常常鼓勵別人並提升他們的自信心。', function: 'Fe' },
+                { id: 'Fe_9', text: '我希望無論到哪裡都能帶來和諧。', function: 'Fe' },
+                { id: 'Fe_10', text: '我對團體氣氛的變化很敏感。', function: 'Fe' },
+
+                // INTROVERTED FEELING (Fi) – Questions 31-40
+                { id: 'Fi_1', text: '我會根據內心覺得對的事情做選擇。', function: 'Fi' },
+                { id: 'Fi_2', text: '我有很強烈但難以解釋的個人價值觀。', function: 'Fi' },
+                { id: 'Fi_3', text: '我需要獨處來了解自己的感受。', function: 'Fi' },
+                { id: 'Fi_4', text: '我喜歡以符合真實自我的方式行動。', function: 'Fi' },
+                { id: 'Fi_5', text: '我非常在乎少數幾個親近的人。', function: 'Fi' },
+                { id: 'Fi_6', text: '除非我很信任對方，否則我會把感受藏在心裡。', function: 'Fi' },
+                { id: 'Fi_7', text: '假裝成不是自己的樣子會讓我不自在。', function: 'Fi' },
+                { id: 'Fi_8', text: '即使別人不同意，我也會堅持自己的信念。', function: 'Fi' },
+                { id: 'Fi_9', text: '當某事違背我的內心價值時，我會察覺到。', function: 'Fi' },
+                { id: 'Fi_10', text: '我希望自己的行為能忠於自我。', function: 'Fi' },
+
+                // EXTRAVERTED SENSING (Se) – Questions 41-50
+                { id: 'Se_1', text: '我會立刻注意到周圍發生的事情。', function: 'Se' },
+                { id: 'Se_2', text: '我喜歡體驗新的景象、聲音和味道。', function: 'Se' },
+                { id: 'Se_3', text: '我對環境的變化反應很快。', function: 'Se' },
+                { id: 'Se_4', text: '我喜歡動手和需要身體參與的活動。', function: 'Se' },
+                { id: 'Se_5', text: '我相信自己直接看到和聽到的東西。', function: 'Se' },
+                { id: 'Se_6', text: '我喜歡活在當下。', function: 'Se' },
+                { id: 'Se_7', text: '我喜歡刺激和行動。', function: 'Se' },
+                { id: 'Se_8', text: '我常常注意到別人沒發現的細節。', function: 'Se' },
+                { id: 'Se_9', text: '我喜歡嘗試新事物，只為了體驗。', function: 'Se' },
+                { id: 'Se_10', text: '當我全心投入現實世界時，我感覺最好。', function: 'Se' },
+
+                // INTROVERTED SENSING (Si) – Questions 51-60
+                { id: 'Si_1', text: '我會把新體驗和過去的記憶做比較。', function: 'Si' },
+                { id: 'Si_2', text: '我會記住對我重要事情的細節。', function: 'Si' },
+                { id: 'Si_3', text: '我的過去經歷會影響我現在的看法。', function: 'Si' },
+                { id: 'Si_4', text: '我喜歡讓我感到安心的日常習慣。', function: 'Si' },
+                { id: 'Si_5', text: '當某事和我習慣的不同時，我會察覺到。', function: 'Si' },
+                { id: 'Si_6', text: '我對身體或環境的變化很敏感。', function: 'Si' },
+                { id: 'Si_7', text: '我偏好熟悉的地方和活動。', function: 'Si' },
+                { id: 'Si_8', text: '我對某些食物、氣味或聲音有很強烈的好惡。', function: 'Si' },
+                { id: 'Si_9', text: '我常常回想以前的事情。', function: 'Si' },
+                { id: 'Si_10', text: '有些經歷讓我覺得很永恆，會記很久。', function: 'Si' },
+
+                // EXTRAVERTED INTUITION (Ne) – Questions 61-70
+                { id: 'Ne_1', text: '我在每種情況下都能看到很多可能性。', function: 'Ne' },
+                { id: 'Ne_2', text: '新的想法和機會會讓我很興奮。', function: 'Ne' },
+                { id: 'Ne_3', text: '我常常把看似無關的事物聯繫起來。', function: 'Ne' },
+                { id: 'Ne_4', text: '我喜歡集思廣益並想出創意解決方法。', function: 'Ne' },
+                { id: 'Ne_5', text: '我喜歡想像事情可能有什麼不同。', function: 'Ne' },
+                { id: 'Ne_6', text: '我樂於接受改變和新體驗。', function: 'Ne' },
+                { id: 'Ne_7', text: '我喜歡探索新主題和興趣。', function: 'Ne' },
+                { id: 'Ne_8', text: '我常常同時有很多想法。', function: 'Ne' },
+                { id: 'Ne_9', text: '我喜歡用新思維啟發別人。', function: 'Ne' },
+                { id: 'Ne_10', text: '想到未來會讓我充滿活力。', function: 'Ne' },
+
+                // INTROVERTED INTUITION (Ni) – Questions 71-80
+                { id: 'Ni_1', text: '我常常突然靈光一現。', function: 'Ni' },
+                { id: 'Ni_2', text: '我會思考事情背後更深的意義。', function: 'Ni' },
+                { id: 'Ni_3', text: '我相信自己對未來的直覺。', function: 'Ni' },
+                { id: 'Ni_4', text: '我一次只專注於一個主要想法或願景。', function: 'Ni' },
+                { id: 'Ni_5', text: '我喜歡發現生活中的隱藏規律。', function: 'Ni' },
+                { id: 'Ni_6', text: '我對有深層意義的符號、夢境或故事特別感興趣。', function: 'Ni' },
+                { id: 'Ni_7', text: '有時，我會被內心強烈的畫面或願景所驅使。', function: 'Ni' },
+                { id: 'Ni_8', text: '我覺得很難把自己的洞察力解釋給別人聽。', function: 'Ni' },
+                { id: 'Ni_9', text: '我常常在事情發生前就有預感。', function: 'Ni' },
+                { id: 'Ni_10', text: '有時候，我的想像比現實世界還真實。', function: 'Ni' }
+            ];
+            return chineseQuestions;
+        } else {
+            // English questions - 80 questions total (10 per function)
+            const englishQuestions = [
+                // EXTRAVERTED THINKING (Te) – Questions 1-10
+                { id: 'Te_1', text: 'I like to organize things so they work better.', function: 'Te' },
+                { id: 'Te_2', text: 'I make decisions based on facts everyone can see.', function: 'Te' },
+                { id: 'Te_3', text: 'I prefer clear rules and systems to guide what I do.', function: 'Te' },
+                { id: 'Te_4', text: 'I enjoy fixing problems in practical ways.', function: 'Te' },
+                { id: 'Te_5', text: 'I want results that can be measured.', function: 'Te' },
+                { id: 'Te_6', text: 'I like to plan ahead and set goals.', function: 'Te' },
+                { id: 'Te_7', text: 'I feel good when things run smoothly and efficiently.', function: 'Te' },
+                { id: 'Te_8', text: 'I often suggest improvements to make things work better.', function: 'Te' },
+                { id: 'Te_9', text: 'I trust information that is proven and objective.', function: 'Te' },
+                { id: 'Te_10', text: 'I like to be in control of projects or tasks.', function: 'Te' },
+
+                // INTROVERTED THINKING (Ti) – Questions 11-20
+                { id: 'Ti_1', text: 'I often think deeply about how things work inside.', function: 'Ti' },
+                { id: 'Ti_2', text: 'I care about whether ideas make sense to me.', function: 'Ti' },
+                { id: 'Ti_3', text: 'I like to figure out my own way of understanding things.', function: 'Ti' },
+                { id: 'Ti_4', text: 'I question things quietly in my mind.', function: 'Ti' },
+                { id: 'Ti_5', text: "I want my ideas to be clear and logical, even if others don't get them.", function: 'Ti' },
+                { id: 'Ti_6', text: 'I enjoy solving puzzles or problems on my own.', function: 'Ti' },
+                { id: 'Ti_7', text: 'I often notice inconsistencies in what people say.', function: 'Ti' },
+                { id: 'Ti_8', text: "I have high standards for what I believe is true, even if I can't explain them well.", function: 'Ti' },
+                { id: 'Ti_9', text: 'I like to analyze things until I really understand them.', function: 'Ti' },
+                { id: 'Ti_10', text: 'I prefer to work things out in my head before talking.', function: 'Ti' },
+
+                // EXTRAVERTED FEELING (Fe) – Questions 21-30
+                { id: 'Fe_1', text: 'I care about how everyone around me feels.', function: 'Fe' },
+                { id: 'Fe_2', text: 'I want people to get along and be happy together.', function: 'Fe' },
+                { id: 'Fe_3', text: 'I often adjust what I say to avoid hurting others.', function: 'Fe' },
+                { id: 'Fe_4', text: 'I notice when someone is uncomfortable in a group.', function: 'Fe' },
+                { id: 'Fe_5', text: 'I like to help people feel included.', function: 'Fe' },
+                { id: 'Fe_6', text: "I try to meet others' needs before my own.", function: 'Fe' },
+                { id: 'Fe_7', text: 'I feel uneasy when there is conflict between people.', function: 'Fe' },
+                { id: 'Fe_8', text: 'I often encourage others and boost their confidence.', function: 'Fe' },
+                { id: 'Fe_9', text: 'I want to create harmony wherever I go.', function: 'Fe' },
+                { id: 'Fe_10', text: 'I am sensitive to changes in the mood of a group.', function: 'Fe' },
+
+                // INTROVERTED FEELING (Fi) – Questions 31-40
+                { id: 'Fi_1', text: 'I make choices based on what feels right to me inside.', function: 'Fi' },
+                { id: 'Fi_2', text: 'I have strong personal values that are hard to explain.', function: 'Fi' },
+                { id: 'Fi_3', text: 'I need time alone to understand my feelings.', function: 'Fi' },
+                { id: 'Fi_4', text: 'I prefer to act in ways that match my true self.', function: 'Fi' },
+                { id: 'Fi_5', text: 'I care deeply about a few close people.', function: 'Fi' },
+                { id: 'Fi_6', text: 'I keep my feelings private unless I trust someone.', function: 'Fi' },
+                { id: 'Fi_7', text: "I feel uncomfortable pretending to be someone I'm not.", function: 'Fi' },
+                { id: 'Fi_8', text: 'I am loyal to my beliefs even if others disagree.', function: 'Fi' },
+                { id: 'Fi_9', text: 'I notice when something goes against my inner values.', function: 'Fi' },
+                { id: 'Fi_10', text: 'I want my actions to be true to who I am.', function: 'Fi' },
+
+                // EXTRAVERTED SENSING (Se) – Questions 41-50
+                { id: 'Se_1', text: "I notice what's happening around me right away.", function: 'Se' },
+                { id: 'Se_2', text: 'I like to experience new sights, sounds, and tastes.', function: 'Se' },
+                { id: 'Se_3', text: 'I am quick to react to changes in my environment.', function: 'Se' },
+                { id: 'Se_4', text: 'I enjoy activities that are hands-on and physical.', function: 'Se' },
+                { id: 'Se_5', text: 'I trust what I see and hear directly.', function: 'Se' },
+                { id: 'Se_6', text: 'I like to live in the moment.', function: 'Se' },
+                { id: 'Se_7', text: 'I am drawn to excitement and action.', function: 'Se' },
+                { id: 'Se_8', text: 'I often notice details others miss.', function: 'Se' },
+                { id: 'Se_9', text: 'I like to try new things just for the experience.', function: 'Se' },
+                { id: 'Se_10', text: "I feel best when I'm fully engaged with the world.", function: 'Se' },
+
+                // INTROVERTED SENSING (Si) – Questions 51-60
+                { id: 'Si_1', text: 'I compare new experiences to memories from my past.', function: 'Si' },
+                { id: 'Si_2', text: 'I remember details about things that matter to me.', function: 'Si' },
+                { id: 'Si_3', text: 'My past experiences affect how I see things now.', function: 'Si' },
+                { id: 'Si_4', text: 'I like routines that make me feel comfortable.', function: 'Si' },
+                { id: 'Si_5', text: "I notice when something feels different from what I'm used to.", function: 'Si' },
+                { id: 'Si_6', text: 'I am sensitive to changes in my body or surroundings.', function: 'Si' },
+                { id: 'Si_7', text: 'I prefer familiar places and activities.', function: 'Si' },
+                { id: 'Si_8', text: 'I have strong likes and dislikes for certain foods, smells, or sounds.', function: 'Si' },
+                { id: 'Si_9', text: 'I often think about how things used to be.', function: 'Si' },
+                { id: 'Si_10', text: 'Some experiences feel timeless and stay with me for years.', function: 'Si' },
+
+                // EXTRAVERTED INTUITION (Ne) – Questions 61-70
+                { id: 'Ne_1', text: 'I see lots of possibilities in every situation.', function: 'Ne' },
+                { id: 'Ne_2', text: 'I get excited by new ideas and opportunities.', function: 'Ne' },
+                { id: 'Ne_3', text: 'I often connect things that seem unrelated.', function: 'Ne' },
+                { id: 'Ne_4', text: 'I enjoy brainstorming and coming up with creative solutions.', function: 'Ne' },
+                { id: 'Ne_5', text: 'I like to imagine how things could be different.', function: 'Ne' },
+                { id: 'Ne_6', text: 'I am open to change and new experiences.', function: 'Ne' },
+                { id: 'Ne_7', text: 'I enjoy exploring new topics and interests.', function: 'Ne' },
+                { id: 'Ne_8', text: 'I often have many ideas at once.', function: 'Ne' },
+                { id: 'Ne_9', text: 'I like to inspire others with new ways of thinking.', function: 'Ne' },
+                { id: 'Ne_10', text: 'I feel energized by thinking about the future.', function: 'Ne' },
+
+                // INTROVERTED INTUITION (Ni) – Questions 71-80
+                { id: 'Ni_1', text: 'I often have sudden insights or "aha" moments.', function: 'Ni' },
+                { id: 'Ni_2', text: 'I think about the deeper meaning behind things.', function: 'Ni' },
+                { id: 'Ni_3', text: 'I trust my gut feelings about what will happen.', function: 'Ni' },
+                { id: 'Ni_4', text: 'I focus on one main idea or vision at a time.', function: 'Ni' },
+                { id: 'Ni_5', text: 'I like to find the hidden patterns in life.', function: 'Ni' },
+                { id: 'Ni_6', text: 'I am drawn to symbols, dreams, or stories with deeper meaning.', function: 'Ni' },
+                { id: 'Ni_7', text: 'Sometimes, I feel driven by strong inner images or visions.', function: 'Ni' },
+                { id: 'Ni_8', text: 'I find it hard to explain my insights to others.', function: 'Ni' },
+                { id: 'Ni_9', text: "I often sense what's coming before it happens.", function: 'Ni' },
+                { id: 'Ni_10', text: 'My imagination feels more real than the outside world at times.', function: 'Ni' }
+            ];
+            return englishQuestions;
+        }
     }
     
     updateUILanguage() {
@@ -618,11 +876,30 @@ class WebJungianAssessment {
         const totalScore = Object.values(this.scores).reduce((a, b) => a + b, 0);
         const percentageScores = {};
         
+        // Also keep raw scores for debugging
+        const rawScores = { ...this.scores };
+        
         Object.keys(this.scores).forEach(func => {
             percentageScores[func] = Math.round((this.scores[func] / totalScore) * 100);
         });
         
+        console.log('Raw scores:', rawScores);
+        console.log('Total raw score:', totalScore);
         console.log('Percentage scores:', percentageScores);
+        
+        // Debug: Show expected vs actual scores
+        const maxPossiblePerQuestion = 7; // Rating scale 1-7
+        const questionsPerFunction = 7; // 7 questions per function
+        const maxPossiblePerFunction = maxPossiblePerQuestion * questionsPerFunction;
+        
+        console.log('=== SCORE ANALYSIS ===');
+        Object.keys(this.scores).forEach(func => {
+            const rawScore = this.scores[func];
+            const maxPossible = maxPossiblePerFunction;
+            const percentage = Math.round((rawScore / maxPossible) * 100);
+            console.log(`${func}: ${rawScore}/${maxPossible} = ${percentage}% (relative: ${percentageScores[func]}%)`);
+        });
+        console.log('=====================');
         
         // Apply Jung's psychological type theory to determine the correct type
         const typeResult = this.determineJungianType(percentageScores);
@@ -637,41 +914,84 @@ class WebJungianAssessment {
         
         let typeDescription = null;
         
-        // Try multiple approaches in order
-        if (typeof getTypeDescription === 'function') {
-            console.log('Using getTypeDescription function');
-            typeDescription = getTypeDescription(typeResult.type, this.currentLanguage);
-        } else if (typeof window.getTypeDescription === 'function') {
-            console.log('Using window.getTypeDescription function');
-            typeDescription = window.getTypeDescription(typeResult.type, this.currentLanguage);
-        } else if (typeof typeDescriptions !== 'undefined' && typeDescriptions[typeResult.type]) {
-            console.log('Using direct typeDescriptions access');
-            const typeInfo = typeDescriptions[typeResult.type];
-            typeDescription = {
-                description: typeInfo.description[this.currentLanguage] || typeInfo.description.en,
-                mostSimilar: typeInfo.mostSimilar[this.currentLanguage] || typeInfo.mostSimilar.en,
-                mostComplementary: typeInfo.mostComplementary[this.currentLanguage] || typeInfo.mostComplementary.en
-            };
-        } else if (typeof window.typeDescriptions !== 'undefined' && window.typeDescriptions[typeResult.type]) {
-            console.log('Using window.typeDescriptions access');
-            const typeInfo = window.typeDescriptions[typeResult.type];
-            typeDescription = {
-                description: typeInfo.description[this.currentLanguage] || typeInfo.description.en,
-                mostSimilar: typeInfo.mostSimilar[this.currentLanguage] || typeInfo.mostSimilar.en,
-                mostComplementary: typeInfo.mostComplementary[this.currentLanguage] || typeInfo.mostComplementary.en
-            };
-        } else {
-            console.log('Using fallback type descriptions');
-            typeDescription = getFallbackTypeDescription(typeResult.type, this.currentLanguage);
+        // Try multiple approaches in order with better error handling
+        try {
+            // Method 1: Try getTypeDescription function
+            if (typeof getTypeDescription === 'function') {
+                console.log('Using getTypeDescription function');
+                typeDescription = getTypeDescription(typeResult.type, this.currentLanguage);
+                console.log('getTypeDescription result:', typeDescription);
+            }
+            
+            // Method 2: Try window.getTypeDescription
+            if (!typeDescription && typeof window.getTypeDescription === 'function') {
+                console.log('Using window.getTypeDescription function');
+                typeDescription = window.getTypeDescription(typeResult.type, this.currentLanguage);
+                console.log('window.getTypeDescription result:', typeDescription);
+            }
+            
+            // Method 3: Try direct typeDescriptions access
+            if (!typeDescription && typeof typeDescriptions !== 'undefined' && typeDescriptions[typeResult.type]) {
+                console.log('Using direct typeDescriptions access');
+                const typeInfo = typeDescriptions[typeResult.type];
+                typeDescription = {
+                    description: typeInfo.description[this.currentLanguage] || typeInfo.description.en || typeInfo.description,
+                    mostSimilar: typeInfo.mostSimilar[this.currentLanguage] || typeInfo.mostSimilar.en || typeInfo.mostSimilar,
+                    mostComplementary: typeInfo.mostComplementary[this.currentLanguage] || typeInfo.mostComplementary.en || typeInfo.mostComplementary
+                };
+                console.log('Direct typeDescriptions result:', typeDescription);
+            }
+            
+            // Method 4: Try window.typeDescriptions
+            if (!typeDescription && typeof window.typeDescriptions !== 'undefined' && window.typeDescriptions[typeResult.type]) {
+                console.log('Using window.typeDescriptions access');
+                const typeInfo = window.typeDescriptions[typeResult.type];
+                typeDescription = {
+                    description: typeInfo.description[this.currentLanguage] || typeInfo.description.en || typeInfo.description,
+                    mostSimilar: typeInfo.mostSimilar[this.currentLanguage] || typeInfo.mostSimilar.en || typeInfo.mostSimilar,
+                    mostComplementary: typeInfo.mostComplementary[this.currentLanguage] || typeInfo.mostComplementary.en || typeInfo.mostComplementary
+                };
+                console.log('Window typeDescriptions result:', typeDescription);
+            }
+            
+            // Method 5: Try fallback descriptions
+            if (!typeDescription) {
+                console.log('Using fallback type descriptions');
+                typeDescription = getFallbackTypeDescription(typeResult.type, this.currentLanguage);
+                console.log('Fallback result:', typeDescription);
+            }
+            
+        } catch (error) {
+            console.error('Error getting type description:', error);
         }
         
-        // If still no description, create a basic one
+        // Method 6: Create emergency fallback if all else fails
         if (!typeDescription) {
-            console.warn('Creating basic fallback description for', typeResult.type);
+            console.warn('Creating emergency fallback description for', typeResult.type);
+            const functionNames = {
+                'Te': this.currentLanguage === 'zh' ? '外向思考' : 'Extraverted Thinking',
+                'Ti': this.currentLanguage === 'zh' ? '內向思考' : 'Introverted Thinking',
+                'Fe': this.currentLanguage === 'zh' ? '外向情感' : 'Extraverted Feeling',
+                'Fi': this.currentLanguage === 'zh' ? '內向情感' : 'Introverted Feeling',
+                'Se': this.currentLanguage === 'zh' ? '外向感覺' : 'Extraverted Sensing',
+                'Si': this.currentLanguage === 'zh' ? '內向感覺' : 'Introverted Sensing',
+                'Ne': this.currentLanguage === 'zh' ? '外向直覺' : 'Extraverted Intuition',
+                'Ni': this.currentLanguage === 'zh' ? '內向直覺' : 'Introverted Intuition'
+            };
+            
+            const domName = functionNames[typeResult.dominantFunction] || typeResult.dominantFunction;
+            const auxName = functionNames[typeResult.auxiliaryFunction] || typeResult.auxiliaryFunction;
+            
             typeDescription = {
-                description: `Type ${typeResult.type} combines ${typeResult.dominantFunction} as the dominant function with ${typeResult.auxiliaryFunction} as the auxiliary function. This creates a unique cognitive pattern focused on specific ways of processing information and making decisions.`,
-                mostSimilar: `Types sharing the same dominant function (${typeResult.dominantFunction})`,
-                mostComplementary: `Types with complementary function preferences`
+                description: this.currentLanguage === 'zh' ? 
+                    `類型 ${typeResult.type} 結合了 ${domName} 作為主導功能和 ${auxName} 作為輔助功能。這創造了一種獨特的認知模式，專注於特定的信息處理和決策方式。此類型的人傾向於依賴這兩種功能來理解世界並做出選擇。` :
+                    `Type ${typeResult.type} combines ${domName} as the dominant function with ${auxName} as the auxiliary function. This creates a unique cognitive pattern focused on specific ways of processing information and making decisions. People of this type tend to rely on these two functions to understand the world and make choices.`,
+                mostSimilar: this.currentLanguage === 'zh' ? 
+                    `共享相同主導功能 (${domName}) 的其他類型` :
+                    `Other types sharing the same dominant function (${domName})`,
+                mostComplementary: this.currentLanguage === 'zh' ? 
+                    `具有互補功能偏好的類型，特別是那些主導功能與此類型形成平衡的類型` :
+                    `Types with complementary function preferences, especially those whose dominant functions balance this type`
             };
         }
         
@@ -691,6 +1011,11 @@ class WebJungianAssessment {
         };
         
         console.log('Final results object:', this.results);
+        
+        // Validate that typeDescription is properly set
+        if (!this.results.typeDescription || !this.results.typeDescription.description) {
+            console.error('typeDescription is still null or invalid after all attempts!');
+        }
     }
 
     determineJungianType(percentageScores) {
@@ -698,7 +1023,12 @@ class WebJungianAssessment {
         const sortedFunctions = Object.entries(percentageScores)
             .sort(([,a], [,b]) => b - a);
         
+        console.log('All functions sorted by score:', sortedFunctions);
+        
         const dominantFunction = sortedFunctions[0][0];
+        const dominantScore = sortedFunctions[0][1];
+        
+        console.log('Dominant function selected:', dominantFunction, 'with score:', dominantScore);
         
         // Apply Jung's rules to find the auxiliary function
         const auxiliaryFunction = this.findValidAuxiliary(dominantFunction, percentageScores);
@@ -713,7 +1043,8 @@ class WebJungianAssessment {
             dominantFunction,
             auxiliaryFunction,
             type,
-            axes
+            axes,
+            allScores: sortedFunctions
         });
         
         return {
@@ -808,41 +1139,40 @@ class WebJungianAssessment {
     createTypeDescriptionSection(jungianType, typeDescription) {
         console.log('createTypeDescriptionSection called with:', { jungianType, typeDescription });
         
-        // If no type description, try to get it directly
-        if (!typeDescription) {
-            console.warn('No type description provided, trying to get it directly...');
+        // Additional validation
+        if (!typeDescription || !typeDescription.description) {
+            console.error('Invalid or missing typeDescription in createTypeDescriptionSection');
             
-            // Try multiple ways to get the type description
+            // Try one more time to get the description
             if (typeof getTypeDescription === 'function') {
                 typeDescription = getTypeDescription(jungianType, this.currentLanguage);
-                console.log('Direct getTypeDescription call result:', typeDescription);
-            } else if (typeof window.getTypeDescription === 'function') {
-                typeDescription = window.getTypeDescription(jungianType, this.currentLanguage);
-                console.log('Window getTypeDescription call result:', typeDescription);
-            } else if (typeof typeDescriptions !== 'undefined' && typeDescriptions[jungianType]) {
-                const typeInfo = typeDescriptions[jungianType];
-                typeDescription = {
-                    description: typeInfo.description[this.currentLanguage] || typeInfo.description.en,
-                    mostSimilar: typeInfo.mostSimilar[this.currentLanguage] || typeInfo.mostSimilar.en,
-                    mostComplementary: typeInfo.mostComplementary[this.currentLanguage] || typeInfo.mostComplementary.en
-                };
-                console.log('Direct typeDescriptions access result:', typeDescription);
             }
-        }
-        
-        if (!typeDescription) {
-            console.warn('Still no type description available for', jungianType);
-            return `
-                <div style="margin: 2rem 0; padding: 2rem; background: #ffe6e6; border-radius: 15px; border: 2px solid #ff4444;">
-                    <h3 style="color: #cc0000; text-align: center;">Type Description Not Available</h3>
-                    <p style="text-align: center; color: #666;">
-                        Type description for ${jungianType} could not be loaded. Please check the type-descriptions.js file.
-                    </p>
-                    <p style="text-align: center; color: #999; font-size: 0.9rem;">
-                        Debug info: getTypeDescription = ${typeof getTypeDescription}, typeDescriptions = ${typeof typeDescriptions}
-                    </p>
-                </div>
-            `;
+            
+            // If still no description, create a detailed error message
+            if (!typeDescription || !typeDescription.description) {
+                console.error('Failed to get type description after all attempts');
+                return `
+                    <div style="margin: 2rem 0; padding: 2rem; background: #ffe6e6; border-radius: 15px; border: 2px solid #ff4444;">
+                        <h3 style="color: #cc0000; text-align: center;">Type Description Not Available</h3>
+                        <p style="text-align: center; color: #666;">
+                            Type description for ${jungianType} could not be loaded. 
+                        </p>
+                        <div style="text-align: center; color: #999; font-size: 0.9rem; margin-top: 1rem;">
+                            <p>Debug info:</p>
+                            <p>getTypeDescription: ${typeof getTypeDescription}</p>
+                            <p>typeDescriptions: ${typeof typeDescriptions}</p>
+                            <p>Current language: ${this.currentLanguage}</p>
+                            <p>Requested type: ${ jungianType}</p>
+                        </div>
+                        <div style="text-align: center; margin-top: 1rem;">
+                            <button onclick="console.log('Available types:', typeof typeDescriptions !== 'undefined' ? Object.keys(typeDescriptions) : 'none')" 
+                                    style="padding: 0.5rem 1rem; background: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer;">
+                                Log Available Types to Console
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }
         }
         
         const title = this.currentLanguage === 'zh' ? '類型描述' : 'Type Description';
@@ -1215,6 +1545,7 @@ class WebJungianAssessment {
 
 // Initialize the application when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
+
     // Additional check after DOM is loaded
     console.log('=== POST-DOM TYPE DESCRIPTIONS CHECK ===');
     console.log('typeDescriptions available:', typeof typeDescriptions);
@@ -1246,5 +1577,5 @@ document.addEventListener('DOMContentLoaded', () => {
     
     window.jungApp = new WebJungianAssessment();
 });
-    
+
 
