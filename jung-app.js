@@ -944,7 +944,7 @@ class WebJungianAssessment {
         
         return `
             <div style="margin: 2rem 0; padding: 2rem; background: linear-gradient(135deg, #fff8f0 0%, #ffebe0 100%); border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.1);">
-                <h3 style="color: #ff8c00; text-align: center; margin-bottom: 1.5rem;">${title}: ${jungianType}</h3>
+                <h3 style="color: rgb(255, 149, 0); text-align: center; margin-bottom: 1.5rem;">${title}: ${jungianType}</h3>
                 <p style="line-height: 1.8; color: #333; text-align: justify; margin-bottom: 2rem;">
                     ${typeDescription.description}
                 </p>
@@ -1108,7 +1108,7 @@ class WebJungianAssessment {
         
         svg += `
                         <!-- Data polygon -->
-                        <polygon points="${polygonPoints}" fill="rgba(255, 140, 0, 0.25)" stroke="#ff8c00" stroke-width="4"/>
+                        <polygon points="${polygonPoints}" fill="rgba(255, 149, 0, 0.25)" stroke="rgb(255, 149, 0)" stroke-width="4"/>
                         
                         <!-- Data points with values -->
         `;
@@ -1122,7 +1122,7 @@ class WebJungianAssessment {
             const y = center + Math.sin(angle) * radius;
             
             // Data point
-            svg += `<circle cx="${x}" cy="${y}" r="8" fill="#ff8c00" stroke="white" stroke-width="3"/>`;
+            svg += `<circle cx="${x}" cy="${y}" r="8" fill="rgb(255, 149, 0)" stroke="white" stroke-width="3"/>`;
             
             // Score label - position it more carefully to avoid overlap
             let labelOffset = 35;
@@ -1133,8 +1133,8 @@ class WebJungianAssessment {
             const labelY = center + Math.sin(angle) * (radius + labelOffset);
             
             // Add background circle for better readability
-            svg += `<circle cx="${labelX}" cy="${labelY}" r="20" fill="white" stroke="#ff8c00" stroke-width="2" opacity="0.9"/>`;
-            svg += `<text x="${labelX}" y="${labelY}" text-anchor="middle" dominant-baseline="central" fill="#ff8c00" font-size="16" font-weight="bold">${score}%</text>`;
+            svg += `<circle cx="${labelX}" cy="${labelY}" r="20" fill="white" stroke="rgb(255, 149, 0)" stroke-width="2" opacity="0.9"/>`;
+            svg += `<text x="${labelX}" y="${labelY}" text-anchor="middle" dominant-baseline="central" fill="rgb(255, 149, 0)" font-size="16" font-weight="bold">${score}%</text>`;
         });
         
         svg += `
@@ -1292,7 +1292,7 @@ class WebJungianAssessment {
         html += this.createFunctionAxesVisualization(functionStack);
         
         // Add bar chart visualization with extra spacing
-        html += `<div style="margin-top: 4rem;"><h3 style="text-align: center; color: #ff8c00; margin: 2rem 0 1rem;">${this.currentLanguage === 'zh' ? '認知功能評分' : 'Cognitive Function Scores'}</h3></div>`;
+        html += `<div style="margin-top: 4rem;"><h3 style="text-align: center; color: rgb(255, 149, 0); margin: 2rem 0 1rem;">${this.currentLanguage === 'zh' ? '認知功能評分' : 'Cognitive Function Scores'}</h3></div>`;
         html += this.createBarChart(percentageScores);
         
         container.innerHTML = html;
