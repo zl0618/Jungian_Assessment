@@ -1186,7 +1186,7 @@ class WebJungianAssessment {
                         
                         <div style="background: #f8f9fa; border: 2px solid #ccc; padding: 1rem; border-radius: 8px; text-align: center;">
                             <div style="font-weight: bold; font-size: 1.1rem; color: #666;">${functionStack.tertiary}</div>
-                            <div style="font-size: 0.8rem; margin: 0.3rem 0; color: #666;">
+                            <div style="font-size:  0.8rem; margin: 0.3rem 0; color: #666;">
                                 ${this.currentLanguage === 'zh' ? '第三' : 'Tertiary'}
                             </div>
                             <div style="font-size: 0.9rem; color: #666;">${percentageScores[functionStack.tertiary]}%</div>
@@ -1373,6 +1373,21 @@ class WebJungianAssessment {
 
     // Continue with the rest of the methods...
     // Note: I'll add the remaining methods in the next part due to length constraints
+}
+
+// Global function for Functions Reference navigation (accessible from HTML onclick)
+function navigateToFunctionsReference() {
+    // Check if we're currently on the results screen
+    const resultsScreen = document.getElementById('results-screen');
+    const isOnResults = resultsScreen && resultsScreen.classList.contains('active');
+    
+    if (isOnResults) {
+        // Navigate with parameter indicating we came from results
+        window.location.href = 'functions-reference.html?from=results';
+    } else {
+        // Navigate normally
+        window.location.href = 'functions-reference.html';
+    }
 }
 
 // Initialize the application when DOM is loaded

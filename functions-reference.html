@@ -371,9 +371,13 @@
         }
         
         function goBack() {
+            // Check URL parameters to see if we came from results
+            const urlParams = new URLSearchParams(window.location.search);
+            const fromResults = urlParams.get('from') === 'results';
+            
             // Check if there's a previous page in history
-            if (window.history.length > 1 && document.referrer.includes('index.html')) {
-                // If user came from the main assessment page, go back to results
+            if (window.history.length > 1 && (document.referrer.includes('index.html') || fromResults)) {
+                // If user came from the main assessment page, go back
                 window.history.back();
             } else {
                 // Otherwise, redirect to the main assessment page
