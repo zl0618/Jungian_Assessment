@@ -5,6 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Jungian Cognitive Function Assessment</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="Jung8_logo.png" type="image/png">
+    <meta property="og:image" content="Jung8_logo.png">
+    <meta property="og:title" content="Jungian Cognitive Function Assessment">
+    <meta property="og:description" content="Discover your psychological type through Carl Jung's cognitive function theory">
     
     <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
@@ -56,6 +60,9 @@
     <div class="container">
         <!-- Welcome Screen -->
         <div id="welcome-screen" class="screen active">
+            <div class="logo-container">
+                <img src="Jung8_logo.png" alt="Jung8 Logo" class="page-logo">
+            </div>
             <div class="screen-header">
                 <h1 id="main-title">Jungian Cognitive Function Assessment</h1>
                 <p class="subtitle" id="main-subtitle">Discover your psychological type through Carl Jung's cognitive function theory</p>
@@ -112,6 +119,9 @@
 
         <!-- Results Screen -->
         <div id="results-screen" class="screen">
+            <div class="logo-container small">
+                <img src="Jung8_logo.png" alt="Jung8 Logo" class="page-logo small">
+            </div>
             <div class="screen-header">
                 <h1 id="results-title">Your Results</h1>
                 <p class="subtitle" id="results-subtitle">Your Jungian cognitive function profile</p>

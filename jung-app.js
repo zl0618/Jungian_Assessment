@@ -1074,64 +1074,70 @@ class WebJungianAssessment {
     createRadarChartVisualization(percentageScores) {
         const functions = ['Te', 'Ti', 'Fe', 'Fi', 'Se', 'Si', 'Ne', 'Ni'];
         
-        // Responsive sizing based on screen width
+        // Fully optimized responsive sizing based on screen width
         const screenWidth = window.innerWidth;
-        let size, maxRadius, containerMaxWidth, labelOffset, fontSize, percentFontSize, dataPointRadius;
+        let size, maxRadius, containerMaxWidth, labelOffset, fontSize, percentFontSize, dataPointRadius, padding, margin;
         
         if (screenWidth <= 480) {
             // Ultra-small screens
-            size = 320;
-            maxRadius = 120;
-            containerMaxWidth = '320px';
-            labelOffset = 35;
-            fontSize = 14;
-            percentFontSize = 10;
-            dataPointRadius = 4;
+            size = 270; // More compact size
+            maxRadius = 90; // Smaller radius for better fit
+            containerMaxWidth = '280px'; // Fixed width for consistency
+            labelOffset = 22; // Minimal offset for tight layout
+            fontSize = 9; // Smaller font
+            percentFontSize = 7; // Smaller percentage font
+            dataPointRadius = 2.5; // Smaller data points
+            padding = '0.75rem'; // Minimal padding
+            margin = '1rem'; // Reduced margin
         } else if (screenWidth <= 768) {
             // Mobile screens
-            size = 380;
-            maxRadius = 140;
-            containerMaxWidth = '380px';
-            labelOffset = 40;
-            fontSize = 16;
-            percentFontSize = 11;
-            dataPointRadius = 5;
+            size = 330; // More appropriate for medium screens
+            maxRadius = 110; // Better radius for medium screens
+            containerMaxWidth = '340px'; // Fixed width for consistency
+            labelOffset = 28; // Adjusted offset
+            fontSize = 11; // Medium font
+            percentFontSize = 8; // Medium percentage font
+            dataPointRadius = 3; // Medium data points
+            padding = '1rem'; // Medium padding
+            margin = '1.5rem'; // Medium margin
         } else {
             // Desktop screens
-            size = 500;
-            maxRadius = 180;
-            containerMaxWidth = '600px';
-            labelOffset = 50;
-            fontSize = 20;
-            percentFontSize = 12;
-            dataPointRadius = 6;
+            size = 480; // Slightly smaller for better proportions
+            maxRadius = 170; // Slightly smaller radius
+            containerMaxWidth = '500px'; // Fixed maximum width
+            labelOffset = 45; // Standard offset
+            fontSize = 14; // Standard font
+            percentFontSize = 10; // Standard percentage font
+            dataPointRadius = 4; // Standard data points
+            padding = '2rem'; // Full padding
+            margin = '2rem'; // Full margin
         }
         
         const center = size / 2;
         
-        // Create SVG radar chart
+        // Create improved SVG radar chart
         let svg = `
-            <div class="radar-container" style="margin: 2rem auto; max-width: ${containerMaxWidth}; display: flex; justify-content: center; align-items: center;">
-                <div style="background: white; padding: 2rem; border-radius: 15px; text-align: center; box-shadow: 0 5px 20px rgba(0,0,0,0.1); width: 100%;">
+            <div class="radar-container" style="margin: ${margin} auto; max-width: ${containerMaxWidth}; display: flex; justify-content: center; align-items: center;">
+                <div style="background: white; padding: ${padding}; border-radius: ${screenWidth <= 480 ? '10px' : '15px'}; text-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.08); width: 100%;">
                     <svg width="100%" height="${size}" viewBox="0 0 ${size} ${size}" style="margin: 0 auto; display: block;">
                         <!-- Background circles with percentage rings -->
-                        <circle cx="${center}" cy="${center}" r="${maxRadius * 0.2}" fill="none" stroke="#f5f5f5" stroke-width="2"/>
-                        <circle cx="${center}" cy="${center}" r="${maxRadius * 0.4}" fill="none" stroke="#e8e8e8" stroke-width="2"/>
-                        <circle cx="${center}" cy="${center}" r="${maxRadius * 0.6}" fill="none" stroke="#d0d0d0" stroke-width="2"/>
-                        <circle cx="${center}" cy="${center}" r="${maxRadius * 0.8}" fill="none" stroke="#b8b8b8" stroke-width="2"/>
-                        <circle cx="${center}" cy="${center}" r="${maxRadius}" fill="none" stroke="#999999" stroke-width="3"/>
+                        <circle cx="${center}" cy="${center}" r="${maxRadius * 0.2}" fill="none" stroke="#f5f5f5" stroke-width="${screenWidth <= 480 ? 1 : 2}"/>
+                        <circle cx="${center}" cy="${center}" r="${maxRadius * 0.4}" fill="none" stroke="#e8e8e8" stroke-width="${screenWidth <= 480 ? 1 : 2}"/>
+                        <circle cx="${center}" cy="${center}" r="${maxRadius * 0.6}" fill="none" stroke="#d0d0d0" stroke-width="${screenWidth <= 480 ? 1 : 2}"/>
+                        <circle cx="${center}" cy="${center}" r="${maxRadius * 0.8}" fill="none" stroke="#b8b8b8" stroke-width="${screenWidth <= 480 ? 1 : 2}"/>
+                        <circle cx="${center}" cy="${center}" r="${maxRadius}" fill="none" stroke="#999999" stroke-width="${screenWidth <= 480 ? 2 : 3}"/>
                         
                         <!-- Percentage labels on the vertical axis -->
-                        <text x="${center + 8}" y="${center - maxRadius * 0.2 + 4}" text-anchor="start" fill="#888" font-size="${percentFontSize}">20%</text>
-                        <text x="${center + 8}" y="${center - maxRadius * 0.4 + 4}" text-anchor="start" fill="#888" font-size="${percentFontSize}">40%</text>
-                        <text x="${center + 8}" y="${center - maxRadius * 0.6 + 4}" text-anchor="start" fill="#888" font-size="${percentFontSize}">60%</text>
-                        <text x="${center + 8}" y="${center - maxRadius * 0.8 + 4}" text-anchor="start" fill="#888" font-size="${percentFontSize}">80%</text>
-                        <text x="${center + 8}" y="${center - maxRadius + 4}" text-anchor="start" fill="#888" font-size="${percentFontSize}">100%</text>
+                        <text x="${center + 5}" y="${center - maxRadius * 0.2 + 3}" text-anchor="start" fill="#888" font-size="${percentFontSize}">20%</text>
+                        <text x="${center + 5}" y="${center - maxRadius * 0.4 + 3}" text-anchor="start" fill="#888" font-size="${percentFontSize}">40%</text>
+                        <text x="${center + 5}" y="${center - maxRadius * 0.6 + 3}" text-anchor="start" fill="#888" font-size="${percentFontSize}">60%</text>
+                        <text x="${center + 5}" y="${center - maxRadius * 0.8 + 3}" text-anchor="start" fill="#888" font-size="${percentFontSize}">80%</text>
+                        <text x="${center + 5}" y="${center - maxRadius + 3}" text-anchor="start" fill="#888" font-size="${percentFontSize}">100%</text>
                         
                         <!-- Axis lines -->
         `;
         
-        // Add axis lines and labels
+        // Add axis lines and labels with better positioning for mobile
         functions.forEach((func, index) => {
             const angle = (index * 2 * Math.PI) / functions.length - Math.PI / 2;
             const x = center + Math.cos(angle) * maxRadius;
@@ -1139,7 +1145,7 @@ class WebJungianAssessment {
             const labelX = center + Math.cos(angle) * (maxRadius + labelOffset);
             const labelY = center + Math.sin(angle) * (maxRadius + labelOffset);
             
-            svg += `<line x1="${center}" y1="${center}" x2="${x}" y2="${y}" stroke="#ccc" stroke-width="2"/>`;
+            svg += `<line x1="${center}" y1="${center}" x2="${x}" y2="${y}" stroke="#ccc" stroke-width="${screenWidth <= 480 ? 1 : 2}"/>`;
             svg += `<text x="${labelX}" y="${labelY}" text-anchor="middle" dominant-baseline="central" fill="#333" font-size="${fontSize}" font-weight="bold">${func}</text>`;
         });
         
@@ -1156,12 +1162,12 @@ class WebJungianAssessment {
         
         svg += `
                         <!-- Data polygon -->
-                        <polygon points="${polygonPoints}" fill="rgba(255, 149, 0, 0.25)" stroke="rgb(255, 149, 0)" stroke-width="4"/>
+                        <polygon points="${polygonPoints}" fill="rgba(255, 149, 0, 0.25)" stroke="rgb(255, 149, 0)" stroke-width="${screenWidth <= 480 ? 2 : 3}"/>
                         
                         <!-- Data points with values -->
         `;
         
-        // Add data points with score labels
+        // Add data points with score labels - optimized for mobile
         functions.forEach((func, index) => {
             const score = percentageScores[func] || 0;
             const angle = (index * 2 * Math.PI) / functions.length - Math.PI / 2;
@@ -1170,19 +1176,31 @@ class WebJungianAssessment {
             const y = center + Math.sin(angle) * radius;
             
             // Data point
-            svg += `<circle cx="${x}" cy="${y}" r="${dataPointRadius}" fill="rgb(255, 149, 0)" stroke="white" stroke-width="2"/>`;
+            svg += `<circle cx="${x}" cy="${y}" r="${dataPointRadius}" fill="rgb(255, 149, 0)" stroke="white" stroke-width="${screenWidth <= 480 ? 1 : 2}"/>`;
             
-            // Score label - position it more carefully to avoid overlap
-            let scoreLabelOffset = Math.round(labelOffset * 0.7);
-            // Adjust offset for very low scores to keep labels visible
-            if (score < 15) scoreLabelOffset = Math.round(labelOffset * 0.9);
+            // Score label - improved positioning to prevent overlap
+            let scoreLabelOffset;
+            
+            // Dynamically adjust label position based on score to prevent overlap
+            if (score < 15) {
+                scoreLabelOffset = Math.round(labelOffset * 0.85); // Move further out for very low scores
+            } else if (score > 85) {
+                scoreLabelOffset = Math.round(labelOffset * 0.5); // Keep closer for high scores
+            } else {
+                scoreLabelOffset = Math.round(labelOffset * 0.65);
+            }
+            
+            // Further adjust for mobile - avoid placing labels too far
+            if (screenWidth <= 480) {
+                scoreLabelOffset = Math.min(scoreLabelOffset, 20);
+            }
             
             const labelX = center + Math.cos(angle) * (radius + scoreLabelOffset);
             const labelY = center + Math.sin(angle) * (radius + scoreLabelOffset);
             
             // Add background circle for better readability (responsive sizing)
-            const labelBgRadius = Math.round(dataPointRadius * 2.5);
-            svg += `<circle cx="${labelX}" cy="${labelY}" r="${labelBgRadius}" fill="white" stroke="rgb(255, 149, 0)" stroke-width="1.5" opacity="0.9"/>`;
+            const labelBgRadius = Math.round(dataPointRadius * (screenWidth <= 480 ? 2 : 2.5));
+            svg += `<circle cx="${labelX}" cy="${labelY}" r="${labelBgRadius}" fill="white" stroke="rgb(255, 149, 0)" stroke-width="${screenWidth <= 480 ? 1 : 1.5}" opacity="0.9"/>`;
             svg += `<text x="${labelX}" y="${labelY}" text-anchor="middle" dominant-baseline="central" fill="rgb(255, 149, 0)" font-size="${percentFontSize}" font-weight="bold">${score}%</text>`;
         });
         
@@ -1215,7 +1233,7 @@ class WebJungianAssessment {
                     <h4 style="color: #333; text-align: center; margin-bottom: 1rem; font-size: 1.1rem;">
                         ${this.currentLanguage === 'zh' ? '功能堆疊' : 'Function Stack'}
                     </h4>
-                    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.8rem; max-width: 600px; margin: 0 auto;">
+                    <div class="function-stack-grid" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.8rem; max-width: 600px; margin: 0 auto;">
                         
                         <div style="background: #f8f9fa; border: 2px solid #666; padding: 1rem; border-radius: 8px; text-align: center;">
                             <div style="font-weight: bold; font-size: 1.1rem; color: #333;">${functionStack.dominant}</div>
