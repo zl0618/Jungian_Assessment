@@ -3,13 +3,139 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jung Assessment - Redirecting...</title>
+    <title>Jungian Cognitive Function Assessment</title>
+    <link rel="stylesheet" href="styles.css">
+    
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
 </head>
 <body>
-    <script>
-        // Redirect to the main application
-        window.location.href = './web-interview.html';
-    </script>
-    <p>If you are not redirected automatically, <a href="./web-interview.html">click here</a>.</p>
+    <div class="container">
+        <!-- Welcome Screen -->
+        <div id="welcome-screen" class="screen active">
+            <div class="screen-header">
+                <h1 id="main-title">Jungian Cognitive Function Assessment</h1>
+                <p class="subtitle" id="main-subtitle">Discover your psychological type through Carl Jung's cognitive function theory</p>
+            </div>
+            <div class="screen-content">
+                <div class="language-selection">
+                    <h3 id="language-title">Choose Language / 選擇語言</h3>
+                    <div class="language-buttons">
+                        <button id="btn-english" class="language-btn active" data-lang="en">English</button>
+                        <button id="btn-chinese" class="language-btn" data-lang="zh">繁體中文</button>
+                    </div>
+                </div>
+                
+                <div class="participant-info">
+                    <h3 id="participant-info-title">Participant Information (Optional)</h3>
+                    <div class="form-group">
+                        <label for="participant-id" id="participant-id-label">Participant ID (for research purposes):</label>
+                        <input type="text" id="participant-id" placeholder="Enter your participant ID">
+                    </div>
+                    <div class="form-group">
+                        <label for="participant-age" id="participant-age-label">Age:</label>
+                        <select id="participant-age">
+                            <option value="" id="age-select">Select age range</option>
+                            <option value="18-24">18-24</option>
+                            <option value="25-34">25-34</option>
+                            <option value="35-44">35-44</option>
+                            <option value="45-54">45-54</option>
+                            <option value="55-64">55-64</option>
+                            <option value="65+">65+</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="participant-education" id="participant-education-label">Education Level:</label>
+                        <select id="participant-education">
+                            <option value="" id="education-select">Select education level</option>
+                            <option value="high-school" id="education-hs">High School</option>
+                            <option value="some-college" id="education-sc">Some College</option>
+                            <option value="bachelor" id="education-ba">Bachelor's Degree</option>
+                            <option value="master" id="education-ma">Master's Degree</option>
+                            <option value="doctorate" id="education-phd">PhD/Doctorate</option>
+                            <option value="other" id="education-other">Other</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="start-section">
+                    <p id="time-estimate" class="time-estimate">Estimated time: 15 minutes</p>
+                    <button id="start-btn" class="btn btn-primary">Start Assessment</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Assessment Screen -->
+        <div id="assessment-screen" class="screen">
+            <div class="progress-container">
+                <div class="progress-bar">
+                    <div id="progress-fill" class="progress-fill"></div>
+                </div>
+                <p id="question-number" class="progress-text">Question 1 of 56</p>
+                <p id="time-estimate" class="time-estimate">Estimated time: 15 minutes</p>
+            </div>
+            
+            <div class="question-container">
+                <h2 id="question-text" class="question-text">Loading question...</h2>
+                
+                <div class="rating-scale">
+                    <div class="rating-labels">
+                        <span id="strongly-disagree" class="label-left">Strongly Disagree</span>
+                        <span id="neutral" class="label-center">Neutral</span>
+                        <span id="strongly-agree" class="label-right">Strongly Agree</span>
+                    </div>
+                    <div class="rating-buttons">
+                        <button class="rating-btn" data-value="1">1</button>
+                        <button class="rating-btn" data-value="2">2</button>
+                        <button class="rating-btn" data-value="3">3</button>
+                        <button class="rating-btn" data-value="4">4</button>
+                        <button class="rating-btn" data-value="5">5</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="navigation">
+                <button id="prev-btn" class="btn btn-secondary" style="display: none;">Previous</button>
+            </div>
+        </div>
+
+        <!-- Results Screen -->
+        <div id="results-screen" class="screen">
+            <div class="screen-header">
+                <h1 id="results-title">Your Results</h1>
+                <p class="subtitle" id="results-subtitle">Your Jungian cognitive function profile</p>
+            </div>
+            <div class="results-container">
+                <div id="results-content">
+                    <!-- Results will be dynamically inserted here -->
+                </div>
+                
+                <div class="thank-you-message">
+                    <h3 id="thank-you-title">Thank you for participating!</h3>
+                    <p id="thank-you-text">Your responses have been recorded. If you provided a participant ID, your results will be associated with that identifier.</p>
+                    <p class="completion-id">
+                        <span id="completion-id-label">Completion ID:</span>
+                        <strong id="completion-id"></strong>
+                    </p>
+                </div>
+                
+                <div class="results-actions">
+                    <button id="download-btn" class="btn btn-primary">Download Results</button>
+                    <button id="restart-btn" class="btn btn-secondary">Take Assessment Again</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript Files -->
+    <script src="translations.js"></script>
+    <script src="type-descriptions.js"></script>
+    <script src="questions-en.js"></script>
+    <script src="questions-zh.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
 </body>
 </html>
