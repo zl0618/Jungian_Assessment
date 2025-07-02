@@ -367,6 +367,22 @@ class WebJungianAssessment {
         this.bindEvents();
         this.showWelcomeScreen();
         this.updateUILanguage();
+        
+        // Handle hash navigation (for returning from Functions Reference)
+        this.handleHashNavigation();
+        
+        // Listen for hash changes
+        window.addEventListener('hashchange', () => {
+            this.handleHashNavigation();
+        });
+    }
+    
+    handleHashNavigation() {
+        const hash = window.location.hash;
+        if (hash === '#results' && this.results) {
+            // If there are results and we're being asked to show them, do so
+            this.showResultsScreen();
+        }
     }
     
     bindEvents() {
@@ -787,8 +803,8 @@ class WebJungianAssessment {
         // Apply Jung's rules to find the auxiliary function
         const auxiliaryFunction = this.findValidAuxiliary(dominantFunction, percentageScores);
         
-        // Create the type name
-        const type = dominantFunction + auxiliaryFunction;
+        // Create the type name in uppercase
+        const type = (dominantFunction + auxiliaryFunction).toUpperCase();
         
         // Determine the axes
         const axes = this.determineAxes(dominantFunction, auxiliaryFunction);
@@ -1057,15 +1073,47 @@ class WebJungianAssessment {
 
     createRadarChartVisualization(percentageScores) {
         const functions = ['Te', 'Ti', 'Fe', 'Fi', 'Se', 'Si', 'Ne', 'Ni'];
-        const size = 900; // Increased from 800
+        
+        // Responsive sizing based on screen width
+        const screenWidth = window.innerWidth;
+        let size, maxRadius, containerMaxWidth, labelOffset, fontSize, percentFontSize, dataPointRadius;
+        
+        if (screenWidth <= 480) {
+            // Ultra-small screens
+            size = 320;
+            maxRadius = 120;
+            containerMaxWidth = '320px';
+            labelOffset = 35;
+            fontSize = 14;
+            percentFontSize = 10;
+            dataPointRadius = 4;
+        } else if (screenWidth <= 768) {
+            // Mobile screens
+            size = 380;
+            maxRadius = 140;
+            containerMaxWidth = '380px';
+            labelOffset = 40;
+            fontSize = 16;
+            percentFontSize = 11;
+            dataPointRadius = 5;
+        } else {
+            // Desktop screens
+            size = 500;
+            maxRadius = 180;
+            containerMaxWidth = '600px';
+            labelOffset = 50;
+            fontSize = 20;
+            percentFontSize = 12;
+            dataPointRadius = 6;
+        }
+        
         const center = size / 2;
-        const maxRadius = 280; // Slightly reduced to give more label space
         
         // Create SVG radar chart
         let svg = `
-            <div class="radar-container" style="margin: 4rem auto; max-width: 900px; display: flex; justify-content: center; align-items: center;">
-                <div style="background: white; padding: 3rem; border-radius: 15px; text-align: center; box-shadow: 0 5px 20px rgba(0,0,0,0.1); width: 100%;">
-                    <svg width="100%" height="900" viewBox="0 0 ${size} ${size}" style="margin: 0 auto; display: block;">
+            <div class="radar-container" style="margin: 2rem auto; max-width: ${containerMaxWidth}; display: flex; justify-content: center; align-items: center;">
+                <div style="background: white; padding: 2rem; border-radius: 15px; text-align: center; box-shadow: 0 5px 20px rgba(0,0,0,0.1); width: 100%;">
+                    <svg width="100%" height="${size}" viewBox="0 0 ${size} ${size}" style="margin: 0 auto; display: block;">
                         <!-- Background circles with percentage rings -->
                         <circle cx="${center}" cy="${center}" r="${maxRadius * 0.2}" fill="none" stroke="#f5f5f5" stroke-width="2"/>
                         <circle cx="${center}" cy="${center}" r="${maxRadius * 0.4}" fill="none" stroke="#e8e8e8" stroke-width="2"/>
@@ -1074,11 +1122,11 @@ class WebJungianAssessment {
                         <circle cx="${center}" cy="${center}" r="${maxRadius}" fill="none" stroke="#999999" stroke-width="3"/>
                         
                         <!-- Percentage labels on the vertical axis -->
-                        <text x="${center + 15}" y="${center - maxRadius * 0.2 + 8}" text-anchor="start" fill="#888" font-size="18">20%</text>
-                        <text x="${center + 15}" y="${center - maxRadius * 0.4 + 8}" text-anchor="start" fill="#888" font-size="18">40%</text>
-                        <text x="${center + 15}" y="${center - maxRadius * 0.6 + 8}" text-anchor="start" fill="#888" font-size="18">60%</text>
-                        <text x="${center + 15}" y="${center - maxRadius * 0.8 + 8}" text-anchor="start" fill="#888" font-size="18">80%</text>
-                        <text x="${center + 15}" y="${center - maxRadius + 8}" text-anchor="start" fill="#888" font-size="18">100%</text>
+                        <text x="${center + 8}" y="${center - maxRadius * 0.2 + 4}" text-anchor="start" fill="#888" font-size="${percentFontSize}">20%</text>
+                        <text x="${center + 8}" y="${center - maxRadius * 0.4 + 4}" text-anchor="start" fill="#888" font-size="${percentFontSize}">40%</text>
+                        <text x="${center + 8}" y="${center - maxRadius * 0.6 + 4}" text-anchor="start" fill="#888" font-size="${percentFontSize}">60%</text>
+                        <text x="${center + 8}" y="${center - maxRadius * 0.8 + 4}" text-anchor="start" fill="#888" font-size="${percentFontSize}">80%</text>
+                        <text x="${center + 8}" y="${center - maxRadius + 4}" text-anchor="start" fill="#888" font-size="${percentFontSize}">100%</text>
                         
                         <!-- Axis lines -->
         `;
@@ -1088,11 +1136,11 @@ class WebJungianAssessment {
             const angle = (index * 2 * Math.PI) / functions.length - Math.PI / 2;
             const x = center + Math.cos(angle) * maxRadius;
             const y = center + Math.sin(angle) * maxRadius;
-            const labelX = center + Math.cos(angle) * (maxRadius + 80); // Increased offset for labels
-            const labelY = center + Math.sin(angle) * (maxRadius + 80);
+            const labelX = center + Math.cos(angle) * (maxRadius + labelOffset);
+            const labelY = center + Math.sin(angle) * (maxRadius + labelOffset);
             
             svg += `<line x1="${center}" y1="${center}" x2="${x}" y2="${y}" stroke="#ccc" stroke-width="2"/>`;
-            svg += `<text x="${labelX}" y="${labelY}" text-anchor="middle" dominant-baseline="central" fill="#333" font-size="32" font-weight="bold">${func}</text>`;
+            svg += `<text x="${labelX}" y="${labelY}" text-anchor="middle" dominant-baseline="central" fill="#333" font-size="${fontSize}" font-weight="bold">${func}</text>`;
         });
         
         // Create data polygon
@@ -1122,24 +1170,25 @@ class WebJungianAssessment {
             const y = center + Math.sin(angle) * radius;
             
             // Data point
-            svg += `<circle cx="${x}" cy="${y}" r="8" fill="rgb(255, 149, 0)" stroke="white" stroke-width="3"/>`;
+            svg += `<circle cx="${x}" cy="${y}" r="${dataPointRadius}" fill="rgb(255, 149, 0)" stroke="white" stroke-width="2"/>`;
             
             // Score label - position it more carefully to avoid overlap
-            let labelOffset = 35;
+            let scoreLabelOffset = Math.round(labelOffset * 0.7);
             // Adjust offset for very low scores to keep labels visible
-            if (score < 15) labelOffset = 50;
+            if (score < 15) scoreLabelOffset = Math.round(labelOffset * 0.9);
             
-            const labelX = center + Math.cos(angle) * (radius + labelOffset);
-            const labelY = center + Math.sin(angle) * (radius + labelOffset);
+            const labelX = center + Math.cos(angle) * (radius + scoreLabelOffset);
+            const labelY = center + Math.sin(angle) * (radius + scoreLabelOffset);
             
-            // Add background circle for better readability
-            svg += `<circle cx="${labelX}" cy="${labelY}" r="20" fill="white" stroke="rgb(255, 149, 0)" stroke-width="2" opacity="0.9"/>`;
-            svg += `<text x="${labelX}" y="${labelY}" text-anchor="middle" dominant-baseline="central" fill="rgb(255, 149, 0)" font-size="16" font-weight="bold">${score}%</text>`;
+            // Add background circle for better readability (responsive sizing)
+            const labelBgRadius = Math.round(dataPointRadius * 2.5);
+            svg += `<circle cx="${labelX}" cy="${labelY}" r="${labelBgRadius}" fill="white" stroke="rgb(255, 149, 0)" stroke-width="1.5" opacity="0.9"/>`;
+            svg += `<text x="${labelX}" y="${labelY}" text-anchor="middle" dominant-baseline="central" fill="rgb(255, 149, 0)" font-size="${percentFontSize}" font-weight="bold">${score}%</text>`;
         });
         
         svg += `
                         <!-- Center dot -->
-                        <circle cx="${center}" cy="${center}" r="8" fill="#666"/>
+                        <circle cx="${center}" cy="${center}" r="${Math.round(dataPointRadius * 0.8)}" fill="#666"/>
                     </svg>
                 </div>
             </div>
