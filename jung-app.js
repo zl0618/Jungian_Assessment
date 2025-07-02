@@ -292,6 +292,14 @@ class WebJungianAssessment {
         safeUpdateElement('strongly-disagree', 'textContent', t.stronglyDisagree);
         safeUpdateElement('neutral', 'textContent', t.neutral);
         safeUpdateElement('strongly-agree', 'textContent', t.stronglyAgree);
+        
+        // Update rating scale explanation
+        safeUpdateElement('rating-explanation-title', 'textContent', t.ratingExplanationTitle);
+        safeUpdateElement('strongly-disagree-guide', 'textContent', t.stronglyDisagree);
+        safeUpdateElement('disagree-guide', 'textContent', t.disagreeGuide);
+        safeUpdateElement('neutral-guide', 'textContent', t.neutral);
+        safeUpdateElement('agree-guide', 'textContent', t.agreeGuide);
+        safeUpdateElement('strongly-agree-guide', 'textContent', t.stronglyAgree);
         safeUpdateElement('prev-btn', 'textContent', t.previous);
         safeUpdateElement('results-title', 'textContent', t.resultsTitle);
         safeUpdateElement('results-subtitle', 'textContent', t.resultsSubtitle);

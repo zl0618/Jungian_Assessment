@@ -33,7 +33,10 @@ const translations = {
         downloadResults: "Download Results",
         takeAgain: "Take Assessment Again",
         questionOf: "Question {current} of {total}",
-        estimatedTime: "Estimated time: 15 minutes"
+        estimatedTime: "Estimated time: 15 minutes",
+        ratingExplanationTitle: "Rating Scale:",
+        disagreeGuide: "Disagree",
+        agreeGuide: "Agree"
     },
     zh: {
         mainTitle: "榮格認知功能評估",
@@ -68,7 +71,10 @@ const translations = {
         downloadResults: "下載結果",
         takeAgain: "重新評估",
         questionOf: "第 {current} 題，共 {total} 題",
-        estimatedTime: "預計時間：15分鐘"
+        estimatedTime: "預計時間：15分鐘",
+        ratingExplanationTitle: "評分標準：",
+        disagreeGuide: "不同意",
+        agreeGuide: "同意"
     }
 };
 
