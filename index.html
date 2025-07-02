@@ -10,8 +10,49 @@
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    
+    <!-- Functions Reference Navigation -->
+    <style>
+        .functions-nav {
+            position: fixed;
+            top: 2rem;
+            right: 2rem;
+            z-index: 1000;
+            display: none; /* Hidden by default */
+        }
+        
+        .functions-nav a {
+            background: linear-gradient(45deg, #ff8c00, #ff6347);
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.9rem;
+            box-shadow: 0 4px 15px rgba(255, 140, 0, 0.3);
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+        
+        .functions-nav a:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 140, 0, 0.4);
+        }
+        
+        @media (max-width: 768px) {
+            .functions-nav {
+                position: static;
+                text-align: center;
+                margin-bottom: 1rem;
+            }
+        }
+    </style>
 </head>
 <body>
+    <div class="functions-nav">
+        <a href="functions-reference.html" id="functions-link">Functions Reference</a>
+    </div>
+    
     <div class="container">
         <!-- Welcome Screen -->
         <div id="welcome-screen" class="screen active">
@@ -25,38 +66,6 @@
                     <div class="language-buttons">
                         <button id="btn-english" class="language-btn active" data-lang="en">English</button>
                         <button id="btn-chinese" class="language-btn" data-lang="zh">繁體中文</button>
-                    </div>
-                </div>
-                
-                <div class="participant-info">
-                    <h3 id="participant-info-title">Participant Information (Optional)</h3>
-                    <div class="form-group">
-                        <label for="participant-id" id="participant-id-label">Participant ID (for research purposes):</label>
-                        <input type="text" id="participant-id" placeholder="Enter your participant ID">
-                    </div>
-                    <div class="form-group">
-                        <label for="participant-age" id="participant-age-label">Age:</label>
-                        <select id="participant-age">
-                            <option value="" id="age-select">Select age range</option>
-                            <option value="18-24">18-24</option>
-                            <option value="25-34">25-34</option>
-                            <option value="35-44">35-44</option>
-                            <option value="45-54">45-54</option>
-                            <option value="55-64">55-64</option>
-                            <option value="65+">65+</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="participant-education" id="participant-education-label">Education Level:</label>
-                        <select id="participant-education">
-                            <option value="" id="education-select">Select education level</option>
-                            <option value="high-school" id="education-hs">High School</option>
-                            <option value="some-college" id="education-sc">Some College</option>
-                            <option value="bachelor" id="education-ba">Bachelor's Degree</option>
-                            <option value="master" id="education-ma">Master's Degree</option>
-                            <option value="doctorate" id="education-phd">PhD/Doctorate</option>
-                            <option value="other" id="education-other">Other</option>
-                        </select>
                     </div>
                 </div>
                 
@@ -134,8 +143,7 @@
     <script src="type-descriptions.js"></script>
     <script src="questions-en.js"></script>
     <script src="questions-zh.js"></script>
-    <script src="app.js"></script>
-</body>
-</html>
+    <script src="jung-data.js"></script>
+    <script src="jung-app.js"></script>
 </body>
 </html>

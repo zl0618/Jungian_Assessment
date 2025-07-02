@@ -219,41 +219,6 @@ h2 {
     background: #f8f9fa;
 }
 
-.participant-info {
-    background: #f8f9fa;
-    padding: 1.5rem;
-    margin-bottom: 2rem;
-    border-radius: 10px;
-    border-left: 4px solid #ff8c00;
-}
-
-.form-group {
-    margin-bottom: 1rem;
-}
-
-.form-group label {
-    display: block;
-    margin-bottom: 0.5rem;
-    font-weight: 500;
-    color: #333;
-}
-
-.form-group input,
-.form-group select {
-    width: 100%;
-    padding: 0.8rem;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    font-size: 1rem;
-}
-
-.form-group input:focus,
-.form-group select:focus {
-    outline: none;
-    border-color: #ff8c00;
-    box-shadow: 0 0 0 2px rgba(255, 140, 0, 0.2);
-}
-
 .start-section {
     text-align: center;
     margin-top: 2rem;
@@ -276,6 +241,13 @@ h2 {
     border-radius: 10px;
     margin-bottom: 2rem;
     text-align: center;
+}
+
+.results-summary h2,
+.results-summary h3,
+.results-summary p,
+.results-summary div {
+    color: white !important;
 }
 
 .function-scores {

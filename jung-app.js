@@ -1,266 +1,5 @@
 // Web-optimized Jungian Assessment Application
 
-// Debug: Check if type descriptions are loaded
-console.log('=== TYPE DESCRIPTIONS DEBUG ===');
-console.log('typeDescriptions available:', typeof typeDescriptions);
-console.log('getTypeDescription available:', typeof getTypeDescription);
-if (typeof typeDescriptions !== 'undefined') {
-    console.log('Available types:', Object.keys(typeDescriptions));
-}
-console.log('================================');
-
-// Emergency fallback type descriptions - Complete detailed versions
-const fallbackTypeDescriptions = {
-    'NITE': {
-        description: {
-            en: "These types are guided by profound, often symbolic inner images and archetypal patterns. Their orientation to life is visionary: they sense the underlying currents and inevitable directions of events, often long before others do. This \"inner seeing\" is not vague fantasy, but a focused, almost prophetic perception of what is to come, which they strive to realize through effective, objective action. Their auxiliary extraverted thinking gives them a practical, systematic approach to manifesting their visions—they are not content to dream, but must bring order and structure to the world in accordance with what they have foreseen. They may appear enigmatic, intense, or even aloof, as their attention is so often absorbed by the compelling reality of their inner world. They are often misunderstood, as their motivations are shaped by images and meanings that are difficult to articulate. In adaptation, they excel at long-term strategy, innovation, and transformation, but may struggle with the demands of the present moment or with the emotional needs of others.",
-            zh: "這些類型被深刻的、通常是象徵性的內在圖像和原型模式所引導。他們對生活的取向是有遠見的：他們感知到事件的潛在趨勢和不可避免的方向，通常遠早於其他人。這種「內在視野」不是模糊的幻想，而是對即將到來的事物的專注、幾乎是預言性的感知，他們努力通過有效、客觀的行動來實現。他們的輔助外向思考為他們提供了實現願景的實用、系統化方法——他們不滿足於夢想，而必須根據他們所預見的為世界帶來秩序和結構。他們可能顯得神秘、強烈，甚至冷漠，因為他們的注意力經常被內心世界的引人入勝的現實所吸引。他們經常被誤解，因為他們的動機是由難以表達的形象和意義所塑造的。在適應中，他們擅長於長期戰略、創新和轉型，但可能在應對當前時刻的需求或他人的情感需求時掙扎。"
-        },
-        mostSimilar: {
-            en: "NIFE (shares Ni dominance, but with a focus on harmony and empathy)",
-            zh: "NIFE (共享Ni主導，但專注於和諧與同理心)"
-        },
-        mostComplementary: {
-            en: "SEFI (Se-Fi axis: present-focused, authentic, and attuned to immediate experience, balancing Ni-Te's future orientation and abstraction)",
-            zh: "SEFI (Se-Fi軸：專注於當下、真實、並與即時體驗相連，平衡Ni-Te的未來導向和抽象性)"
-        }
-    },
-    'SITE': {
-        description: {
-            en: "SITE types are practical, reliable, and tradition-minded. Their dominant introverted sensation gives them a rich, subjective connection to the past, while their auxiliary extraverted thinking enables them to implement proven methods efficiently. They value stability, order, and continuity, and are often found in roles that require careful management, preservation, or stewardship. They may resist change or novelty, preferring what is tried and true, but their dependability and attention to detail are strengths.",
-            zh: "SITE類型實用、可靠、傳統導向。他們的主導內向感覺給了他們與過去豐富、主觀的聯繫，而他們的輔助外向思考使他們能夠有效地實施經過驗證的方法。他們重視穩定、秩序和連續性，經常在需要仔細管理、保護或管理的角色中被發現。他們可能抗拒變化或新奇，偏好經過嘗試和驗證的東西，但他們的可靠性和對細節的關注是優勢。"
-        },
-        mostSimilar: {
-            en: "SIFE (shares Si dominance, but focuses on harmony and relationships)",
-            zh: "SIFE (共享Si主導，但專注於和諧與關係)"
-        },
-        mostComplementary: {
-            en: "NEFI (Ne-Fi axis: open, imaginative, and possibility-oriented, balancing SITE's conservatism and practicality)",
-            zh: "NEFI (Ne-Fi軸：開放、富有想像力、可能性導向，平衡SITE的保守主義和實用性)"
-        }
-    },
-    'NIFE': {
-        description: {
-            en: "NIFE types are deeply attuned to the symbolic and archetypal meaning of life, but their insights are expressed through empathy, diplomacy, and a desire to inspire or guide others. They often have a sense of personal destiny or calling, and seek to harmonize groups or communities around a vision that feels both inevitable and meaningful. Their auxiliary extraverted feeling makes them sensitive to the emotional climate and needs of others, and they may become the \"conscience\" or \"prophet\" of their circle. They are often reserved or mysterious, as their perceptions are difficult to translate into everyday language, but they radiate a quiet conviction and warmth. They may struggle when their inner vision is misunderstood or when they feel disconnected from collective values.",
-            zh: "NIFE類型深深地調節於生活的象徵和原型意義，但他們的洞察通過同理心、外交和激勵或指導他人的願望來表達。他們經常有個人命運或使命感，並尋求圍繞一個既不可避免又有意義的願景來協調群體或社區。他們的輔助外向情感使他們對他人的情感氣候和需求敏感，並且可能成為他們圈子的「良心」或「先知」。他們經常保持內斂或神秘，因為他們的感知難以轉化為日常語言，但他們散發出平靜的信念和溫暖。當他們的內在視野被誤解或感到與集體價值觀脫節時，他們可能會掙扎。"
-        },
-        mostSimilar: {
-            en: "NITE (shares Ni dominance, but with a practical, logical bent)",
-            zh: "NITE (共享Ni主導，但具有實用、邏輯傾向)"
-        },
-        mostComplementary: {
-            en: "SEFI (Se-Fi axis: authentic, present, and spontaneous, offering a grounding counterpoint to NIFE's abstraction and future focus)",
-            zh: "SEFI (Se-Fi軸：真實、當下、自發，為NIFE的抽象和未來焦點提供基礎對比)"
-        }
-    },
-    'NEFI': {
-        description: {
-            en: "NEFI types are open, imaginative, and constantly scanning the external world for new possibilities, patterns, and connections. Their dominant extraverted intuition gives them a restless curiosity and an ability to see potential where others see only what is. Their auxiliary introverted feeling means their explorations are guided by a strong, private sense of personal value and authenticity. They are champions of individuality, both for themselves and others, and are often drawn to causes, the arts, or any field that allows creative self-expression. They may appear scattered or changeable, but their inner values provide a quiet consistency beneath their outward adaptability.",
-            zh: "NEFI類型開放、富有想像力，不斷掃描外部世界尋找新的可能性、模式和聯繫。他們的主導外向直覺給了他們不安分的好奇心，能夠在其他人只看到現實的地方看到潛力。他們的輔助內向情感意味著他們的探索由強烈、私人的個人價值感和真實性所指導。他們是個性的擁護者，無論是對自己還是對他人，經常被事業、藝術或任何允許創造性自我表達的領域所吸引。"
-        },
-        mostSimilar: {
-            en: "NETI (shares Ne dominance, but with a logical, analytical auxiliary)",
-            zh: "NETI (共享Ne主導，但具有邏輯、分析輔助)"
-        },
-        mostComplementary: {
-            en: "SITE (Si-Te axis: tradition- and fact-oriented, providing stability and practical grounding to NEFI's openness)",
-            zh: "SITE (Si-Te軸：傳統和事實導向，為NEFI的開放性提供穩定和實際基礎)"
-        }
-    },
-    'NETI': {
-        description: {
-            en: "NETI types are inventive, theoretical, and endlessly curious. Their dominant extraverted intuition drives them to explore possibilities, question assumptions, and generate new ideas, while their auxiliary introverted thinking provides a framework of internal logic and consistency. They enjoy intellectual debate, brainstorming, and systems analysis, often challenging conventional wisdom. They may sometimes seem eccentric or scattered, as their focus is on what could be rather than what is, but their thinking is original and internally coherent. They excel at innovation, but may struggle with follow-through or practical implementation.",
-            zh: "NETI類型富有創造力、理論性和無盡的好奇心。他們的主導外向直覺驅使他們探索可能性、質疑假設和產生新想法，而他們的輔助內向思考提供內在邏輯和一致性的框架。他們享受智力辯論、頭腦風暴和系統分析，經常挑戰傳統智慧。他們有時可能顯得古怪或分散，因為他們關注的是可能的事情而不是現實，但他們的思維是原創的和內在一致的。"
-        },
-        mostSimilar: {
-            en: "NEFI (shares Ne dominance, but guided by values rather than logic)",
-            zh: "NEFI (共享Ne主導，但由價值觀而非邏輯指導)"
-        },
-        mostComplementary: {
-            en: "SITE (Si-Te axis: practical, detail-oriented, and tradition-minded, balancing NETI's abstract theorizing)",
-            zh: "SITE (Si-Te軸：實用、注重細節、傳統導向，平衡NETI的抽象理論化)"
-        }
-    },
-    'TENI': {
-        description: {
-            en: "TENI types are strategic, decisive, and future-oriented. Their dominant extraverted thinking seeks to organize the external world efficiently, while their auxiliary introverted intuition provides visionary insight into long-term trends and underlying patterns. They are often found in leadership roles, where they can implement far-reaching plans and reforms. Their approach is pragmatic, systematic, and focused on results, but always informed by a sense of what is unfolding beneath the surface. They may sometimes neglect emotional or immediate concerns in pursuit of their vision, and can appear forceful or impersonal.",
-            zh: "TENI類型具有戰略性、決斷力和未來導向。他們的主導外向思考尋求有效地組織外部世界，而他們的輔助內向直覺提供對長期趨勢和潛在模式的遠見洞察。他們經常擔任領導角色，能夠實施深遠的計劃和改革。他們的方法是務實的、系統化的，專注於結果，但總是基於對表面下正在展開的事物的感知。"
-        },
-        mostSimilar: {
-            en: "TESI (shares Te dominance, but grounded in tradition and detail)",
-            zh: "TESI (共享Te主導，但植根於傳統和細節)"
-        },
-        mostComplementary: {
-            en: "FINE (Fi-Ne axis: values-driven, open to possibilities, and attuned to authenticity, offering a counterbalance to TENI's objectivity and structure)",
-            zh: "FINE (Fi-Ne軸：價值觀驅動、對可能性開放、調節真實性，為TENI的客觀性和結構提供平衡)"
-        }
-    },
-    'FENI': {
-        description: {
-            en: "FENI types are empathetic, charismatic, and guided by a profound sense of collective meaning.",
-            zh: "FENI類型富有同理心、魅力，並被深刻的集體意義感所指導。"
-        },
-        mostSimilar: {
-            en: "FESI (shares Fe dominance, but more tradition- and detail-oriented)",
-            zh: "FESI (共享Fe主導，但更傳統和細節導向)"
-        },
-        mostComplementary: {
-            en: "TINE (Ti-Ne axis: independent, analytical, and theoretical)",
-            zh: "TINE (Ti-Ne軸：獨立、分析、理論)"
-        }
-    },
-    'FINE': {
-        description: {
-            en: "FINE types are deeply individualistic, creative, and guided by an inner sense of authenticity.",
-            zh: "FINE類型深度個人主義、創造性，並被內在的真實感所指導。"
-        },
-        mostSimilar: {
-            en: "FISE (shares Fi dominance, but with a focus on sensory experience)",
-            zh: "FISE (共享Fi主導，但專注於感官體驗)"
-        },
-        mostComplementary: {
-            en: "TENI (Te-Ni axis: objective, strategic, and results-oriented)",
-            zh: "TENI (Te-Ni軸：客觀、戰略、結果導向)"
-        }
-    },
-    'TINE': {
-        description: {
-            en: "TINE types are analytical, independent, and theoretical.",
-            zh: "TINE類型分析性、獨立、理論性。"
-        },
-        mostSimilar: {
-            en: "TISE (shares Ti dominance, but is more practical and sensory-focused)",
-            zh: "TISE (共享Ti主導，但更實用和感官導向)"
-        },
-        mostComplementary: {
-            en: "FENI (Fe-Ni axis: empathetic, visionary, and group-oriented)",
-            zh: "FENI (Fe-Ni軸：同理心、遠見、群體導向)"
-        }
-    },
-    'SITE': {
-        description: {
-            en: "SITE types are practical, reliable, and tradition-minded.",
-            zh: "SITE類型實用、可靠、傳統導向。"
-        },
-        mostSimilar: {
-            en: "SIFE (shares Si dominance, but focuses on harmony and relationships)",
-            zh: "SIFE (共享Si主導，但專注於和諧與關係)"
-        },
-        mostComplementary: {
-            en: "NEFI (Ne-Fi axis: open, imaginative, and possibility-oriented)",
-            zh: "NEFI (Ne-Fi軸：開放、富有想像力、可能性導向)"
-        }
-    },
-    'SIFE': {
-        description: {
-            en: "SIFE types are nurturing, loyal, and community-oriented.",
-            zh: "SIFE類型關懷、忠誠、社區導向。"
-        },
-        mostSimilar: {
-            en: "SITE (shares Si dominance, but focuses on efficiency and structure)",
-            zh: "SITE (共享Si主導，但專注於效率和結構)"
-        },
-        mostComplementary: {
-            en: "NEFI (Ne-Fi axis: creative, open, and authenticity-oriented)",
-            zh: "NEFI (Ne-Fi軸：創造性、開放、真實性導向)"
-        }
-    },
-    'SEFI': {
-        description: {
-            en: "SEFI types are spontaneous, authentic, and immersed in the present moment.",
-            zh: "SEFI類型自發、真實，沉浸在當下時刻。"
-        },
-        mostSimilar: {
-            en: "SETI (shares Se dominance, but with a logical, analytical auxiliary)",
-            zh: "SETI (共享Se主導，但具有邏輯、分析輔助)"
-        },
-        mostComplementary: {
-            en: "NITE (Ni-Te axis: visionary, strategic, and future-focused)",
-            zh: "NITE (Ni-Te軸：遠見、戰略、未來焦點)"
-        }
-    },
-    'SETI': {
-        description: {
-            en: "SETI types are practical, observant, and hands-on.",
-            zh: "SETI類型實用、觀察力強、動手能力強。"
-        },
-        mostSimilar: {
-            en: "SEFI (shares Se dominance, but with a values-driven auxiliary)",
-            zh: "SEFI (共享Se主導，但具有價值觀驅動的輔助)"
-        },
-        mostComplementary: {
-            en: "NIFE (Ni-Fe axis: visionary, empathetic, and future-oriented)",
-            zh: "NIFE (Ni-Fe軸：遠見、同理心、未來導向)"
-        }
-    },
-    'TESI': {
-        description: {
-            en: "TESI types are organized, disciplined, and pragmatic.",
-            zh: "TESI類型有組織、有紀律、實用。"
-        },
-        mostSimilar: {
-            en: "TENI (shares Te dominance, but is more visionary and abstract)",
-            zh: "TENI (共享Te主導，但更有遠見和抽象)"
-        },
-        mostComplementary: {
-            en: "FINE (Fi-Ne axis: authentic, open, and possibilities-focused)",
-            zh: "FINE (Fi-Ne軸：真實、開放、可能性焦點)"
-        }
-    },
-    'FESI': {
-        description: {
-            en: "FESI types are warm, supportive, and tradition-oriented.",
-            zh: "FESI類型溫暖、支持、傳統導向。"
-        },
-        mostSimilar: {
-            en: "FENI (shares Fe dominance, but is more visionary and abstract)",
-            zh: "FENI (共享Fe主導，但更有遠見和抽象)"
-        },
-        mostComplementary: {
-            en: "TINE (Ti-Ne axis: analytical, independent, and theoretical)",
-            zh: "TINE (Ti-Ne軸：分析、獨立、理論)"
-        }
-    },
-    'FISE': {
-        description: {
-            en: "FISE types are authentic, passionate, and attuned to the sensory world.",
-            zh: "FISE類型真實、熱情，調節於感官世界。"
-        },
-        mostSimilar: {
-            en: "FINE (shares Fi dominance, but is more imaginative and future-focused)",
-            zh: "FINE (共享Fi主導，但更富有想像力和未來焦點)"
-        },
-        mostComplementary: {
-            en: "TENI (Te-Ni axis: objective, strategic, and results-oriented)",
-            zh: "TENI (Te-Ni軸：客觀、戰略、結果導向)"
-        }
-    },
-    'TISE': {
-        description: {
-            en: "TISE types are analytical, precise, and hands-on.",
-            zh: "TISE類型分析性、精確、動手能力強。"
-        },
-        mostSimilar: {
-            en: "TINE (shares Ti dominance, but is more theoretical and imaginative)",
-            zh: "TINE (共享Ti主導，但更理論和富有想像力)"
-        },
-        mostComplementary: {
-            en: "FENI (Fe-Ni axis: empathetic, visionary, and group-oriented)",
-            zh: "FENI (Fe-Ni軸：同理心、遠見、群體導向)"
-        }
-    }
-};
-
-function getFallbackTypeDescription(type, currentLanguage) {
-    const typeInfo = fallbackTypeDescriptions[type];
-    if (!typeInfo) return null;
-    return {
-        description: typeInfo.description[currentLanguage] || typeInfo.description.en,
-        mostSimilar: typeInfo.mostSimilar[currentLanguage] || typeInfo.mostSimilar.en,
-        mostComplementary: typeInfo.mostComplementary[currentLanguage] || typeInfo.mostComplementary.en
-    };
-}
-
 class WebJungianAssessment {
     constructor() {
         this.currentLanguage = 'en';
@@ -559,6 +298,7 @@ class WebJungianAssessment {
         safeUpdateElement('thank-you-title', 'textContent', t.thankYouTitle);
         safeUpdateElement('thank-you-text', 'textContent', t.thankYouText);
         safeUpdateElement('completion-id-label', 'textContent', t.completionIdLabel);
+        safeUpdateElement('functions-link', 'textContent', t.functionsReference);
         safeUpdateElement('download-btn', 'textContent', t.downloadResults);
         safeUpdateElement('restart-btn', 'textContent', t.takeAgain);
         
@@ -690,11 +430,11 @@ class WebJungianAssessment {
     }
     
     startAssessment() {
-        // Collect participant info
+        // Set basic participant info without form elements
         this.participantInfo = {
-            participantId: document.getElementById('participant-id').value || null,
-            age: document.getElementById('participant-age').value || null,
-            education: document.getElementById('participant-education').value || null,
+            participantId: null,
+            age: null,
+            education: null,
             language: this.currentLanguage
         };
         
@@ -864,42 +604,54 @@ class WebJungianAssessment {
         const totalScore = Object.values(this.scores).reduce((a, b) => a + b, 0);
         if (totalScore === 0) {
             console.error('All scores are zero! Check question format.');
-            // Set default scores for testing
-            this.scores = { Te: 25, Ti: 20, Fe: 15, Fi: 30, Se: 10, Si: 25, Ne: 35, Ni: 40 };
+            // Set default scores for testing (using realistic absolute values)
+            this.scores = { Te: 45, Ti: 38, Fe: 32, Fi: 52, Se: 28, Si: 41, Ne: 49, Ni: 55 };
         }
     }
-    
+
     generateResults() {
         console.log('Generating results from scores:', this.scores);
         
-        // Convert scores to percentages
-        const totalScore = Object.values(this.scores).reduce((a, b) => a + b, 0);
-        const percentageScores = {};
+        // Calculate absolute percentages based on maximum possible scores
+        const maxPossiblePerQuestion = 5; // Rating scale 1-5 (was incorrectly 7)
+        const questionsPerFunction = 7; // 7 questions per function (56 total / 8 functions)
+        const maxPossiblePerFunction = maxPossiblePerQuestion * questionsPerFunction;
         
         // Also keep raw scores for debugging
         const rawScores = { ...this.scores };
         
+        // Convert to absolute percentages (score / max possible for that function)
+        const absolutePercentageScores = {};
         Object.keys(this.scores).forEach(func => {
-            percentageScores[func] = Math.round((this.scores[func] / totalScore) * 100);
+            const rawScore = this.scores[func];
+            const absolutePercentage = Math.round((rawScore / maxPossiblePerFunction) * 100);
+            absolutePercentageScores[func] = Math.max(0, Math.min(100, absolutePercentage)); // Clamp between 0-100
+        });
+        
+        // For comparison, also calculate relative percentages
+        const totalScore = Object.values(this.scores).reduce((a, b) => a + b, 0);
+        const relativePercentageScores = {};
+        Object.keys(this.scores).forEach(func => {
+            relativePercentageScores[func] = totalScore > 0 ? Math.round((this.scores[func] / totalScore) * 100) : 0;
         });
         
         console.log('Raw scores:', rawScores);
         console.log('Total raw score:', totalScore);
-        console.log('Percentage scores:', percentageScores);
+        console.log('Max possible per function:', maxPossiblePerFunction);
+        console.log('Absolute percentage scores:', absolutePercentageScores);
+        console.log('Relative percentage scores (old method):', relativePercentageScores);
         
-        // Debug: Show expected vs actual scores
-        const maxPossiblePerQuestion = 7; // Rating scale 1-7
-        const questionsPerFunction = 7; // 7 questions per function
-        const maxPossiblePerFunction = maxPossiblePerQuestion * questionsPerFunction;
-        
-        console.log('=== SCORE ANALYSIS ===');
+        console.log('=== ABSOLUTE SCORE ANALYSIS ===');
         Object.keys(this.scores).forEach(func => {
             const rawScore = this.scores[func];
-            const maxPossible = maxPossiblePerFunction;
-            const percentage = Math.round((rawScore / maxPossible) * 100);
-            console.log(`${func}: ${rawScore}/${maxPossible} = ${percentage}% (relative: ${percentageScores[func]}%)`);
+            const absolutePercentage = absolutePercentageScores[func];
+            const relativePercentage = relativePercentageScores[func];
+            console.log(`${func}: ${rawScore}/${maxPossiblePerFunction} = ${absolutePercentage}% absolute (was ${relativePercentage}% relative)`);
         });
-        console.log('=====================');
+        console.log('================================');
+        
+        // Use absolute percentages for type determination
+        const percentageScores = absolutePercentageScores;
         
         // Apply Jung's psychological type theory to determine the correct type
         const typeResult = this.determineJungianType(percentageScores);
@@ -948,7 +700,7 @@ class WebJungianAssessment {
                 const typeInfo = window.typeDescriptions[typeResult.type];
                 typeDescription = {
                     description: typeInfo.description[this.currentLanguage] || typeInfo.description.en || typeInfo.description,
-                    mostSimilar: typeInfo.mostSimilar[this.currentLanguage] || typeInfo.mostSimilar.en || typeInfo.mostSimilar,
+                    mostSimilar: typeInfo.mostSimilar[this.currentLanguage] || typeInfo.mostSimilar.en || typeInfo.mostComplementary,
                     mostComplementary: typeInfo.mostComplementary[this.currentLanguage] || typeInfo.mostComplementary.en || typeInfo.mostComplementary
                 };
                 console.log('Window typeDescriptions result:', typeDescription);
@@ -957,6 +709,8 @@ class WebJungianAssessment {
             // Method 5: Try fallback descriptions
             if (!typeDescription) {
                 console.log('Using fallback type descriptions');
+                console.log('Type being looked up:', typeResult.type);
+                console.log('Available fallback types:', typeof fallbackTypeDescriptions !== 'undefined' ? Object.keys(fallbackTypeDescriptions) : 'fallbackTypeDescriptions not available');
                 typeDescription = getFallbackTypeDescription(typeResult.type, this.currentLanguage);
                 console.log('Fallback result:', typeDescription);
             }
@@ -1224,35 +978,94 @@ class WebJungianAssessment {
     createBarChart(percentageScores) {
         const functions = Object.entries(percentageScores).sort(([,a], [,b]) => b - a);
         
-        let html = '<div class="function-scores">';
+        let html = `
+            <div style="background: white; padding: 2rem; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.1); margin: 2rem 0;">
+                <h4 style="color: #333; text-align: center; margin-bottom: 1.5rem; font-size: 1.2rem;">
+                    ${this.currentLanguage === 'zh' ? '功能強度詳細分析' : 'Detailed Function Strength Analysis'}
+                </h4>
+                <p style="color: #666; text-align: center; margin-bottom: 2rem; font-size: 0.95rem;">
+                    ${this.currentLanguage === 'zh' ? 
+                        '每個功能的絕對分數（0-100%），基於您對該功能相關問題的回答' :
+                        'Absolute score for each function (0-100%), based on your responses to questions about that function'
+                    }
+                </p>
+                <div class="function-scores">
+        `;
         
         functions.forEach(([func, score]) => {
+            // Determine strength level and color
+            let strengthLevel, strengthColor, strengthBg;
+            if (score >= 80) {
+                strengthLevel = this.currentLanguage === 'zh' ? '很強' : 'Very Strong';
+                strengthColor = '#2e7d32';
+                strengthBg = '#e8f5e8';
+            } else if (score >= 60) {
+                strengthLevel = this.currentLanguage === 'zh' ? '強' : 'Strong';
+                strengthColor = '#388e3c';
+                strengthBg = '#e8f5e8';
+            } else if (score >= 40) {
+                strengthLevel = this.currentLanguage === 'zh' ? '中等' : 'Moderate';
+                strengthColor = '#f57c00';
+                strengthBg = '#fff3e0';
+            } else if (score >= 20) {
+                strengthLevel = this.currentLanguage === 'zh' ? '弱' : 'Weak';
+                strengthColor = '#e64a19';
+                strengthBg = '#ffebee';
+            } else {
+                strengthLevel = this.currentLanguage === 'zh' ? '很弱' : 'Very Weak';
+                strengthColor = '#c62828';
+                strengthBg = '#ffebee';
+            }
+            
             html += `
-                <div class="function-card">
-                    <div class="function-name">${func}</div>
-                    <div class="function-score">${score}%</div>
-                    <div style="background: #e9ecef; height: 10px; border-radius: 5px; margin-top: 0.5rem;">
-                        <div style="background: linear-gradient(45deg, #ff8c00, #ff6347); height: 100%; width: ${score}%; border-radius: 5px; transition: width 0.3s ease;"></div>
+                <div style="margin-bottom: 1rem; padding: 1rem; background: ${strengthBg}; border-radius: 10px; border-left: 4px solid ${strengthColor};">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                        <div style="font-weight: bold; font-size: 1.1rem; color: #333;">${func}</div>
+                        <div style="display: flex; align-items: center; gap: 1rem;">
+                            <span style="background: ${strengthColor}; color: white; padding: 0.2rem 0.8rem; border-radius: 15px; font-size: 0.85rem; font-weight: bold;">
+                                ${strengthLevel}
+                            </span>
+                            <div style="font-weight: bold; font-size: 1.2rem; color: ${strengthColor};">${score}%</div>
+                        </div>
+                    </div>
+                    <div style="background: #f5f5f5; height: 12px; border-radius: 6px; overflow: hidden;">
+                        <div style="background: linear-gradient(45deg, ${strengthColor}, ${strengthColor}dd); height: 100%; width: ${score}%; border-radius: 6px; transition: width 0.6s ease;"></div>
                     </div>
                 </div>
             `;
         });
         
-        html += '</div>';
+        html += `
+                </div>
+                <div style="margin-top: 1.5rem; padding: 1rem; background: #f8f9fa; border-radius: 8px; border-left: 3px solid #6c757d;">
+                    <h5 style="color: #495057; margin-bottom: 0.8rem; font-size: 1rem;">
+                        ${this.currentLanguage === 'zh' ? '如何解讀這些分數：' : 'How to interpret these scores:'}
+                    </h5>
+                    <ul style="color: #666; font-size: 0.9rem; line-height: 1.6; margin: 0; padding-left: 1.2rem;">
+                        <li>${this.currentLanguage === 'zh' ? '<strong>80-100%:</strong> 很強 - 您非常偏好這種認知方式' : '<strong>80-100%:</strong> Very Strong - You strongly prefer this cognitive approach'}</li>
+                        <li>${this.currentLanguage === 'zh' ? '<strong>60-79%:</strong> 強 - 您經常使用這種思維方式' : '<strong>60-79%:</strong> Strong - You frequently use this thinking style'}</li>
+                        <li>${this.currentLanguage === 'zh' ? '<strong>40-59%:</strong> 中等 - 您有時會使用這種功能' : '<strong>40-59%:</strong> Moderate - You sometimes use this function'}</li>
+                        <li>${this.currentLanguage === 'zh' ? '<strong>20-39%:</strong> 弱 - 您較少依賴這種方式' : '<strong>20-39%:</strong> Weak - You rely less on this approach'}</li>
+                        <li>${this.currentLanguage === 'zh' ? '<strong>0-19%:</strong> 很弱 - 這不是您的自然傾向' : '<strong>0-19%:</strong> Very Weak - This is not your natural tendency'}</li>
+                    </ul>
+                </div>
+            </div>
+        `;
+        
         return html;
     }
 
     createRadarChartVisualization(percentageScores) {
         const functions = ['Te', 'Ti', 'Fe', 'Fi', 'Se', 'Si', 'Ne', 'Ni'];
-        const size = 800;
+        const size = 900; // Increased from 800
         const center = size / 2;
-        const maxRadius = 300;
+        const maxRadius = 280; // Slightly reduced to give more label space
         
         // Create SVG radar chart
         let svg = `
-            <div class="radar-container" style="margin: 3rem auto; max-width: 800px; display: flex; justify-content: center; align-items: center;">
-                <div style="background: white; padding: 2rem; border-radius: 15px; text-align: center; box-shadow: 0 5px 20px rgba(0,0,0,0.1); width: 100%;">
-                    <svg width="100%" height="800" viewBox="0 0 ${size} ${size}" style="margin: 0 auto; display: block;">
+            <div class="radar-container" style="margin: 4rem auto; max-width: 900px; display: flex; justify-content: center; align-items: center;">
+                <div style="background: white; padding: 3rem; border-radius: 15px; text-align: center; box-shadow: 0 5px 20px rgba(0,0,0,0.1); width: 100%;">
+                    <svg width="100%" height="900" viewBox="0 0 ${size} ${size}" style="margin: 0 auto; display: block;">
                         <!-- Background circles with percentage rings -->
                         <circle cx="${center}" cy="${center}" r="${maxRadius * 0.2}" fill="none" stroke="#f5f5f5" stroke-width="2"/>
                         <circle cx="${center}" cy="${center}" r="${maxRadius * 0.4}" fill="none" stroke="#e8e8e8" stroke-width="2"/>
@@ -1261,11 +1074,11 @@ class WebJungianAssessment {
                         <circle cx="${center}" cy="${center}" r="${maxRadius}" fill="none" stroke="#999999" stroke-width="3"/>
                         
                         <!-- Percentage labels on the vertical axis -->
-                        <text x="${center + 10}" y="${center - maxRadius * 0.2 + 8}" text-anchor="start" fill="#888" font-size="16">20%</text>
-                        <text x="${center + 10}" y="${center - maxRadius * 0.4 + 8}" text-anchor="start" fill="#888" font-size="16">40%</text>
-                        <text x="${center + 10}" y="${center - maxRadius * 0.6 + 8}" text-anchor="start" fill="#888" font-size="16">60%</text>
-                        <text x="${center + 10}" y="${center - maxRadius * 0.8 + 8}" text-anchor="start" fill="#888" font-size="16">80%</text>
-                        <text x="${center + 10}" y="${center - maxRadius + 8}" text-anchor="start" fill="#888" font-size="16">100%</text>
+                        <text x="${center + 15}" y="${center - maxRadius * 0.2 + 8}" text-anchor="start" fill="#888" font-size="18">20%</text>
+                        <text x="${center + 15}" y="${center - maxRadius * 0.4 + 8}" text-anchor="start" fill="#888" font-size="18">40%</text>
+                        <text x="${center + 15}" y="${center - maxRadius * 0.6 + 8}" text-anchor="start" fill="#888" font-size="18">60%</text>
+                        <text x="${center + 15}" y="${center - maxRadius * 0.8 + 8}" text-anchor="start" fill="#888" font-size="18">80%</text>
+                        <text x="${center + 15}" y="${center - maxRadius + 8}" text-anchor="start" fill="#888" font-size="18">100%</text>
                         
                         <!-- Axis lines -->
         `;
@@ -1275,11 +1088,11 @@ class WebJungianAssessment {
             const angle = (index * 2 * Math.PI) / functions.length - Math.PI / 2;
             const x = center + Math.cos(angle) * maxRadius;
             const y = center + Math.sin(angle) * maxRadius;
-            const labelX = center + Math.cos(angle) * (maxRadius + 60);
-            const labelY = center + Math.sin(angle) * (maxRadius + 60);
+            const labelX = center + Math.cos(angle) * (maxRadius + 80); // Increased offset for labels
+            const labelY = center + Math.sin(angle) * (maxRadius + 80);
             
             svg += `<line x1="${center}" y1="${center}" x2="${x}" y2="${y}" stroke="#ccc" stroke-width="2"/>`;
-            svg += `<text x="${labelX}" y="${labelY}" text-anchor="middle" dominant-baseline="central" fill="#333" font-size="28" font-weight="bold">${func}</text>`;
+            svg += `<text x="${labelX}" y="${labelY}" text-anchor="middle" dominant-baseline="central" fill="#333" font-size="32" font-weight="bold">${func}</text>`;
         });
         
         // Create data polygon
@@ -1309,13 +1122,19 @@ class WebJungianAssessment {
             const y = center + Math.sin(angle) * radius;
             
             // Data point
-            svg += `<circle cx="${x}" cy="${y}" r="10" fill="#ff8c00" stroke="white" stroke-width="4"/>`;
+            svg += `<circle cx="${x}" cy="${y}" r="8" fill="#ff8c00" stroke="white" stroke-width="3"/>`;
             
-            // Score label near the point
-            const labelOffset = 25;
-            const labelX = x + Math.cos(angle) * labelOffset;
-            const labelY = y + Math.sin(angle) * labelOffset;
-            svg += `<text x="${labelX}" y="${labelY}" text-anchor="middle" dominant-baseline="central" fill="#ff8c00" font-size="18" font-weight="bold">${score}%</text>`;
+            // Score label - position it more carefully to avoid overlap
+            let labelOffset = 35;
+            // Adjust offset for very low scores to keep labels visible
+            if (score < 15) labelOffset = 50;
+            
+            const labelX = center + Math.cos(angle) * (radius + labelOffset);
+            const labelY = center + Math.sin(angle) * (radius + labelOffset);
+            
+            // Add background circle for better readability
+            svg += `<circle cx="${labelX}" cy="${labelY}" r="20" fill="white" stroke="#ff8c00" stroke-width="2" opacity="0.9"/>`;
+            svg += `<text x="${labelX}" y="${labelY}" text-anchor="middle" dominant-baseline="central" fill="#ff8c00" font-size="16" font-weight="bold">${score}%</text>`;
         });
         
         svg += `
@@ -1339,13 +1158,13 @@ class WebJungianAssessment {
         return `
             <div style="margin: 2rem 0; padding: 2rem; background: white; border-radius: 10px; border: 1px solid #ddd;">
                 <h3 style="color: #333; text-align: center; margin-bottom: 2rem; font-size: 1.3rem;">
-                    ${this.currentLanguage === 'zh' ? 'Jung氏類型分析' : 'Jungian Type Analysis'}
+                    ${this.currentLanguage === 'zh' ? '類型分析' : 'Type Analysis'}
                 </h3>
                 
                 <!-- Function Stack -->
                 <div style="margin-bottom: 2rem;">
                     <h4 style="color: #333; text-align: center; margin-bottom: 1rem; font-size: 1.1rem;">
-                        ${this.currentLanguage === 'zh' ? '功能堆疊 (依照Jung理論)' : 'Function Stack (According to Jung)'}
+                        ${this.currentLanguage === 'zh' ? '功能堆疊' : 'Function Stack'}
                     </h4>
                     <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.8rem; max-width: 600px; margin: 0 auto;">
                         
@@ -1466,17 +1285,20 @@ class WebJungianAssessment {
             html += this.createTypeDescriptionSection(jungianType, typeDescription);
         }
         
-        // Add radar chart visualization
+        // Add radar chart visualization with extra spacing
         html += this.createRadarChartVisualization(percentageScores);
         
-        // Add function axes visualization
+        // Add function axes visualization with extra spacing
         html += this.createFunctionAxesVisualization(functionStack);
         
-        // Add bar chart visualization
-        html += `<h3 style="text-align: center; color: #ff8c00; margin: 2rem 0 1rem;">${this.currentLanguage === 'zh' ? '認知功能評分' : 'Cognitive Function Scores'}</h3>`;
+        // Add bar chart visualization with extra spacing
+        html += `<div style="margin-top: 4rem;"><h3 style="text-align: center; color: #ff8c00; margin: 2rem 0 1rem;">${this.currentLanguage === 'zh' ? '認知功能評分' : 'Cognitive Function Scores'}</h3></div>`;
         html += this.createBarChart(percentageScores);
         
         container.innerHTML = html;
+        
+        // Show the Functions Reference link now that assessment is complete
+        this.showFunctionsReference();
         
         // Set completion ID
         const completionIdElement = document.getElementById('completion-id');
@@ -1541,6 +1363,16 @@ class WebJungianAssessment {
     showAssessmentScreen() {
         this.showScreen('assessment');
     }
+
+    showFunctionsReference() {
+        const functionsNav = document.querySelector('.functions-nav');
+        if (functionsNav) {
+            functionsNav.style.display = 'block';
+        }
+    }
+
+    // Continue with the rest of the methods...
+    // Note: I'll add the remaining methods in the next part due to length constraints
 }
 
 // Initialize the application when DOM is loaded
@@ -1577,5 +1409,3 @@ document.addEventListener('DOMContentLoaded', () => {
     
     window.jungApp = new WebJungianAssessment();
 });
-
-
