@@ -636,10 +636,18 @@ class WebJungianAssessment {
     generateResults() {
         console.log('Generating results from scores:', this.scores);
         
+        // Calculate questions per function dynamically
+        const functionCounts = {};
+        this.questions.forEach(question => {
+            if (question.function) {
+                functionCounts[question.function] = (functionCounts[question.function] || 0) + 1;
+            }
+        });
+        
+        console.log('Questions per function:', functionCounts);
+        
         // Calculate absolute percentages based on maximum possible scores
-        const maxPossiblePerQuestion = 5; // Rating scale 1-5 (was incorrectly 7)
-        const questionsPerFunction = 7; // 7 questions per function (56 total / 8 functions)
-        const maxPossiblePerFunction = maxPossiblePerQuestion * questionsPerFunction;
+        const maxPossiblePerQuestion = 5; // Rating scale 1-5
         
         // Also keep raw scores for debugging
         const rawScores = { ...this.scores };
@@ -648,7 +656,9 @@ class WebJungianAssessment {
         const absolutePercentageScores = {};
         Object.keys(this.scores).forEach(func => {
             const rawScore = this.scores[func];
-            const absolutePercentage = Math.round((rawScore / maxPossiblePerFunction) * 100);
+            const questionsForThisFunction = functionCounts[func] || 10; // Default to 10 if not found
+            const maxPossibleForThisFunction = maxPossiblePerQuestion * questionsForThisFunction;
+            const absolutePercentage = Math.round((rawScore / maxPossibleForThisFunction) * 100);
             absolutePercentageScores[func] = Math.max(0, Math.min(100, absolutePercentage)); // Clamp between 0-100
         });
         
@@ -661,21 +671,71 @@ class WebJungianAssessment {
         
         console.log('Raw scores:', rawScores);
         console.log('Total raw score:', totalScore);
-        console.log('Max possible per function:', maxPossiblePerFunction);
+        console.log('Function counts:', functionCounts);
         console.log('Absolute percentage scores:', absolutePercentageScores);
         console.log('Relative percentage scores (old method):', relativePercentageScores);
         
         console.log('=== ABSOLUTE SCORE ANALYSIS ===');
         Object.keys(this.scores).forEach(func => {
             const rawScore = this.scores[func];
+            const questionsForThisFunction = functionCounts[func] || 10;
+            const maxPossibleForThisFunction = maxPossiblePerQuestion * questionsForThisFunction;
             const absolutePercentage = absolutePercentageScores[func];
             const relativePercentage = relativePercentageScores[func];
-            console.log(`${func}: ${rawScore}/${maxPossiblePerFunction} = ${absolutePercentage}% absolute (was ${relativePercentage}% relative)`);
+            console.log(`${func}: ${rawScore}/${maxPossibleForThisFunction} = ${absolutePercentage}% absolute (was ${relativePercentage}% relative)`);
         });
         console.log('================================');
         
-        // Use absolute percentages for type determination
-        const percentageScores = absolutePercentageScores;
+        // Implement a more realistic scoring approach
+        // Problem: When people answer mostly 3s and 4s, they can get high percentages on all functions
+        // Solution: Use a hybrid approach with both absolute and relative scoring
+        
+        // Calculate a baseline score (what you'd get if you answered "3" to everything)
+        const neutralScore = 3; // Middle rating
+        const baselineScores = {};
+        Object.keys(this.scores).forEach(func => {
+            const questionsForThisFunction = functionCounts[func] || 10;
+            baselineScores[func] = neutralScore * questionsForThisFunction;
+        });
+        
+        // Calculate adjusted scores (how much above/below baseline you scored)
+        const adjustedScores = {};
+        Object.keys(this.scores).forEach(func => {
+            adjustedScores[func] = this.scores[func] - baselineScores[func];
+        });
+        
+        console.log('Baseline scores (3s across the board):', baselineScores);
+        console.log('Adjusted scores (difference from baseline):', adjustedScores);
+        
+        // Use a hybrid scoring method that considers both absolute and relative performance
+        const hybridPercentageScores = {};
+        const minAdjusted = Math.min(...Object.values(adjustedScores));
+        const maxAdjusted = Math.max(...Object.values(adjustedScores));
+        const adjustedRange = maxAdjusted - minAdjusted;
+        
+        Object.keys(this.scores).forEach(func => {
+            const absolutePercentage = absolutePercentageScores[func];
+            const relativePercentage = relativePercentageScores[func];
+            
+            // If there's little variation in answers (all scores are close), use more relative scoring
+            // If there's high variation, use more absolute scoring
+            let hybridPercentage;
+            if (adjustedRange < 5) {
+                // Low variation - mostly relative scoring
+                hybridPercentage = Math.round(0.3 * absolutePercentage + 0.7 * relativePercentage);
+            } else {
+                // High variation - mostly absolute scoring
+                hybridPercentage = Math.round(0.7 * absolutePercentage + 0.3 * relativePercentage);
+            }
+            
+            hybridPercentageScores[func] = Math.max(0, Math.min(100, hybridPercentage));
+        });
+        
+        console.log('Adjusted score range:', adjustedRange);
+        console.log('Hybrid percentage scores:', hybridPercentageScores);
+        
+        // Use hybrid percentages for type determination
+        const percentageScores = hybridPercentageScores;
         
         // Apply Jung's psychological type theory to determine the correct type
         const typeResult = this.determineJungianType(percentageScores);
@@ -1388,6 +1448,16 @@ class WebJungianAssessment {
             return;
         }
         
+        try {
+            this.generatePDFReport();
+        } catch (error) {
+            console.error('Error generating PDF:', error);
+            // Fallback to JSON download
+            this.downloadResultsAsJSON();
+        }
+    }
+    
+    downloadResultsAsJSON() {
         const data = {
             participantInfo: this.participantInfo,
             results: this.results,
@@ -1404,6 +1474,194 @@ class WebJungianAssessment {
         a.click();
         document.body.removeChild(a);
         URL.revokeObjectURL(url);
+    }
+    
+    generatePDFReport() {
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF();
+        
+        const { percentageScores, dominantFunction, auxiliaryFunction, tertiaryFunction, inferiorFunction, functionStack, jungianType, typeDescription } = this.results;
+        
+        // Set up fonts and colors
+        const primaryColor = [255, 149, 0]; // Orange
+        const secondaryColor = [51, 51, 51]; // Dark gray
+        const lightGray = [102, 102, 102];
+        
+        let yPosition = 20;
+        const leftMargin = 20;
+        const rightMargin = 190;
+        const pageWidth = 210; // A4 width in mm
+        
+        // Helper function to add text with automatic line wrapping
+        const addWrappedText = (text, x, y, maxWidth, fontSize = 12, color = secondaryColor) => {
+            doc.setFontSize(fontSize);
+            doc.setTextColor(color[0], color[1], color[2]);
+            const lines = doc.splitTextToSize(text, maxWidth);
+            doc.text(lines, x, y);
+            return y + (lines.length * fontSize * 0.5); // Return new Y position
+        };
+        
+        // Title
+        doc.setFontSize(24);
+        doc.setTextColor(primaryColor[0], primaryColor[1], primaryColor[2]);
+        doc.setFont(undefined, 'bold');
+        const title = this.currentLanguage === 'zh' ? '榮格認知功能評估報告' : 'Jungian Cognitive Function Assessment Report';
+        doc.text(title, pageWidth / 2, yPosition, { align: 'center' });
+        yPosition += 15;
+        
+        // Date and Completion ID
+        doc.setFontSize(10);
+        doc.setTextColor(lightGray[0], lightGray[1], lightGray[2]);
+        doc.setFont(undefined, 'normal');
+        const date = new Date().toLocaleDateString();
+        doc.text(`${this.currentLanguage === 'zh' ? '生成日期' : 'Generated'}: ${date}`, leftMargin, yPosition);
+        doc.text(`${this.currentLanguage === 'zh' ? '完成ID' : 'Completion ID'}: ${this.completionId}`, rightMargin, yPosition, { align: 'right' });
+        yPosition += 15;
+        
+        // Main Results Section
+        doc.setFontSize(16);
+        doc.setTextColor(primaryColor[0], primaryColor[1], primaryColor[2]);
+        doc.setFont(undefined, 'bold');
+        const resultsTitle = this.currentLanguage === 'zh' ? '您的結果' : 'Your Results';
+        doc.text(resultsTitle, leftMargin, yPosition);
+        yPosition += 10;
+        
+        // Type and main functions
+        doc.setFontSize(14);
+        doc.setTextColor(secondaryColor[0], secondaryColor[1], secondaryColor[2]);
+        doc.setFont(undefined, 'bold');
+        doc.text(`${this.currentLanguage === 'zh' ? '類型' : 'Type'}: ${jungianType}`, leftMargin, yPosition);
+        yPosition += 8;
+        
+        doc.setFontSize(12);
+        doc.setFont(undefined, 'normal');
+        doc.text(`${this.currentLanguage === 'zh' ? '主導功能' : 'Dominant Function'}: ${dominantFunction[0]} (${dominantFunction[1]}%)`, leftMargin, yPosition);
+        yPosition += 6;
+        doc.text(`${this.currentLanguage === 'zh' ? '輔助功能' : 'Auxiliary Function'}: ${auxiliaryFunction[0]} (${auxiliaryFunction[1]}%)`, leftMargin, yPosition);
+        yPosition += 6;
+        doc.text(`${this.currentLanguage === 'zh' ? '第三功能' : 'Tertiary Function'}: ${tertiaryFunction[0]} (${tertiaryFunction[1]}%)`, leftMargin, yPosition);
+        yPosition += 6;
+        doc.text(`${this.currentLanguage === 'zh' ? '劣勢功能' : 'Inferior Function'}: ${inferiorFunction[0]} (${inferiorFunction[1]}%)`, leftMargin, yPosition);
+        yPosition += 15;
+        
+        // Type Description
+        if (typeDescription && typeDescription.description) {
+            doc.setFontSize(14);
+            doc.setTextColor(primaryColor[0], primaryColor[1], primaryColor[2]);
+            doc.setFont(undefined, 'bold');
+            const descriptionTitle = this.currentLanguage === 'zh' ? '類型描述' : 'Type Description';
+            doc.text(descriptionTitle, leftMargin, yPosition);
+            yPosition += 8;
+            
+            yPosition = addWrappedText(typeDescription.description, leftMargin, yPosition, rightMargin - leftMargin, 11, secondaryColor);
+            yPosition += 10;
+        }
+        
+        // Function Scores Section
+        doc.setFontSize(14);
+        doc.setTextColor(primaryColor[0], primaryColor[1], primaryColor[2]);
+        doc.setFont(undefined, 'bold');
+        const scoresTitle = this.currentLanguage === 'zh' ? '認知功能評分明細' : 'Cognitive Function Scores Breakdown';
+        doc.text(scoresTitle, leftMargin, yPosition);
+        yPosition += 10;
+        
+        // Create a simple bar chart representation
+        const sortedFunctions = Object.entries(percentageScores).sort(([,a], [,b]) => b - a);
+        const maxBarWidth = 100;
+        
+        doc.setFontSize(10);
+        doc.setFont(undefined, 'normal');
+        
+        sortedFunctions.forEach(([func, score]) => {
+            // Check if we need a new page
+            if (yPosition > 250) {
+                doc.addPage();
+                yPosition = 20;
+            }
+            
+            // Function name and score
+            doc.setTextColor(secondaryColor[0], secondaryColor[1], secondaryColor[2]);
+            doc.text(`${func}: ${score}%`, leftMargin, yPosition);
+            
+            // Draw bar
+            const barWidth = (score / 100) * maxBarWidth;
+            doc.setFillColor(primaryColor[0], primaryColor[1], primaryColor[2]);
+            doc.rect(leftMargin + 30, yPosition - 3, barWidth, 4, 'F');
+            
+            // Draw background bar
+            doc.setFillColor(240, 240, 240);
+            doc.rect(leftMargin + 30 + barWidth, yPosition - 3, maxBarWidth - barWidth, 4, 'F');
+            
+            yPosition += 8;
+        });
+        
+        yPosition += 10;
+        
+        // Most Similar and Complementary Types
+        if (typeDescription && (typeDescription.mostSimilar || typeDescription.mostComplementary)) {
+            // Check if we need a new page
+            if (yPosition > 220) {
+                doc.addPage();
+                yPosition = 20;
+            }
+            
+            doc.setFontSize(14);
+            doc.setTextColor(primaryColor[0], primaryColor[1], primaryColor[2]);
+            doc.setFont(undefined, 'bold');
+            const relationshipsTitle = this.currentLanguage === 'zh' ? '類型關係' : 'Type Relationships';
+            doc.text(relationshipsTitle, leftMargin, yPosition);
+            yPosition += 10;
+            
+            if (typeDescription.mostSimilar) {
+                doc.setFontSize(12);
+                doc.setFont(undefined, 'bold');
+                const similarTitle = this.currentLanguage === 'zh' ? '最相似類型：' : 'Most Similar Types:';
+                doc.text(similarTitle, leftMargin, yPosition);
+                yPosition += 6;
+                
+                yPosition = addWrappedText(typeDescription.mostSimilar, leftMargin, yPosition, rightMargin - leftMargin, 10, secondaryColor);
+                yPosition += 8;
+            }
+            
+            if (typeDescription.mostComplementary) {
+                doc.setFontSize(12);
+                doc.setFont(undefined, 'bold');
+                const complementaryTitle = this.currentLanguage === 'zh' ? '最互補類型：' : 'Most Complementary Types:';
+                doc.text(complementaryTitle, leftMargin, yPosition);
+                yPosition += 6;
+                
+                yPosition = addWrappedText(typeDescription.mostComplementary, leftMargin, yPosition, rightMargin - leftMargin, 10, secondaryColor);
+                yPosition += 10;
+            }
+        }
+        
+        // Footer with explanation
+        if (yPosition > 240) {
+            doc.addPage();
+            yPosition = 20;
+        }
+        
+        doc.setFontSize(10);
+        doc.setTextColor(lightGray[0], lightGray[1], lightGray[2]);
+        doc.setFont(undefined, 'italic');
+        const footerText = this.currentLanguage === 'zh' ? 
+            '此報告基於榮格認知功能理論生成。分數反映您對每種認知功能相關問題的回答模式。這些結果應作為自我理解的起點，而非絕對分類。' :
+            'This report is generated based on Jungian cognitive function theory. Scores reflect your response patterns to questions related to each cognitive function. These results should serve as a starting point for self-understanding, not as absolute categorization.';
+        
+        yPosition = addWrappedText(footerText, leftMargin, yPosition, rightMargin - leftMargin, 9, lightGray);
+        
+        // Add page numbers
+        const pageCount = doc.internal.getNumberOfPages();
+        for (let i = 1; i <= pageCount; i++) {
+            doc.setPage(i);
+            doc.setFontSize(8);
+            doc.setTextColor(lightGray[0], lightGray[1], lightGray[2]);
+            doc.text(`${i} / ${pageCount}`, pageWidth - 20, 290, { align: 'right' });
+        }
+        
+        // Save the PDF
+        const filename = `Jung-Assessment-${jungianType}-${this.completionId}.pdf`;
+        doc.save(filename);
     }
 
     restartAssessment() {
