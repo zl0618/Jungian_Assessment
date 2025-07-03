@@ -20,13 +20,19 @@
     <meta name="twitter:description" content="Discover your psychological type through Carl Jung's cognitive function theory">
     <meta name="twitter:image" content="https://zl0618.github.io/Jungian_Assessment/Jung8_logo.png">
     
-    <!-- Firebase SDK -->
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <!-- Firebase SDK removed -->
     
     <!-- jsPDF for PDF generation -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <!-- Fallback for jsPDF if CDN fails -->
+    <script>
+        // Check if jsPDF loaded correctly, if not, show a warning in console
+        window.addEventListener('DOMContentLoaded', function() {
+            if (!window.jspdf || !window.jspdf.jsPDF) {
+                console.warn('jsPDF did not load correctly from CDN. PDF downloads may not work.');
+            }
+        });
+    </script>
     
     <!-- Functions Reference Navigation -->
     <style>

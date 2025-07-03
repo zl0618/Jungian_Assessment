@@ -13,30 +13,38 @@ class WebJungianAssessment {
         this.completionId = null;
         
         this.initializeApp();
-        this.initializeFirebase();
+    }
+    
+    // Utility function to shuffle an array using Fisher-Yates algorithm
+    shuffleArray(array) {
+        const shuffled = [...array]; // Create a copy
+        for (let i = shuffled.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+        }
+        return shuffled;
     }
     
     getQuestionsForLanguage(lang) {
         console.log('Loading questions for language:', lang);
         
+        let questions = [];
+        
         // Try language-specific question banks first
         if (lang === 'zh' && typeof getChineseQuestions === 'function') {
-            const questions = getChineseQuestions();
+            questions = getChineseQuestions();
             console.log(`Loaded ${questions.length} Chinese questions`);
-            return questions;
         } else if (lang === 'en' && typeof getEnglishQuestions === 'function') {
-            const questions = getEnglishQuestions();
+            questions = getEnglishQuestions();
             console.log(`Loaded ${questions.length} English questions`);
-            return questions;
         }
         
         // Fallback to original questions.js file
-        if (typeof getAllQuestions === 'function') {
+        if (questions.length === 0 && typeof getAllQuestions === 'function') {
             try {
-                const questions = getAllQuestions(lang);
+                questions = getAllQuestions(lang);
                 if (questions && questions.length > 0) {
                     console.log(`Loaded ${questions.length} questions from getAllQuestions for ${lang}`);
-                    return questions;
                 }
             } catch (error) {
                 console.warn('Error getting questions from getAllQuestions:', error);
@@ -44,8 +52,21 @@ class WebJungianAssessment {
         }
         
         // Final fallback to default questions
-        console.log(`Using fallback questions for ${lang}`);
-        return this.getDefaultQuestions(lang);
+        if (questions.length === 0) {
+            console.log(`Using fallback questions for ${lang}`);
+            questions = this.getDefaultQuestions(lang);
+        }
+        
+        // Shuffle the questions randomly for each assessment
+        const shuffledQuestions = this.shuffleArray(questions);
+        console.log(`Questions shuffled randomly. Original first question: ${questions[0]?.text}, New first question: ${shuffledQuestions[0]?.text}`);
+        
+        // Create a mapping to track original positions for scoring
+        shuffledQuestions.forEach((question, index) => {
+            question.shuffledIndex = index;
+        });
+        
+        return shuffledQuestions;
     }
     
     getDefaultQuestions(lang) {
@@ -323,53 +344,7 @@ class WebJungianAssessment {
         }
     }
     
-    initializeFirebase() {
-        // Firebase configuration for data collection
-        const firebaseConfig = {
-            apiKey: "AIzaSyDGVfBm3zO3K3EKN38ekZex9pIi4aHVk0o",
-            authDomain: "jung8-a7bcc.firebaseapp.com",
-            projectId: "jung8-a7bcc",
-            storageBucket: "jung8-a7bcc.firebasestorage.app",
-            messagingSenderId: "141359013150",
-            appId: "1:141359013150:web:490eadf4c4a6b1ef50bd0f"
-        };
-        
-        try {
-            if (typeof firebase !== 'undefined') {
-                firebase.initializeApp(firebaseConfig);
-                this.db = firebase.firestore();
-                this.auth = firebase.auth();
-                console.log('Firebase initialized for data collection');
-            }
-        } catch (error) {
-            console.log('Firebase not available, using local storage only:', error);
-        }
-    }
-    
-    async saveResultsToCloud(data) {
-        if (!this.db || !this.auth) return { success: false, error: 'Firebase not available' };
-        
-        try {
-            // Sign in anonymously for data collection
-            if (!this.auth.currentUser) {
-                await this.auth.signInAnonymously();
-            }
-            
-            const docRef = await this.db.collection('interview-responses').add({
-                ...data,
-                timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-                sessionId: this.auth.currentUser.uid,
-                userAgent: navigator.userAgent,
-                screenResolution: `${screen.width}x${screen.height}`,
-                completionTime: Date.now() - this.startTime
-            });
-            
-            return { success: true, id: docRef.id };
-        } catch (error) {
-            console.error('Error saving to Firebase:', error);
-            return { success: false, error: error.message };
-        }
-    }
+    // Firebase functionality removed
     
     initializeApp() {
         this.bindEvents();
@@ -562,7 +537,7 @@ class WebJungianAssessment {
         }
     }
     
-    async finishAssessment() {
+    finishAssessment() {
         console.log('Finishing assessment...');
         console.log('Answers collected:', Object.keys(this.answers).length);
         console.log('Total questions:', this.questions.length);
@@ -583,7 +558,7 @@ class WebJungianAssessment {
         // Generate completion ID
         this.completionId = 'JUNG-' + Date.now().toString(36).toUpperCase();
         
-        // Save results
+        // Save results locally
         const resultsData = {
             participantInfo: this.participantInfo,
             answers: this.answers,
@@ -594,10 +569,7 @@ class WebJungianAssessment {
             timestamp: new Date().toISOString()
         };
         
-        // Save to cloud if available
-        await this.saveResultsToCloud(resultsData);
-        
-        // Save locally as backup
+        // Save locally
         localStorage.setItem(`assessment_${this.completionId}`, JSON.stringify(resultsData));
         
         console.log('Showing results screen...');
@@ -613,131 +585,102 @@ class WebJungianAssessment {
         
         console.log('Starting score calculation...');
         
-        // Calculate scores based on questions
+        // Calculate raw scores based on questions (simple sum of ratings)
         this.questions.forEach((question, index) => {
             const answer = this.answers[index];
-            if (answer && question.function) {
-                this.scores[question.function] += answer;
-                console.log(`Question ${index}: ${question.function} += ${answer}`);
+            // Handle both question.function and question.functionKey properties
+            const functionKey = question.function || question.functionKey;
+            
+            if (answer && functionKey) {
+                this.scores[functionKey] += answer;
+                console.log(`Question ${index}: ${functionKey} += ${answer}`);
+            } else if (answer) {
+                console.warn(`Question ${index} has no function/functionKey property:`, question);
             }
         });
         
-        console.log('Final scores:', this.scores);
+        console.log('Final raw scores (simple sum of ratings per function):', this.scores);
+        
+        // Count functions for debugging
+        const functionCounts = {};
+        this.questions.forEach(question => {
+            // Handle both question.function and question.functionKey properties
+            const functionKey = question.function || question.functionKey;
+            if (functionKey) {
+                functionCounts[functionKey] = (functionCounts[functionKey] || 0) + 1;
+            }
+        });
+        console.log('Questions per function:', functionCounts);
         
         // Ensure we have valid scores
         const totalScore = Object.values(this.scores).reduce((a, b) => a + b, 0);
         if (totalScore === 0) {
             console.error('All scores are zero! Check question format.');
             // Set default scores for testing (using realistic absolute values)
-            this.scores = { Te: 45, Ti: 38, Fe: 32, Fi: 52, Se: 28, Si: 41, Ne: 49, Ni: 55 };
+            this.scores = { Te: 30, Ti: 25, Fe: 20, Fi: 35, Se: 15, Si: 28, Ne: 33, Ni: 38 };
         }
     }
 
     generateResults() {
-        console.log('Generating results from scores:', this.scores);
         
         // Calculate questions per function dynamically
         const functionCounts = {};
         this.questions.forEach(question => {
-            if (question.function) {
-                functionCounts[question.function] = (functionCounts[question.function] || 0) + 1;
+            // Handle both question.function and question.functionKey properties
+            const functionKey = question.function || question.functionKey;
+            if (functionKey) {
+                functionCounts[functionKey] = (functionCounts[functionKey] || 0) + 1;
             }
         });
         
         console.log('Questions per function:', functionCounts);
         
-        // Calculate absolute percentages based on maximum possible scores
-        const maxPossiblePerQuestion = 5; // Rating scale 1-5
+        // In Jung's model, we work with the raw scores directly
+        // but we'll calculate percentages for display purposes
         
-        // Also keep raw scores for debugging
-        const rawScores = { ...this.scores };
+        // Calculate percentages for display: raw score ÷ 50 × 100%
+        // Each function has exactly 10 questions, max 5 points each = 50 max points
+        const percentageScores = {};
         
-        // Convert to absolute percentages (score / max possible for that function)
-        const absolutePercentageScores = {};
         Object.keys(this.scores).forEach(func => {
             const rawScore = this.scores[func];
-            const questionsForThisFunction = functionCounts[func] || 10; // Default to 10 if not found
-            const maxPossibleForThisFunction = maxPossiblePerQuestion * questionsForThisFunction;
-            const absolutePercentage = Math.round((rawScore / maxPossibleForThisFunction) * 100);
-            absolutePercentageScores[func] = Math.max(0, Math.min(100, absolutePercentage)); // Clamp between 0-100
+            const percentage = Math.round((rawScore / 50) * 100);
+            percentageScores[func] = Math.max(0, Math.min(100, percentage)); // Clamp between 0-100
         });
         
-        // For comparison, also calculate relative percentages
-        const totalScore = Object.values(this.scores).reduce((a, b) => a + b, 0);
-        const relativePercentageScores = {};
+        console.log('Raw scores (used for type determination):', this.scores);
+        console.log('Percentage scores (for display only):', percentageScores);
+        
+        // For debugging, calculate the number of questions scoring each value (1-5)
+        // This could be useful for tiebreakers
+        const scoreDistribution = {};
         Object.keys(this.scores).forEach(func => {
-            relativePercentageScores[func] = totalScore > 0 ? Math.round((this.scores[func] / totalScore) * 100) : 0;
+            scoreDistribution[func] = {1: 0, 2: 0, 3: 0, 4: 0, 5: 0};
         });
         
-        console.log('Raw scores:', rawScores);
-        console.log('Total raw score:', totalScore);
-        console.log('Function counts:', functionCounts);
-        console.log('Absolute percentage scores:', absolutePercentageScores);
-        console.log('Relative percentage scores (old method):', relativePercentageScores);
-        
-        console.log('=== ABSOLUTE SCORE ANALYSIS ===');
-        Object.keys(this.scores).forEach(func => {
-            const rawScore = this.scores[func];
-            const questionsForThisFunction = functionCounts[func] || 10;
-            const maxPossibleForThisFunction = maxPossiblePerQuestion * questionsForThisFunction;
-            const absolutePercentage = absolutePercentageScores[func];
-            const relativePercentage = relativePercentageScores[func];
-            console.log(`${func}: ${rawScore}/${maxPossibleForThisFunction} = ${absolutePercentage}% absolute (was ${relativePercentage}% relative)`);
-        });
-        console.log('================================');
-        
-        // Implement a more realistic scoring approach
-        // Problem: When people answer mostly 3s and 4s, they can get high percentages on all functions
-        // Solution: Use a hybrid approach with both absolute and relative scoring
-        
-        // Calculate a baseline score (what you'd get if you answered "3" to everything)
-        const neutralScore = 3; // Middle rating
-        const baselineScores = {};
-        Object.keys(this.scores).forEach(func => {
-            const questionsForThisFunction = functionCounts[func] || 10;
-            baselineScores[func] = neutralScore * questionsForThisFunction;
-        });
-        
-        // Calculate adjusted scores (how much above/below baseline you scored)
-        const adjustedScores = {};
-        Object.keys(this.scores).forEach(func => {
-            adjustedScores[func] = this.scores[func] - baselineScores[func];
-        });
-        
-        console.log('Baseline scores (3s across the board):', baselineScores);
-        console.log('Adjusted scores (difference from baseline):', adjustedScores);
-        
-        // Use a hybrid scoring method that considers both absolute and relative performance
-        const hybridPercentageScores = {};
-        const minAdjusted = Math.min(...Object.values(adjustedScores));
-        const maxAdjusted = Math.max(...Object.values(adjustedScores));
-        const adjustedRange = maxAdjusted - minAdjusted;
-        
-        Object.keys(this.scores).forEach(func => {
-            const absolutePercentage = absolutePercentageScores[func];
-            const relativePercentage = relativePercentageScores[func];
-            
-            // If there's little variation in answers (all scores are close), use more relative scoring
-            // If there's high variation, use more absolute scoring
-            let hybridPercentage;
-            if (adjustedRange < 5) {
-                // Low variation - mostly relative scoring
-                hybridPercentage = Math.round(0.3 * absolutePercentage + 0.7 * relativePercentage);
-            } else {
-                // High variation - mostly absolute scoring
-                hybridPercentage = Math.round(0.7 * absolutePercentage + 0.3 * relativePercentage);
+        this.questions.forEach((question, index) => {
+            // Handle both question.function and question.functionKey properties
+            const func = question.function || question.functionKey;
+            const answer = this.answers[index];
+            if (func && answer >= 1 && answer <= 5) {
+                scoreDistribution[func][answer] += 1;
             }
-            
-            hybridPercentageScores[func] = Math.max(0, Math.min(100, hybridPercentage));
         });
         
-        console.log('Adjusted score range:', adjustedRange);
-        console.log('Hybrid percentage scores:', hybridPercentageScores);
+        console.log('Score distribution per function:', scoreDistribution);
         
-        // Use hybrid percentages for type determination
-        const percentageScores = hybridPercentageScores;
-        
-        // Apply Jung's psychological type theory to determine the correct type
+        // Simple logging of the scores for each function
+        console.log('=== FUNCTION SCORES ===');
+        Object.keys(this.scores).forEach(func => {
+            const rawScore = this.scores[func];
+            const percentage = percentageScores[func];
+            const fives = scoreDistribution[func][5] || 0;
+            console.log(`${func}: ${rawScore}/50 = ${percentage}% (${fives} answers with score 5)`);
+        });
+        console.log('======================');
+
+        // Apply Jung's psychological type theory to determine the correct type using raw scores
+        // percentageScores is still used for display purposes
         const typeResult = this.determineJungianType(percentageScores);
         
         // Get the function stack based on the determined type
@@ -836,12 +779,30 @@ class WebJungianAssessment {
         console.log('Final typeDescription:', typeDescription);
         console.log('================================');
 
+        // Store both raw scores and percentage scores for display
         this.results = {
+            rawScores: this.scores,
             percentageScores,
-            dominantFunction: [typeResult.dominantFunction, percentageScores[typeResult.dominantFunction]],
-            auxiliaryFunction: [typeResult.auxiliaryFunction, percentageScores[typeResult.auxiliaryFunction]],
-            tertiaryFunction: [functionStack.tertiary, percentageScores[functionStack.tertiary]],
-            inferiorFunction: [functionStack.inferior, percentageScores[functionStack.inferior]],
+            dominantFunction: [
+                typeResult.dominantFunction, 
+                percentageScores[typeResult.dominantFunction],
+                this.scores[typeResult.dominantFunction]
+            ],
+            auxiliaryFunction: [
+                typeResult.auxiliaryFunction, 
+                percentageScores[typeResult.auxiliaryFunction],
+                this.scores[typeResult.auxiliaryFunction]
+            ],
+            tertiaryFunction: [
+                functionStack.tertiary, 
+                percentageScores[functionStack.tertiary],
+                this.scores[functionStack.tertiary]
+            ],
+            inferiorFunction: [
+                functionStack.inferior, 
+                percentageScores[functionStack.inferior],
+                this.scores[functionStack.inferior]
+            ],
             functionStack: functionStack,
             jungianType: typeResult.type,
             axes: typeResult.axes,
@@ -857,19 +818,71 @@ class WebJungianAssessment {
     }
 
     determineJungianType(percentageScores) {
-        // Find the highest scoring function as the dominant
-        const sortedFunctions = Object.entries(percentageScores)
-            .sort(([,a], [,b]) => b - a);
+        // We're now using raw scores directly for type determination
+        // But keeping percentageScores for display purposes
+        const rawScores = this.scores;
         
-        console.log('All functions sorted by score:', sortedFunctions);
+        // Calculate the score distribution for tiebreaker situations
+        const scoreDistribution = {};
+        Object.keys(rawScores).forEach(func => {
+            scoreDistribution[func] = {1: 0, 2: 0, 3: 0, 4: 0, 5: 0};
+        });
+        
+        this.questions.forEach((question, index) => {
+            // Handle both question.function and question.functionKey properties
+            const func = question.function || question.functionKey;
+            const answer = this.answers[index];
+            if (func && answer >= 1 && answer <= 5) {
+                scoreDistribution[func][answer] += 1;
+            }
+        });
+        
+        console.log('Score distribution for tiebreaker:', scoreDistribution);
+        
+        // Find the highest scoring function as the dominant
+        const sortedFunctions = Object.entries(rawScores)
+            .sort(([funcA, scoreA], [funcB, scoreB]) => {
+                // First compare by raw score
+                if (scoreB !== scoreA) return scoreB - scoreA;
+                
+                // If tied, check number of answers with score 5 (stronger preference)
+                const fivesForB = scoreDistribution[funcB][5] || 0;
+                const fivesForA = scoreDistribution[funcA][5] || 0;
+                
+                if (fivesForB !== fivesForA) return fivesForB - fivesForA;
+                
+                // If still tied, check if one is more aligned with overall attitude preference
+                // by looking at total scores for all extraverted vs all introverted functions
+                const isAExtraverted = funcA.endsWith('e');
+                const isBExtraverted = funcB.endsWith('e');
+                
+                // If they have different attitudes, we can use overall attitude preference
+                if (isAExtraverted !== isBExtraverted) {
+                    // Calculate overall attitude preference
+                    let extravertedTotal = rawScores['Te'] + rawScores['Fe'] + rawScores['Se'] + rawScores['Ne'];
+                    let introvertedTotal = rawScores['Ti'] + rawScores['Fi'] + rawScores['Si'] + rawScores['Ni'];
+                    
+                    // If more extraverted overall, prefer extraverted function
+                    if (extravertedTotal > introvertedTotal) {
+                        return isBExtraverted ? -1 : 1;
+                    } else {
+                        return isAExtraverted ? 1 : -1;
+                    }
+                }
+                
+                // If still tied, just keep original order
+                return 0;
+            });
+        
+        console.log('All functions sorted by raw score:', sortedFunctions);
         
         const dominantFunction = sortedFunctions[0][0];
-        const dominantScore = sortedFunctions[0][1];
+        const dominantRawScore = sortedFunctions[0][1];
         
-        console.log('Dominant function selected:', dominantFunction, 'with score:', dominantScore);
+        console.log('Dominant function selected:', dominantFunction, 'with raw score:', dominantRawScore);
         
         // Apply Jung's rules to find the auxiliary function
-        const auxiliaryFunction = this.findValidAuxiliary(dominantFunction, percentageScores);
+        const auxiliaryFunction = this.findValidAuxiliary(dominantFunction, rawScores);
         
         // Create the type name in uppercase
         const type = (dominantFunction + auxiliaryFunction).toUpperCase();
@@ -894,38 +907,60 @@ class WebJungianAssessment {
     }
 
     findValidAuxiliary(dominantFunction, scores) {
-        const irrationalFunctions = ['Ni', 'Ne', 'Si', 'Se'];
-        const rationalFunctions = ['Ti', 'Te', 'Fi', 'Fe'];
+        console.log('Finding valid auxiliary function for dominant:', dominantFunction);
         
-        const isDominantIrrational = irrationalFunctions.includes(dominantFunction);
-        const isDominantExtraverted = dominantFunction.startsWith('N') || dominantFunction.startsWith('S') ? 
-            dominantFunction.endsWith('e') : dominantFunction.startsWith('Te') || dominantFunction.startsWith('Fe');
+        // Define the function categories according to Jung's model
+        const irrationalFunctions = ['Ni', 'Ne', 'Si', 'Se']; // Perceiving functions
+        const rationalFunctions = ['Ti', 'Te', 'Fi', 'Fe'];   // Judging functions
         
-        // Rule 1: If dominant is irrational, auxiliary must be rational (and vice versa)
-        const candidateFunctions = isDominantIrrational ? rationalFunctions : irrationalFunctions;
+        // Determine the dominant function's category
+        const isDominantRational = rationalFunctions.includes(dominantFunction);
         
-        // Rule 2: If dominant is extraverted, auxiliary must be introverted (and vice versa)
-        const validCandidates = candidateFunctions.filter(func => {
-            const isExtraverted = func.startsWith('N') || func.startsWith('S') ? 
-                func.endsWith('e') : func.startsWith('Te') || func.startsWith('Fe');
-            return isDominantExtraverted ? !isExtraverted : isExtraverted;
+        // Determine the dominant function's attitude (extraverted vs introverted)
+        const isDominantExtraverted = dominantFunction.endsWith('e');
+        
+        console.log('Dominant is:', {
+            function: dominantFunction,
+            rational: isDominantRational ? 'rational/judging' : 'irrational/perceiving',
+            attitude: isDominantExtraverted ? 'extraverted' : 'introverted'
         });
         
-        // Find the highest scoring valid candidate
-        let bestAuxiliary = validCandidates[0];
-        let bestScore = scores[bestAuxiliary] || 0;
+        // Per Jung's model, the auxiliary function must be:
+        // 1. From the opposite category (rational vs irrational)
+        // 2. From the opposite attitude (introverted vs extraverted)
+        const validAuxiliaryFunctions = (isDominantRational ? irrationalFunctions : rationalFunctions)
+            .filter(func => {
+                const isFuncExtraverted = func.endsWith('e');
+                return (isDominantExtraverted !== isFuncExtraverted); // Opposite attitude
+            });
         
-        validCandidates.forEach(func => {
-            if (scores[func] > bestScore) {
-                bestScore = scores[func];
-                bestAuxiliary = func;
+        console.log('Valid auxiliary candidates:', validAuxiliaryFunctions);
+        
+        // Find the highest scoring valid auxiliary function
+        let highestScore = -1; // Start with negative to ensure any valid score is higher
+        let auxiliaryFunction = null;
+        let auxiliaryScores = [];
+        
+        validAuxiliaryFunctions.forEach(func => {
+            const score = scores[func];
+            auxiliaryScores.push([func, score]);
+            if (score > highestScore) {
+                highestScore = score;
+                auxiliaryFunction = func;
             }
         });
         
-        console.log('Valid auxiliary candidates:', validCandidates);
-        console.log('Selected auxiliary:', bestAuxiliary);
+        console.log('Candidate auxiliary functions with scores:', auxiliaryScores);
+        console.log('Selected auxiliary function:', auxiliaryFunction, 'with score:', highestScore);
         
-        return bestAuxiliary;
+        // Handle the case where all valid auxiliaries have zero scores (should be rare)
+        if (!auxiliaryFunction) {
+            console.warn('No valid auxiliary function found with non-zero score');
+            // Default to the first valid auxiliary option
+            auxiliaryFunction = validAuxiliaryFunctions[0];
+        }
+        
+        return auxiliaryFunction;
     }
 
     determineAxes(dominantFunction, auxiliaryFunction) {
@@ -1066,6 +1101,7 @@ class WebJungianAssessment {
             <div style="background: white; padding: 2rem; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.1); margin: 2rem 0;">
                 <h4 style="color: #333; text-align: center; margin-bottom: 1.5rem; font-size: 1.2rem;">
                     ${this.currentLanguage === 'zh' ? '功能強度詳細分析' : 'Detailed Function Strength Analysis'}
+               
                 </h4>
                 <p style="color: #666; text-align: center; margin-bottom: 2rem; font-size: 0.95rem;">
                     ${this.currentLanguage === 'zh' ? 
@@ -1405,6 +1441,17 @@ class WebJungianAssessment {
         
         const { percentageScores, dominantFunction, auxiliaryFunction, functionStack, jungianType, typeDescription } = this.results;
         
+        // Define scoring model information
+        const scoringModelInfo = `
+            <div style="margin-top: 2rem; padding: 1rem; background: #f8f9fa; border-radius: 8px; border-left: 3px solid #6c757d;">
+                <p style="font-size: 0.9rem; color: #666;">
+                    ${this.currentLanguage === 'zh' ? 
+                        '評分模型：每個認知功能有10個問題，每個問題1-5分，總分為50分。百分比分數是原始分數÷50×100%。' : 
+                        'Scoring model: Each cognitive function has 10 questions, each scored 1-5 points, for a total of 50 points. Percentage scores are calculated as raw score ÷ 50 × 100%.'}
+                </p>
+            </div>
+        `;
+        
         // Generate content
         let html = `
             <div class="results-summary">
@@ -1413,6 +1460,7 @@ class WebJungianAssessment {
                 <p>${this.currentLanguage === 'zh' ? '主導功能' : 'Dominant Function'}: ${dominantFunction[0]} (${dominantFunction[1]}%)</p>
                 <p>${this.currentLanguage === 'zh' ? '輔助功能' : 'Auxiliary Function'}: ${auxiliaryFunction[0]} (${auxiliaryFunction[1]}%)</p>
             </div>
+            ${scoringModelInfo}
         `;
         
         // Add type description section
@@ -1452,6 +1500,7 @@ class WebJungianAssessment {
             this.generatePDFReport();
         } catch (error) {
             console.error('Error generating PDF:', error);
+            alert('Could not generate PDF report. Downloading results as JSON file instead.');
             // Fallback to JSON download
             this.downloadResultsAsJSON();
         }
@@ -1477,8 +1526,13 @@ class WebJungianAssessment {
     }
     
     generatePDFReport() {
-        const { jsPDF } = window.jspdf;
-        const doc = new jsPDF();
+        // Check if jsPDF is properly loaded
+        if (!window.jspdf || !window.jspdf.jsPDF) {
+            throw new Error('jsPDF library not loaded properly');
+        }
+        
+        // Use the jspdf library, which is available as a global variable
+        const doc = new window.jspdf.jsPDF();
         
         const { percentageScores, dominantFunction, auxiliaryFunction, tertiaryFunction, inferiorFunction, functionStack, jungianType, typeDescription } = this.results;
         
@@ -1556,6 +1610,37 @@ class WebJungianAssessment {
             yPosition = addWrappedText(typeDescription.description, leftMargin, yPosition, rightMargin - leftMargin, 11, secondaryColor);
             yPosition += 10;
         }
+        
+        // Scoring Model Documentation
+        doc.setFontSize(14);
+        doc.setTextColor(primaryColor[0], primaryColor[1], primaryColor[2]);
+        doc.setFont(undefined, 'bold');
+        const scoringModelTitle = this.currentLanguage === 'zh' ? '評分模型' : 'Scoring Model';
+        doc.text(scoringModelTitle, leftMargin, yPosition);
+        yPosition += 8;
+        
+        let scoringModelText;
+        if (this.currentLanguage === 'zh') {
+            scoringModelText = `
+                <p style="font-size: 12px; color: #333; line-height: 1.4;">
+                    本評估使用容格的原始類型模型。每個功能分數是其10個問題的簡單總和（每個問題1-5分）。
+                    主導功能是得分最高的功能。輔助功能是來自相反軸（理性/非理性）和相反態度（外向/內向）的得分最高的功能。
+                </p>
+            `;
+        } else {
+            scoringModelText = `
+                <p style="font-size: 12px; color: #333; line-height: 1.4;">
+                    This assessment uses Jung's original type model. Each function score is a simple sum of its 10 questions (1-5 points each).
+                    The dominant function is the highest scoring. The auxiliary function is the highest scoring function from the opposite axis (rational/irrational) and opposite attitude (extraverted/introverted).
+                </p>
+            `;
+        }
+        
+        // Add scoring model text with wrapping
+        doc.setFontSize(12);
+        doc.setFont(undefined, 'normal');
+        yPosition = addWrappedText(scoringModelText, leftMargin, yPosition, rightMargin - leftMargin, 12, secondaryColor);
+        yPosition += 10;
         
         // Function Scores Section
         doc.setFontSize(14);
@@ -1659,8 +1744,10 @@ class WebJungianAssessment {
             doc.text(`${i} / ${pageCount}`, pageWidth - 20, 290, { align: 'right' });
         }
         
-        // Save the PDF
-        const filename = `Jung-Assessment-${jungianType}-${this.completionId}.pdf`;
+        // Save the PDF with a sanitized filename
+        // Remove any special characters from the type name that might cause issues
+        const sanitizedType = jungianType.replace(/[^a-zA-Z0-9]/g, '');
+        const filename = `Jung-Assessment-${sanitizedType}-${this.completionId}.pdf`;
         doc.save(filename);
     }
 
