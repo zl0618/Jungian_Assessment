@@ -296,19 +296,6 @@ class WebJungianAssessment {
         safeUpdateElement('main-title', 'textContent', t.mainTitle);
         safeUpdateElement('main-subtitle', 'textContent', t.mainSubtitle);
         safeUpdateElement('language-title', 'textContent', t.languageTitle);
-        safeUpdateElement('participant-info-title', 'textContent', t.participantInfoTitle);
-        safeUpdateElement('participant-id-label', 'textContent', t.participantIdLabel);
-        safeUpdateElement('participant-id', 'placeholder', t.participantIdPlaceholder);
-        safeUpdateElement('participant-age-label', 'textContent', t.ageLabel);
-        safeUpdateElement('age-select', 'textContent', t.ageSelect);
-        safeUpdateElement('participant-education-label', 'textContent', t.educationLabel);
-        safeUpdateElement('education-select', 'textContent', t.educationSelect);
-        safeUpdateElement('education-hs', 'textContent', t.educationHS);
-        safeUpdateElement('education-sc', 'textContent', t.educationSC);
-        safeUpdateElement('education-ba', 'textContent', t.educationBA);
-        safeUpdateElement('education-ma', 'textContent', t.educationMA);
-        safeUpdateElement('education-phd', 'textContent', t.educationPhD);
-        safeUpdateElement('education-other', 'textContent', t.educationOther);
         safeUpdateElement('start-btn', 'textContent', t.startBtn);
         safeUpdateElement('strongly-disagree', 'textContent', t.stronglyDisagree);
         safeUpdateElement('neutral', 'textContent', t.neutral);
@@ -445,16 +432,7 @@ class WebJungianAssessment {
     }
     
     startAssessment() {
-        // Set basic participant info without form elements
-        this.participantInfo = {
-            participantId: 'Anonymous',
-            age: 'Not specified',
-            education: 'Not specified',
-            language: this.currentLanguage,
-            startTime: new Date().toISOString()
-        };
-        
-        console.log('Starting assessment with participant info:', this.participantInfo);
+        console.log('Starting assessment...');
         
         this.startTime = Date.now();
         this.currentQuestionIndex = 0;
@@ -528,7 +506,12 @@ class WebJungianAssessment {
     }
     
     selectRating(value) {
-        console.log(`Selected rating ${value} for question ${this.currentQuestionIndex}`);
+        console.log(`=== BUTTON PRESSED ===`);
+        console.log(`Question ${this.currentQuestionIndex + 1}: Selected rating ${value}`);
+        console.log(`Function: ${this.questions[this.currentQuestionIndex].function}`);
+        console.log(`Question text: "${this.questions[this.currentQuestionIndex].text}"`);
+        console.log(`=====================`);
+        
         this.answers[this.currentQuestionIndex] = value;
         
         // Update UI
@@ -613,8 +596,24 @@ class WebJungianAssessment {
             Se: 0, Si: 0, Ne: 0, Ni: 0
         };
         
-        console.log('Starting score calculation...');
+        console.log('=== STARTING DETAILED SCORE CALCULATION ===');
+        console.log('Total questions:', this.questions.length);
+        console.log('Total answers collected:', Object.keys(this.answers).length);
         
+        // Debug: Print all individual answers with question details
+        console.log('\n--- ALL INDIVIDUAL QUESTION SCORES ---');
+        this.questions.forEach((question, index) => {
+            const answer = this.answers[index];
+            const functionKey = question.function || question.functionKey;
+            
+            if (answer) {
+                console.log(`Q${index + 1}: Function=${functionKey}, Score=${answer}, Text="${question.text.substring(0, 50)}..."`);
+            } else {
+                console.log(`Q${index + 1}: Function=${functionKey}, Score=NO_ANSWER, Text="${question.text.substring(0, 50)}..."`);
+            }
+        });
+
+        console.log('\n--- CALCULATING FUNCTION TOTALS ---');
         // Calculate raw scores based on questions (simple sum of ratings)
         this.questions.forEach((question, index) => {
             const answer = this.answers[index];
@@ -622,14 +621,18 @@ class WebJungianAssessment {
             const functionKey = question.function || question.functionKey;
             
             if (answer && functionKey) {
+                const oldScore = this.scores[functionKey];
                 this.scores[functionKey] += answer;
-                console.log(`Question ${index}: ${functionKey} += ${answer}`);
+                console.log(`${functionKey}: ${oldScore} + ${answer} = ${this.scores[functionKey]}`);
             } else if (answer) {
                 console.warn(`Question ${index} has no function/functionKey property:`, question);
             }
         });
         
-        console.log('Final raw scores (simple sum of ratings per function):', this.scores);
+        console.log('\n--- FINAL FUNCTION TOTALS ---');
+        Object.entries(this.scores).forEach(([func, total]) => {
+            console.log(`${func}: ${total} points (out of 50 max)`);
+        });
         
         // Count functions for debugging
         const functionCounts = {};
