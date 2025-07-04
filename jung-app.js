@@ -512,10 +512,12 @@ class WebJungianAssessment {
         console.log(`Question text: "${this.questions[this.currentQuestionIndex].text}"`);
         console.log(`=====================`);
         
+        // Store the answer immediately with validation
         this.answers[this.currentQuestionIndex] = value;
         
-        // Update UI
+        // Disable all rating buttons to prevent double-clicking
         document.querySelectorAll('.rating-btn').forEach(btn => {
+            btn.disabled = true;
             btn.classList.remove('selected');
         });
         
@@ -526,8 +528,13 @@ class WebJungianAssessment {
             console.warn(`Button with value ${value} not found`);
         }
         
-        // Auto-advance to next question after a short delay
+        // Auto-advance to next question after a shorter delay
         setTimeout(() => {
+            // Re-enable buttons for the next question
+            document.querySelectorAll('.rating-btn').forEach(btn => {
+                btn.disabled = false;
+            });
+            
             if (this.currentQuestionIndex < this.questions.length - 1) {
                 this.currentQuestionIndex++;
                 this.displayCurrentQuestion();
@@ -535,7 +542,7 @@ class WebJungianAssessment {
                 console.log('Assessment complete, finishing...');
                 this.finishAssessment();
             }
-        }, 500); // 500ms delay to show selection before advancing
+        }, 300); // Reduced delay to 300ms for better user experience
     }
     
     updateNavigationButtons() {
@@ -555,11 +562,28 @@ class WebJungianAssessment {
         console.log('Answers collected:', Object.keys(this.answers).length);
         console.log('Total questions:', this.questions.length);
         
-        // Ensure we have answers
+        // Ensure we have answers for all questions
         if (Object.keys(this.answers).length === 0) {
             console.error('No answers collected!');
             alert('No answers were collected. Please try the assessment again.');
             return;
+        }
+        
+        // Check if we have answers for all questions
+        if (Object.keys(this.answers).length !== this.questions.length) {
+            console.warn(`Missing answers! Expected ${this.questions.length}, got ${Object.keys(this.answers).length}`);
+            
+            // Find missing answers
+            const missingAnswers = [];
+            for (let i = 0; i < this.questions.length; i++) {
+                if (!this.answers.hasOwnProperty(i)) {
+                    missingAnswers.push(i + 1);
+                }
+            }
+            console.warn('Missing answers for questions:', missingAnswers);
+            
+            // For now, continue but log the issue
+            console.log('Continuing with available answers...');
         }
         
         this.calculateScores();

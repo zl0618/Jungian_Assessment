@@ -34,27 +34,45 @@ jobs:
 
       - name: Copy application files
         run: |
-          # Copy main HTML file as index.html
-          if [ -f "web-interview.html" ]; then
-            cp web-interview.html build/index.html
-            echo "✓ Copied web-interview.html as index.html"
+          # Copy main HTML file
+          if [ -f "index.html" ]; then
+            cp index.html build/
+            echo "✓ Copied index.html"
           else
-            echo "❌ web-interview.html not found!"
+            echo "❌ index.html not found!"
             exit 1
           fi
           
-          # Copy all JavaScript question files
-          for file in questions*.js; do
+          # Copy CSS files
+          if [ -f "styles.css" ]; then
+            cp styles.css build/
+            echo "✓ Copied styles.css"
+          fi
+          
+          # Copy logo/images
+          if [ -f "Jung8_logo.png" ]; then
+            cp Jung8_logo.png build/
+            echo "✓ Copied Jung8_logo.png"
+          fi
+          
+          # Copy all JavaScript files
+          for file in *.js; do
             if [ -f "$file" ]; then
               cp "$file" build/
               echo "✓ Copied $file"
             fi
           done
           
-          # Specifically handle the main questions.js file
-          if [ -f "questions.js" ]; then
-            cp questions.js build/
-            echo "✓ Copied questions.js"
+          # Copy functions reference if it exists
+          if [ -f "functions-reference.html" ]; then
+            cp functions-reference.html build/
+            echo "✓ Copied functions-reference.html"
+          fi
+          
+          # Copy README if it exists
+          if [ -f "README.md" ]; then
+            cp README.md build/
+            echo "✓ Copied README.md"
           fi
           
           # Create a simple 404.html
@@ -90,14 +108,37 @@ jobs:
           if [ -f "build/index.html" ]; then
             echo "✓ index.html exists ($(wc -c < build/index.html) bytes)"
             # Check if it contains the Jung assessment title
-            if grep -q "Jung" build/index.html; then
-              echo "✓ index.html contains Jung assessment content"
+            if grep -q "Jung8 Cognitive Function Assessment" build/index.html; then
+              echo "✓ index.html contains Jung8 assessment content"
             else
               echo "❌ index.html might be corrupted"
             fi
           else
             echo "❌ index.html missing!"
             exit 1
+          fi
+          
+          # Verify critical JavaScript files exist
+          for js_file in "jung-app.js" "translations.js" "type-descriptions.js"; do
+            if [ -f "build/$js_file" ]; then
+              echo "✓ $js_file exists"
+            else
+              echo "❌ $js_file missing!"
+            fi
+          done
+          
+          # Verify CSS exists
+          if [ -f "build/styles.css" ]; then
+            echo "✓ styles.css exists"
+          else
+            echo "❌ styles.css missing!"
+          fi
+          
+          # Verify logo exists
+          if [ -f "build/Jung8_logo.png" ]; then
+            echo "✓ Jung8_logo.png exists"
+          else
+            echo "❌ Jung8_logo.png missing!"
           fi
 
       - name: Force clean deploy to gh-pages
