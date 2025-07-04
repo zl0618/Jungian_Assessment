@@ -39,10 +39,10 @@ const animalCharacters = {
         rationaleChinese: '優雅、象徵性、安靜的力量且鼓舞人心——天鵝有目的地移動並形成深厚的聯繫，反映Ni-Fe的神秘願景和同理心。'
     },
     'NETI': {
-        english: 'Dolphin',
-        chinese: '海豚',
-        rationale: 'Inventive, sociable, and quick to see connections—dolphins are playful and highly intelligent, like Ne-Ti\'s creative, theoretical mind.',
-        rationaleChinese: '有創造力、善於社交且快速看到連接——海豚活潑且高度智慧，就像Ne-Ti的創造性、理論性思維。'
+        english: 'Platypus',
+        chinese: '鴨嘴獸',
+        rationale: 'The platypus is adaptable, inventive, and unique—combining traits from different animals, just as NETI types blend creative ideas and logical analysis. Like the platypus, NETIs are curious, open to new possibilities, and comfortable being different from the norm.',
+        rationaleChinese: '鴨嘴獸適應力強、充滿創意且獨特——結合多種動物特徵，正如NETI類型能將創新想法與邏輯分析結合。像鴨嘴獸一樣，NETI型人好奇、樂於探索新可能，也樂於與眾不同。'
     },
     'NEFI': {
         english: 'Fox',
@@ -1268,8 +1268,8 @@ class WebJungianAssessment {
                 </h3>
                 
                 <div style="text-align: center; margin-bottom: 1.5rem;">
-                    <div style="font-size: 4rem; margin-bottom: 0.5rem;">
-                        ${this.getAnimalEmoji(animalData.english)}
+                    <div style="margin-bottom: 0.5rem;">
+                        ${this.getAnimalImage(animalData.english)}
                     </div>
                     <p style="font-size: 1.2rem; font-weight: 600; color: #2c3e50; margin: 0;">
                         ${animalName}
@@ -1293,25 +1293,28 @@ class WebJungianAssessment {
         `;
     }
 
-    getAnimalEmoji(animalName) {
-        const animalEmojis = {
-            'Owl': '🦉',
-            'Wolf': '🐺',
-            'Otter': '🦦',
-            'Beaver': '🦫',
-            'Snow Leopard': '🐆',
-            'Swan': '🦢',
-            'Dolphin': '🐬',
-            'Fox': '🦊',
-            'Cat': '🐱',
-            'Elephant': '🐘',
-            'Deer': '🦌',
-            'Golden Retriever': '🐕',
-            'Border Collie': '🐕‍🦺',
-            'Tortoise': '🐢',
-            'Horse': '🐎'
+    getAnimalImage(animalName) {
+        const animalImages = {
+            'Owl': 'owl.png',
+            'Wolf': 'wolf.png',
+            'Otter': 'otter.png',
+            'Beaver': 'beaver.png',
+            'Snow Leopard': 'snow_leopard.png',
+            'Swan': 'swan.png',
+            'Dolphin': 'dolphin.png',
+            'Fox': 'fox.png',
+            'Cat': 'cat.png',
+            'Elephant': 'elephant.png',
+            'Deer': 'deer.png',
+            'Golden Retriever': 'golden_retriever.png',
+            'Border Collie': 'Border_Collie.png',
+            'Tortoise': 'tortoise.png',
+            'Horse': 'horse.png',
+            'Platypus': 'platypus.png'
         };
-        return animalEmojis[animalName] || '🐾';
+        const imagePath = animalImages[animalName];
+        console.log('Getting image for:', animalName, 'Path:', imagePath);
+        return imagePath ? `<img src="${imagePath}" alt="${animalName}" style="width: 120px; height: 120px; object-fit: contain; display: block; margin: 0 auto;" onerror="console.error('Failed to load image:', '${imagePath}'); this.style.display='none'; this.nextSibling.style.display='inline'; this.nextSibling.textContent='🐾';" onload="console.log('Successfully loaded image:', '${imagePath}')"><span style="display: none; font-size: 4rem;">🐾</span>` : '<span style="font-size: 4rem;">🐾</span>';
     }
 
     createBarChart(percentageScores) {
