@@ -1,5 +1,105 @@
 // Web-optimized Jungian Assessment Application
 
+// Animal character mappings for each Jung type
+const animalCharacters = {
+    'TINE': {
+        english: 'Owl',
+        chinese: '貓頭鷹',
+        rationale: 'Solitary, reflective, wise, and analytical—owls observe quietly and process deeply, just as Ti-Ne types do with their inner logic and pattern-seeking.',
+        rationaleChinese: '獨居、善於反思、聰明且善於分析——貓頭鷹安靜地觀察，深入思考，正如Ti-Ne類型以內在邏輯和模式探索的方式一樣。'
+    },
+    'TENI': {
+        english: 'Wolf',
+        chinese: '狼',
+        rationale: 'Strategic, group-oriented, decisive, and future-focused—wolves plan, organize, and lead, echoing Te-Ni\'s outward rationality and vision.',
+        rationaleChinese: '有策略、群體導向、果斷且著眼未來——狼會計劃、組織和領導，呼應Te-Ni的外向理性和願景。'
+    },
+    'TISE': {
+        english: 'Otter',
+        chinese: '水獺',
+        rationale: 'Curious, hands-on, precise, and playful—otters investigate and manipulate their environment, mirroring Ti-Se\'s analytical, practical approach.',
+        rationaleChinese: '好奇、實作、精確且活潑——水獺探索和操作環境，反映Ti-Se的分析性、實用性方法。'
+    },
+    'TESI': {
+        english: 'Beaver',
+        chinese: '河狸',
+        rationale: 'Industrious, reliable, and structured—beavers build and maintain stable systems, reflecting Te-Si\'s practical, organized, and tradition-respecting nature.',
+        rationaleChinese: '勤奮、可靠且有條理——河狸建造和維護穩定的系統，反映Te-Si的實用、有組織且尊重傳統的特質。'
+    },
+    'NITE': {
+        english: 'Snow Leopard',
+        chinese: '雪豹',
+        rationale: 'Visionary, mysterious, and solitary—snow leopards are elusive and strategic, symbolizing Ni-Te\'s inward focus and far-seeing insight.',
+        rationaleChinese: '有遠見、神秘且獨居——雪豹難以捉摸且具有策略性，象徵Ni-Te的內向專注和遠見洞察。'
+    },
+    'NIFE': {
+        english: 'Swan',
+        chinese: '天鵝',
+        rationale: 'Graceful, symbolic, quietly powerful, and inspiring—swans move with purpose and form deep bonds, reflecting Ni-Fe\'s mystical vision and empathy.',
+        rationaleChinese: '優雅、象徵性、安靜的力量且鼓舞人心——天鵝有目的地移動並形成深厚的聯繫，反映Ni-Fe的神秘願景和同理心。'
+    },
+    'NETI': {
+        english: 'Dolphin',
+        chinese: '海豚',
+        rationale: 'Inventive, sociable, and quick to see connections—dolphins are playful and highly intelligent, like Ne-Ti\'s creative, theoretical mind.',
+        rationaleChinese: '有創造力、善於社交且快速看到連接——海豚活潑且高度智慧，就像Ne-Ti的創造性、理論性思維。'
+    },
+    'NEFI': {
+        english: 'Fox',
+        chinese: '狐狸',
+        rationale: 'Imaginative, adaptable, and values authenticity—foxes are clever, curious, and independent, echoing Ne-Fi\'s open-minded and individualistic spirit.',
+        rationaleChinese: '有想像力、適應性強且重視真實性——狐狸聰明、好奇且獨立，呼應Ne-Fi的開放心態和個人主義精神。'
+    },
+    'FINE': {
+        english: 'Cat',
+        chinese: '貓',
+        rationale: 'Independent, sensitive, and true to itself—cats are quietly expressive, creative, and value comfort and authenticity, like Fi-Ne\'s inner-directed creativity.',
+        rationaleChinese: '獨立、敏感且忠於自我——貓安靜地表達、有創造力，重視舒適和真實性，就像Fi-Ne的內向創造力。'
+    },
+    'FENI': {
+        english: 'Elephant',
+        chinese: '大象',
+        rationale: 'Empathetic, wise, and group-oriented—elephants are nurturing and have a strong sense of collective memory, matching Fe-Ni\'s harmonious, visionary leadership.',
+        rationaleChinese: '有同理心、聰明且群體導向——大象具有養育性，有強烈的集體記憶感，符合Fe-Ni的和諧、有遠見的領導力。'
+    },
+    'FISE': {
+        english: 'Deer',
+        chinese: '鹿',
+        rationale: 'Gentle, sensitive, and attuned to their surroundings—deer are alert and quietly expressive, reflecting Fi-Se\'s authenticity and sensory awareness.',
+        rationaleChinese: '溫和、敏感且與環境協調——鹿警覺且安靜地表達，反映Fi-Se的真實性和感官覺察。'
+    },
+    'FESI': {
+        english: 'Golden Retriever',
+        chinese: '黃金獵犬',
+        rationale: 'Loyal, warm, and community-oriented—golden retrievers are nurturing, value tradition, and bring people together, like Fe-Si\'s gentle harmony.',
+        rationaleChinese: '忠誠、溫暖且社區導向——黃金獵犬具有養育性，重視傳統，將人們聚集在一起，就像Fe-Si的溫和和諧。'
+    },
+    'SEFI': {
+        english: 'Dolphin',
+        chinese: '海豚',
+        rationale: 'Playful, present, and authentic—dolphins live in the moment and express themselves freely, mirroring Se-Fi\'s spontaneous, value-driven engagement.',
+        rationaleChinese: '活潑、活在當下且真實——海豚活在當下並自由地表達自己，反映Se-Fi的自發性、價值驅動的參與。'
+    },
+    'SETI': {
+        english: 'Border Collie',
+        chinese: '邊境牧羊犬',
+        rationale: 'Observant, practical, and masterful—border collies are focused, skilled, and responsive to their environment, like Se-Ti\'s direct, analytical action.',
+        rationaleChinese: '觀察力敏銳、實用且熟練——邊境牧羊犬專注、技巧純熟且對環境反應敏捷，就像Se-Ti的直接、分析性行動。'
+    },
+    'SIFE': {
+        english: 'Tortoise',
+        chinese: '烏龜',
+        rationale: 'Steady, loyal, and values memory—tortoises are enduring, careful, and attached to familiar routines, reflecting Si-Fe\'s tradition and care.',
+        rationaleChinese: '穩定、忠誠且重視記憶——烏龜持久、謹慎且依戀熟悉的日常，反映Si-Fe的傳統和關懷。'
+    },
+    'SITE': {
+        english: 'Horse',
+        chinese: '馬',
+        rationale: 'Reliable, adaptable, and practical—horses are hardworking, steady, and responsive to guidance, matching Si-Te\'s detail-oriented, dependable adaptation.',
+        rationaleChinese: '可靠、適應性強且實用——馬勤奮、穩定且對指導反應良好，符合Si-Te的細節導向、可靠的適應性。'
+    }
+};
+
 class WebJungianAssessment {
     constructor() {
         this.currentLanguage = 'en';
@@ -9,7 +109,6 @@ class WebJungianAssessment {
         this.scores = {};
         this.results = null;
         this.startTime = null;
-        this.participantInfo = {};
         this.completionId = null;
         
         this.initializeApp();
@@ -597,7 +696,6 @@ class WebJungianAssessment {
         
         // Save results locally
         const resultsData = {
-            participantInfo: this.participantInfo,
             answers: this.answers,
             scores: this.scores,
             results: this.results,
@@ -1151,6 +1249,71 @@ class WebJungianAssessment {
         `;
     }
 
+    createAnimalCharacterSection(jungianType) {
+        const animalData = animalCharacters[jungianType];
+        if (!animalData) {
+            console.warn(`No animal character data found for type: ${jungianType}`);
+            return '';
+        }
+
+        const title = this.currentLanguage === 'zh' ? '象徵動物' : 'Symbolic Animal';
+        const rationaleTitle = this.currentLanguage === 'zh' ? '象徵意義' : 'Symbolic Meaning';
+        const animalName = this.currentLanguage === 'zh' ? animalData.chinese : animalData.english;
+        const rationaleText = this.currentLanguage === 'zh' ? animalData.rationaleChinese : animalData.rationale;
+
+        return `
+            <div style="margin: 2rem 0; padding: 2rem; background: linear-gradient(135deg, #f0f8ff 0%, #e6f3ff 100%); border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.1);">
+                <h3 style="color: #4a90e2; text-align: center; margin-bottom: 1.5rem; font-size: 1.4rem;">
+                    ${title}: ${animalName}
+                </h3>
+                
+                <div style="text-align: center; margin-bottom: 1.5rem;">
+                    <div style="font-size: 4rem; margin-bottom: 0.5rem;">
+                        ${this.getAnimalEmoji(animalData.english)}
+                    </div>
+                    <p style="font-size: 1.2rem; font-weight: 600; color: #2c3e50; margin: 0;">
+                        ${animalName}
+                    </p>
+                </div>
+                
+                <div style="background: white; padding: 1.5rem; border-radius: 10px; border-left: 4px solid #4a90e2;">
+                    <h4 style="color: #4a90e2; margin-bottom: 1rem;">${rationaleTitle}</h4>
+                    <p style="color: #555; line-height: 1.7; margin: 0; text-align: justify;">
+                        ${rationaleText}
+                    </p>
+                </div>
+                
+                <div style="text-align: center; margin-top: 1rem; font-size: 0.9rem; color: #777; font-style: italic;">
+                    ${this.currentLanguage === 'zh' ? 
+                        '此動物象徵基於榮格認知功能理論，反映了您的心理類型特徵' : 
+                        'This animal symbolism is based on Jungian cognitive function theory and reflects your psychological type characteristics'
+                    }
+                </div>
+            </div>
+        `;
+    }
+
+    getAnimalEmoji(animalName) {
+        const animalEmojis = {
+            'Owl': '🦉',
+            'Wolf': '🐺',
+            'Otter': '🦦',
+            'Beaver': '🦫',
+            'Snow Leopard': '🐆',
+            'Swan': '🦢',
+            'Dolphin': '🐬',
+            'Fox': '🦊',
+            'Cat': '🐱',
+            'Elephant': '🐘',
+            'Deer': '🦌',
+            'Golden Retriever': '🐕',
+            'Border Collie': '🐕‍🦺',
+            'Tortoise': '🐢',
+            'Horse': '🐎'
+        };
+        return animalEmojis[animalName] || '🐾';
+    }
+
     createBarChart(percentageScores) {
         const functions = Object.entries(percentageScores).sort(([,a], [,b]) => b - a);
         
@@ -1498,17 +1661,6 @@ class WebJungianAssessment {
         
         const { percentageScores, dominantFunction, auxiliaryFunction, functionStack, jungianType, typeDescription } = this.results;
         
-        // Define scoring model information
-        const scoringModelInfo = `
-            <div style="margin-top: 2rem; padding: 1rem; background: #f8f9fa; border-radius: 8px; border-left: 3px solid #6c757d;">
-                <p style="font-size: 0.9rem; color: #666;">
-                    ${this.currentLanguage === 'zh' ? 
-                        '評分模型：每個認知功能有10個問題，每個問題1-5分，總分為50分。百分比分數是原始分數÷50×100%。' : 
-                        'Scoring model: Each cognitive function has 10 questions, each scored 1-5 points, for a total of 50 points. Percentage scores are calculated as raw score ÷ 50 × 100%.'}
-                </p>
-            </div>
-        `;
-        
         // Generate content
         let html = `
             <div class="results-summary">
@@ -1517,8 +1669,10 @@ class WebJungianAssessment {
                 <p>${this.currentLanguage === 'zh' ? '主導功能' : 'Dominant Function'}: ${dominantFunction[0]} (${dominantFunction[1]}%)</p>
                 <p>${this.currentLanguage === 'zh' ? '輔助功能' : 'Auxiliary Function'}: ${auxiliaryFunction[0]} (${auxiliaryFunction[1]}%)</p>
             </div>
-            ${scoringModelInfo}
         `;
+
+        // Add animal character section
+        html += this.createAnimalCharacterSection(jungianType);
         
         // Add type description section
         if (typeDescription) {
@@ -1565,7 +1719,6 @@ class WebJungianAssessment {
     
     downloadResultsAsJSON() {
         const data = {
-            participantInfo: this.participantInfo,
             results: this.results,
             completionId: this.completionId,
             timestamp: new Date().toISOString()
@@ -1776,7 +1929,7 @@ class WebJungianAssessment {
             if (typeDescription.mostSimilar) {
                 doc.setFontSize(12);
                 doc.setFont(undefined, 'bold');
-                const similarTitle = this.currentLanguage === 'zh' ? 'Most Similar Types:' : 'Most Similar Types:';
+                const similarTitle = this.currentLanguage === 'zh' ? '最相似類型:' : 'Most Similar Types:';
                 addSafeText(similarTitle, leftMargin, yPosition);
                 yPosition += 6;
 
@@ -1787,7 +1940,7 @@ class WebJungianAssessment {
             if (typeDescription.mostComplementary) {
                 doc.setFontSize(12);
                 doc.setFont(undefined, 'bold');
-                const complementaryTitle = this.currentLanguage === 'zh' ? 'Most Complementary Types:' : 'Most Complementary Types:';
+                const complementaryTitle = this.currentLanguage === 'zh' ? '最互補類型:' : 'Most Complementary Types:';
                 addSafeText(complementaryTitle, leftMargin, yPosition);
                 yPosition += 6;
 
