@@ -376,10 +376,17 @@ class WebJungianAssessment {
             });
         });
         
-        // Start button
-        document.getElementById('start-btn').addEventListener('click', () => {
-            this.startAssessment();
-        });
+        // Start button with error handling
+        const startBtn = document.getElementById('start-btn');
+        if (startBtn) {
+            startBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                console.log('Start button clicked');
+                this.startAssessment();
+            });
+        } else {
+            console.error('Start button not found!');
+        }
         
         // Rating buttons
         document.querySelectorAll('.rating-btn').forEach(btn => {
@@ -389,18 +396,27 @@ class WebJungianAssessment {
         });
         
         // Navigation
-        document.getElementById('prev-btn').addEventListener('click', () => {
-            this.previousQuestion();
-        });
+        const prevBtn = document.getElementById('prev-btn');
+        if (prevBtn) {
+            prevBtn.addEventListener('click', () => {
+                this.previousQuestion();
+            });
+        }
         
         // Results actions
-        document.getElementById('download-btn').addEventListener('click', () => {
-            this.downloadResults();
-        });
+        const downloadBtn = document.getElementById('download-btn');
+        if (downloadBtn) {
+            downloadBtn.addEventListener('click', () => {
+                this.downloadResults();
+            });
+        }
         
-        document.getElementById('restart-btn').addEventListener('click', () => {
-            this.restartAssessment();
-        });
+        const restartBtn = document.getElementById('restart-btn');
+        if (restartBtn) {
+            restartBtn.addEventListener('click', () => {
+                this.restartAssessment();
+            });
+        }
     }
     
     switchLanguage(lang) {
@@ -431,15 +447,29 @@ class WebJungianAssessment {
     startAssessment() {
         // Set basic participant info without form elements
         this.participantInfo = {
-            participantId: null,
-            age: null,
-            education: null,
-            language: this.currentLanguage
+            participantId: 'Anonymous',
+            age: 'Not specified',
+            education: 'Not specified',
+            language: this.currentLanguage,
+            startTime: new Date().toISOString()
         };
+        
+        console.log('Starting assessment with participant info:', this.participantInfo);
         
         this.startTime = Date.now();
         this.currentQuestionIndex = 0;
         this.answers = {};
+        this.scores = {};
+        this.results = null;
+        
+        // Ensure we have questions loaded
+        if (!this.questions || this.questions.length === 0) {
+            console.error('No questions available, reloading...');
+            this.questions = this.getQuestionsForLanguage(this.currentLanguage);
+        }
+        
+        console.log(`Starting assessment with ${this.questions.length} questions`);
+        
         this.showAssessmentScreen();
         this.displayCurrentQuestion();
     }
@@ -715,7 +745,7 @@ class WebJungianAssessment {
                 const typeInfo = typeDescriptions[typeResult.type];
                 typeDescription = {
                     description: typeInfo.description[this.currentLanguage] || typeInfo.description.en || typeInfo.description,
-                    mostSimilar: typeInfo.mostSimilar[this.currentLanguage] || typeInfo.mostSimilar.en || typeInfo.mostSimilar,
+                    mostSimilar: typeInfo.mostSimilar[this.currentLanguage] || typeInfo.mostSimilar.en || typeInfo.mostComplementary,
                     mostComplementary: typeInfo.mostComplementary[this.currentLanguage] || typeInfo.mostComplementary.en || typeInfo.mostComplementary
                 };
                 console.log('Direct typeDescriptions result:', typeDescription);
