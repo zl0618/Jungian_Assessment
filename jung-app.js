@@ -1587,72 +1587,101 @@ class WebJungianAssessment {
         if (!window.jspdf || !window.jspdf.jsPDF) {
             throw new Error('jsPDF library not loaded properly');
         }
-        
+
         // Use the jspdf library, which is available as a global variable
-        const doc = new window.jspdf.jsPDF();
-        
+        const doc = new window.jspdf.jsPDF({
+            orientation: 'portrait',
+            unit: 'mm',
+            format: 'a4'
+        });
+
         const { percentageScores, dominantFunction, auxiliaryFunction, tertiaryFunction, inferiorFunction, functionStack, jungianType, typeDescription } = this.results;
-        
+
         // Set up fonts and colors
         const primaryColor = [255, 149, 0]; // Orange
         const secondaryColor = [51, 51, 51]; // Dark gray
         const lightGray = [102, 102, 102];
-        
+
         let yPosition = 20;
         const leftMargin = 20;
         const rightMargin = 190;
         const pageWidth = 210; // A4 width in mm
-        
-        // Helper function to add text with automatic line wrapping
+
+        // Helper function to add text with automatic line wrapping and better encoding handling
         const addWrappedText = (text, x, y, maxWidth, fontSize = 12, color = secondaryColor) => {
             doc.setFontSize(fontSize);
             doc.setTextColor(color[0], color[1], color[2]);
-            const lines = doc.splitTextToSize(text, maxWidth);
-            doc.text(lines, x, y);
-            return y + (lines.length * fontSize * 0.5); // Return new Y position
+            
+            // Clean the text and handle encoding issues
+            const cleanText = text.replace(/<[^>]*>/g, ''); // Remove HTML tags
+            
+            try {
+                const lines = doc.splitTextToSize(cleanText, maxWidth);
+                doc.text(lines, x, y);
+                return y + (lines.length * fontSize * 0.5); // Return new Y position
+            } catch (error) {
+                console.warn('Text encoding issue, using fallback:', error);
+                // Fallback for problematic characters
+                const asciiText = cleanText.replace(/[^\x00-\x7F]/g, '?');
+                const lines = doc.splitTextToSize(asciiText, maxWidth);
+                doc.text(lines, x, y);
+                return y + (lines.length * fontSize * 0.5);
+            }
         };
-        
+
+        // Helper function to safely add text with encoding fallback
+        const addSafeText = (text, x, y, options = {}) => {
+            try {
+                doc.text(text, x, y, options);
+            } catch (error) {
+                console.warn('Text encoding issue, using ASCII fallback:', error);
+                // Convert non-ASCII characters to ASCII equivalents or placeholders
+                const asciiText = text.replace(/[^\x00-\x7F]/g, '?');
+                doc.text(asciiText, x, y, options);
+            }
+        };
+
         // Title
         doc.setFontSize(24);
         doc.setTextColor(primaryColor[0], primaryColor[1], primaryColor[2]);
         doc.setFont(undefined, 'bold');
-        const title = this.currentLanguage === 'zh' ? '榮格認知功能評估報告' : 'Jungian Cognitive Function Assessment Report';
-        doc.text(title, pageWidth / 2, yPosition, { align: 'center' });
+        const title = this.currentLanguage === 'zh' ? 'Jung Cognitive Function Assessment Report' : 'Jungian Cognitive Function Assessment Report';
+        addSafeText(title, pageWidth / 2, yPosition, { align: 'center' });
         yPosition += 15;
-        
+
         // Date and Completion ID
         doc.setFontSize(10);
         doc.setTextColor(lightGray[0], lightGray[1], lightGray[2]);
         doc.setFont(undefined, 'normal');
         const date = new Date().toLocaleDateString();
-        doc.text(`${this.currentLanguage === 'zh' ? '生成日期' : 'Generated'}: ${date}`, leftMargin, yPosition);
-        doc.text(`${this.currentLanguage === 'zh' ? '完成ID' : 'Completion ID'}: ${this.completionId}`, rightMargin, yPosition, { align: 'right' });
+        addSafeText(`${this.currentLanguage === 'zh' ? 'Generated' : 'Generated'}: ${date}`, leftMargin, yPosition);
+        addSafeText(`${this.currentLanguage === 'zh' ? 'Completion ID' : 'Completion ID'}: ${this.completionId}`, rightMargin, yPosition, { align: 'right' });
         yPosition += 15;
-        
+
         // Main Results Section
         doc.setFontSize(16);
         doc.setTextColor(primaryColor[0], primaryColor[1], primaryColor[2]);
         doc.setFont(undefined, 'bold');
-        const resultsTitle = this.currentLanguage === 'zh' ? '您的結果' : 'Your Results';
-        doc.text(resultsTitle, leftMargin, yPosition);
+        const resultsTitle = this.currentLanguage === 'zh' ? 'Your Results' : 'Your Results';
+        addSafeText(resultsTitle, leftMargin, yPosition);
         yPosition += 10;
-        
+
         // Type and main functions
         doc.setFontSize(14);
         doc.setTextColor(secondaryColor[0], secondaryColor[1], secondaryColor[2]);
         doc.setFont(undefined, 'bold');
-        doc.text(`${this.currentLanguage === 'zh' ? '類型' : 'Type'}: ${jungianType}`, leftMargin, yPosition);
+        addSafeText(`${this.currentLanguage === 'zh' ? 'Type' : 'Type'}: ${jungianType}`, leftMargin, yPosition);
         yPosition += 8;
-        
+
         doc.setFontSize(12);
         doc.setFont(undefined, 'normal');
-        doc.text(`${this.currentLanguage === 'zh' ? '主導功能' : 'Dominant Function'}: ${dominantFunction[0]} (${dominantFunction[1]}%)`, leftMargin, yPosition);
+        addSafeText(`${this.currentLanguage === 'zh' ? 'Dominant Function' : 'Dominant Function'}: ${dominantFunction[0]} (${dominantFunction[1]}%)`, leftMargin, yPosition);
         yPosition += 6;
-        doc.text(`${this.currentLanguage === 'zh' ? '輔助功能' : 'Auxiliary Function'}: ${auxiliaryFunction[0]} (${auxiliaryFunction[1]}%)`, leftMargin, yPosition);
+        addSafeText(`${this.currentLanguage === 'zh' ? 'Auxiliary Function' : 'Auxiliary Function'}: ${auxiliaryFunction[0]} (${auxiliaryFunction[1]}%)`, leftMargin, yPosition);
         yPosition += 6;
-        doc.text(`${this.currentLanguage === 'zh' ? '第三功能' : 'Tertiary Function'}: ${tertiaryFunction[0]} (${tertiaryFunction[1]}%)`, leftMargin, yPosition);
+        addSafeText(`${this.currentLanguage === 'zh' ? 'Tertiary Function' : 'Tertiary Function'}: ${tertiaryFunction[0]} (${tertiaryFunction[1]}%)`, leftMargin, yPosition);
         yPosition += 6;
-        doc.text(`${this.currentLanguage === 'zh' ? '劣勢功能' : 'Inferior Function'}: ${inferiorFunction[0]} (${inferiorFunction[1]}%)`, leftMargin, yPosition);
+        addSafeText(`${this.currentLanguage === 'zh' ? 'Inferior Function' : 'Inferior Function'}: ${inferiorFunction[0]} (${inferiorFunction[1]}%)`, leftMargin, yPosition);
         yPosition += 15;
         
         // Type Description
@@ -1660,39 +1689,29 @@ class WebJungianAssessment {
             doc.setFontSize(14);
             doc.setTextColor(primaryColor[0], primaryColor[1], primaryColor[2]);
             doc.setFont(undefined, 'bold');
-            const descriptionTitle = this.currentLanguage === 'zh' ? '類型描述' : 'Type Description';
-            doc.text(descriptionTitle, leftMargin, yPosition);
+            const descriptionTitle = this.currentLanguage === 'zh' ? 'Type Description' : 'Type Description';
+            addSafeText(descriptionTitle, leftMargin, yPosition);
             yPosition += 8;
-            
+
             yPosition = addWrappedText(typeDescription.description, leftMargin, yPosition, rightMargin - leftMargin, 11, secondaryColor);
             yPosition += 10;
         }
-        
+
         // Scoring Model Documentation
         doc.setFontSize(14);
         doc.setTextColor(primaryColor[0], primaryColor[1], primaryColor[2]);
         doc.setFont(undefined, 'bold');
-        const scoringModelTitle = this.currentLanguage === 'zh' ? '評分模型' : 'Scoring Model';
-        doc.text(scoringModelTitle, leftMargin, yPosition);
+        const scoringModelTitle = this.currentLanguage === 'zh' ? 'Scoring Model' : 'Scoring Model';
+        addSafeText(scoringModelTitle, leftMargin, yPosition);
         yPosition += 8;
-        
+
         let scoringModelText;
         if (this.currentLanguage === 'zh') {
-            scoringModelText = `
-                <p style="font-size: 12px; color: #333; line-height: 1.4;">
-                    本評估使用容格的原始類型模型。每個功能分數是其10個問題的簡單總和（每個問題1-5分）。
-                    主導功能是得分最高的功能。輔助功能是來自相反軸（理性/非理性）和相反態度（外向/內向）的得分最高的功能。
-                </p>
-            `;
+            scoringModelText = 'This assessment uses Jung\'s original type model. Each function score is a simple sum of its 10 questions (1-5 points each). The dominant function is the highest scoring. The auxiliary function is the highest scoring function from the opposite axis (rational/irrational) and opposite attitude (extraverted/introverted).';
         } else {
-            scoringModelText = `
-                <p style="font-size: 12px; color: #333; line-height: 1.4;">
-                    This assessment uses Jung's original type model. Each function score is a simple sum of its 10 questions (1-5 points each).
-                    The dominant function is the highest scoring. The auxiliary function is the highest scoring function from the opposite axis (rational/irrational) and opposite attitude (extraverted/introverted).
-                </p>
-            `;
+            scoringModelText = 'This assessment uses Jung\'s original type model. Each function score is a simple sum of its 10 questions (1-5 points each). The dominant function is the highest scoring. The auxiliary function is the highest scoring function from the opposite axis (rational/irrational) and opposite attitude (extraverted/introverted).';
         }
-        
+
         // Add scoring model text with wrapping
         doc.setFontSize(12);
         doc.setFont(undefined, 'normal');
@@ -1703,40 +1722,40 @@ class WebJungianAssessment {
         doc.setFontSize(14);
         doc.setTextColor(primaryColor[0], primaryColor[1], primaryColor[2]);
         doc.setFont(undefined, 'bold');
-        const scoresTitle = this.currentLanguage === 'zh' ? '認知功能評分明細' : 'Cognitive Function Scores Breakdown';
-        doc.text(scoresTitle, leftMargin, yPosition);
+        const scoresTitle = this.currentLanguage === 'zh' ? 'Cognitive Function Scores' : 'Cognitive Function Scores Breakdown';
+        addSafeText(scoresTitle, leftMargin, yPosition);
         yPosition += 10;
-        
+
         // Create a simple bar chart representation
         const sortedFunctions = Object.entries(percentageScores).sort(([,a], [,b]) => b - a);
         const maxBarWidth = 100;
-        
+
         doc.setFontSize(10);
         doc.setFont(undefined, 'normal');
-        
+
         sortedFunctions.forEach(([func, score]) => {
             // Check if we need a new page
             if (yPosition > 250) {
                 doc.addPage();
                 yPosition = 20;
             }
-            
+
             // Function name and score
             doc.setTextColor(secondaryColor[0], secondaryColor[1], secondaryColor[2]);
-            doc.text(`${func}: ${score}%`, leftMargin, yPosition);
-            
+            addSafeText(`${func}: ${score}%`, leftMargin, yPosition);
+
             // Draw bar
             const barWidth = (score / 100) * maxBarWidth;
             doc.setFillColor(primaryColor[0], primaryColor[1], primaryColor[2]);
             doc.rect(leftMargin + 30, yPosition - 3, barWidth, 4, 'F');
-            
+
             // Draw background bar
             doc.setFillColor(240, 240, 240);
             doc.rect(leftMargin + 30 + barWidth, yPosition - 3, maxBarWidth - barWidth, 4, 'F');
-            
+
             yPosition += 8;
         });
-        
+
         yPosition += 10;
         
         // Most Similar and Complementary Types
@@ -1746,32 +1765,32 @@ class WebJungianAssessment {
                 doc.addPage();
                 yPosition = 20;
             }
-            
+
             doc.setFontSize(14);
             doc.setTextColor(primaryColor[0], primaryColor[1], primaryColor[2]);
             doc.setFont(undefined, 'bold');
-            const relationshipsTitle = this.currentLanguage === 'zh' ? '類型關係' : 'Type Relationships';
-            doc.text(relationshipsTitle, leftMargin, yPosition);
+            const relationshipsTitle = this.currentLanguage === 'zh' ? 'Type Relationships' : 'Type Relationships';
+            addSafeText(relationshipsTitle, leftMargin, yPosition);
             yPosition += 10;
-            
+
             if (typeDescription.mostSimilar) {
                 doc.setFontSize(12);
                 doc.setFont(undefined, 'bold');
-                const similarTitle = this.currentLanguage === 'zh' ? '最相似類型：' : 'Most Similar Types:';
-                doc.text(similarTitle, leftMargin, yPosition);
+                const similarTitle = this.currentLanguage === 'zh' ? 'Most Similar Types:' : 'Most Similar Types:';
+                addSafeText(similarTitle, leftMargin, yPosition);
                 yPosition += 6;
-                
+
                 yPosition = addWrappedText(typeDescription.mostSimilar, leftMargin, yPosition, rightMargin - leftMargin, 10, secondaryColor);
                 yPosition += 8;
             }
-            
+
             if (typeDescription.mostComplementary) {
                 doc.setFontSize(12);
                 doc.setFont(undefined, 'bold');
-                const complementaryTitle = this.currentLanguage === 'zh' ? '最互補類型：' : 'Most Complementary Types:';
-                doc.text(complementaryTitle, leftMargin, yPosition);
+                const complementaryTitle = this.currentLanguage === 'zh' ? 'Most Complementary Types:' : 'Most Complementary Types:';
+                addSafeText(complementaryTitle, leftMargin, yPosition);
                 yPosition += 6;
-                
+
                 yPosition = addWrappedText(typeDescription.mostComplementary, leftMargin, yPosition, rightMargin - leftMargin, 10, secondaryColor);
                 yPosition += 10;
             }
@@ -1782,25 +1801,25 @@ class WebJungianAssessment {
             doc.addPage();
             yPosition = 20;
         }
-        
+
         doc.setFontSize(10);
         doc.setTextColor(lightGray[0], lightGray[1], lightGray[2]);
         doc.setFont(undefined, 'italic');
         const footerText = this.currentLanguage === 'zh' ? 
-            '此報告基於榮格認知功能理論生成。分數反映您對每種認知功能相關問題的回答模式。這些結果應作為自我理解的起點，而非絕對分類。' :
+            'This report is generated based on Jungian cognitive function theory. Scores reflect your response patterns to questions related to each cognitive function. These results should serve as a starting point for self-understanding, not as absolute categorization.' :
             'This report is generated based on Jungian cognitive function theory. Scores reflect your response patterns to questions related to each cognitive function. These results should serve as a starting point for self-understanding, not as absolute categorization.';
-        
+
         yPosition = addWrappedText(footerText, leftMargin, yPosition, rightMargin - leftMargin, 9, lightGray);
-        
+
         // Add page numbers
         const pageCount = doc.internal.getNumberOfPages();
         for (let i = 1; i <= pageCount; i++) {
             doc.setPage(i);
             doc.setFontSize(8);
             doc.setTextColor(lightGray[0], lightGray[1], lightGray[2]);
-            doc.text(`${i} / ${pageCount}`, pageWidth - 20, 290, { align: 'right' });
+            addSafeText(`${i} / ${pageCount}`, pageWidth - 20, 290, { align: 'right' });
         }
-        
+
         // Save the PDF with a sanitized filename
         // Remove any special characters from the type name that might cause issues
         const sanitizedType = jungianType.replace(/[^a-zA-Z0-9]/g, '');
