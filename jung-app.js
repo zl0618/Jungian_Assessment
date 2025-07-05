@@ -138,18 +138,6 @@ class WebJungianAssessment {
             console.log(`Loaded ${questions.length} English questions`);
         }
         
-        // Fallback to original questions.js file
-        if (questions.length === 0 && typeof getAllQuestions === 'function') {
-            try {
-                questions = getAllQuestions(lang);
-                if (questions && questions.length > 0) {
-                    console.log(`Loaded ${questions.length} questions from getAllQuestions for ${lang}`);
-                }
-            } catch (error) {
-                console.warn('Error getting questions from getAllQuestions:', error);
-            }
-        }
-        
         // Final fallback to default questions
         if (questions.length === 0) {
             console.log(`Using fallback questions for ${lang}`);
@@ -2108,12 +2096,10 @@ document.addEventListener('DOMContentLoaded', () => {
     // Check if external question files are loaded
     const hasChineseQuestions = typeof getChineseQuestions === 'function';
     const hasEnglishQuestions = typeof getEnglishQuestions === 'function';
-    const hasAllQuestions = typeof getAllQuestions === 'function';
     
     console.log('External question files status:', {
         hasChineseQuestions,
-        hasEnglishQuestions,
-        hasAllQuestions
+        hasEnglishQuestions
     });
     
     if (!hasChineseQuestions) {

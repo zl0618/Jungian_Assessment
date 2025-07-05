@@ -11,9 +11,8 @@ Jung8_software/
 ├── app.js                  # Main application JavaScript
 ├── translations.js         # Translation dictionary for multilingual support
 ├── type-descriptions.js    # Jungian type descriptions in multiple languages
-├── questions-en.js         # English questions (if available)
-├── questions-zh.js         # Chinese questions (if available)
-├── questions.js            # Original questions file (if available)
+├── questions-en.js         # English questions
+├── questions-zh.js         # Chinese questions
 └── web-interview.html      # Original single-file version (backup)
 ```
 
