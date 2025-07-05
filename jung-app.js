@@ -156,16 +156,65 @@ class WebJungianAssessment {
             questions = this.getDefaultQuestions(lang);
         }
         
-        // Shuffle the questions randomly for each assessment
-        const shuffledQuestions = this.shuffleArray(questions);
-        console.log(`Questions shuffled randomly. Original first question: ${questions[0]?.text}, New first question: ${shuffledQuestions[0]?.text}`);
+        // Systematically order questions: pick first question from each function, then second from each, etc.
+        const systematicQuestions = this.orderQuestionsByFunction(questions);
+        console.log(`Questions ordered systematically. Original first question: ${questions[0]?.text}, New first question: ${systematicQuestions[0]?.text}`);
         
         // Create a mapping to track original positions for scoring
-        shuffledQuestions.forEach((question, index) => {
-            question.shuffledIndex = index;
+        systematicQuestions.forEach((question, index) => {
+            question.orderedIndex = index;
         });
         
-        return shuffledQuestions;
+        return systematicQuestions;
+    }
+    
+    // Utility function to order questions systematically by function
+    orderQuestionsByFunction(questions) {
+        console.log('Ordering questions systematically by function...');
+        
+        // Group questions by function
+        const functionGroups = {};
+        questions.forEach(question => {
+            const func = question.function || question.functionKey;
+            if (!func) {
+                console.warn('Question without function property:', question);
+                return;
+            }
+            
+            if (!functionGroups[func]) {
+                functionGroups[func] = [];
+            }
+            functionGroups[func].push(question);
+        });
+        
+        console.log('Function groups:', Object.keys(functionGroups).map(func => 
+            `${func}: ${functionGroups[func].length} questions`
+        ));
+        
+        // Order functions systematically (Te, Ti, Fe, Fi, Se, Si, Ne, Ni)
+        const functionOrder = ['Te', 'Ti', 'Fe', 'Fi', 'Se', 'Si', 'Ne', 'Ni'];
+        
+        // Create the systematically ordered array
+        const orderedQuestions = [];
+        const maxQuestionsPerFunction = Math.max(...Object.values(functionGroups).map(group => group.length));
+        
+        // For each question position (1st, 2nd, 3rd, etc.)
+        for (let questionIndex = 0; questionIndex < maxQuestionsPerFunction; questionIndex++) {
+            // Go through each function in order
+            for (const func of functionOrder) {
+                const functionQuestions = functionGroups[func];
+                if (functionQuestions && functionQuestions[questionIndex]) {
+                    orderedQuestions.push(functionQuestions[questionIndex]);
+                }
+            }
+        }
+        
+        console.log(`Systematic ordering complete. Total questions: ${orderedQuestions.length}`);
+        console.log('First few questions by function:', orderedQuestions.slice(0, 16).map(q => 
+            `${q.function || q.functionKey}: ${q.text?.substring(0, 30)}...`
+        ));
+        
+        return orderedQuestions;
     }
     
     getDefaultQuestions(lang) {
