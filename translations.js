@@ -22,8 +22,11 @@ const translations = {
         questionOf: "Question {current} of {total}",
         estimatedTime: "Estimated time: 15 minutes",
         ratingExplanationTitle: "Rating Scale:",
+        stronglyDisagreeGuide: "Strongly Disagree",
         disagreeGuide: "Disagree",
-        agreeGuide: "Agree"
+        neutralGuide: "Neutral",
+        agreeGuide: "Agree",
+        stronglyAgreeGuide: "Strongly Agree"
     },
     zh: {
         mainTitle: "榮格認知功能評估",
@@ -47,8 +50,11 @@ const translations = {
         questionOf: "第 {current} 題，共 {total} 題",
         estimatedTime: "預計時間：15分鐘",
         ratingExplanationTitle: "評分標準：",
+        stronglyDisagreeGuide: "強烈不同意",
         disagreeGuide: "不同意",
-        agreeGuide: "同意"
+        neutralGuide: "中立",
+        agreeGuide: "同意",
+        stronglyAgreeGuide: "強烈同意"
     }
 };
 

@@ -1241,6 +1241,8 @@ class WebJungianAssessment {
         }
         
         const title = this.currentLanguage === 'zh' ? '類型描述' : 'Type Description';
+        const strengthsTitle = this.currentLanguage === 'zh' ? '你的優勢' : 'Your Strengths';
+        const challengesTitle = this.currentLanguage === 'zh' ? '你的挑戰' : 'Your Challenges';
         const similarTitle = this.currentLanguage === 'zh' ? '最相似類型' : 'Most Similar Type';
         const complementaryTitle = this.currentLanguage === 'zh' ? '最互補類型' : 'Most Complementary Type';
         const explanationTitle = this.currentLanguage === 'zh' ? '如何理解"最相似"和"最互補"' : 'How to Read "Most Similar" and "Most Complementary"';
@@ -1254,23 +1256,48 @@ class WebJungianAssessment {
         };
         
         return `
-            <div style="margin: 2rem 0; padding: 2rem; background: linear-gradient(135deg, #fff8f0 0%, #ffebe0 100%); border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.1);">
-                <h3 style="color: rgb(255, 149, 0); text-align: center; margin-bottom: 1.5rem;">${title}: ${jungianType}</h3>
-                <p style="line-height: 1.8; color: #333; text-align: justify; margin-bottom: 2rem;">
-                    ${typeDescription.description}
-                </p>
+            <div style="margin: 2rem 0;">
+                <!-- Main Description Box -->
+                <div style="margin-bottom: 1.5rem; padding: 2rem; background: linear-gradient(135deg, #fff8f0 0%, #ffebe0 100%); border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.1);">
+                    <h3 style="color: rgb(255, 149, 0); text-align: center; margin-bottom: 1.5rem;">${title}: ${jungianType}</h3>
+                    <p style="line-height: 1.8; color: #333; text-align: justify;">
+                        ${typeDescription.description}
+                    </p>
+                </div>
                 
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 2rem;">
-                    <div style="background: white; padding: 1.5rem; border-radius: 10px; border-left: 4px solid #4a90e2;">
+                <!-- Strengths and Challenges Boxes -->
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem;">
+                    <div style="padding: 1.5rem; background: linear-gradient(135deg, #e8f5e8 0%, #f0f8f0 100%); border-radius: 12px; border-left: 4px solid #28a745;">
+                        <h4 style="color: #28a745; margin-bottom: 1rem; display: flex; align-items: center;">
+                            <span style="margin-right: 0.5rem;">✓</span> ${strengthsTitle}
+                        </h4>
+                        <div style="color: #2d5a2d; line-height: 1.6; white-space: pre-line;">
+                            ${typeDescription.strengths || 'Strengths information not available'}
+                        </div>
+                    </div>
+                    <div style="padding: 1.5rem; background: linear-gradient(135deg, #fff3e0 0%, #ffecc7 100%); border-radius: 12px; border-left: 4px solid #ff9800;">
+                        <h4 style="color: #ff9800; margin-bottom: 1rem; display: flex; align-items: center;">
+                            <span style="margin-right: 0.5rem;">⚠</span> ${challengesTitle}
+                        </h4>
+                        <div style="color: #b8610a; line-height: 1.6; white-space: pre-line;">
+                            ${typeDescription.challenges || 'Challenges information not available'}
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Similar and Complementary Types -->
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem;">
+                    <div style="background: white; padding: 1.5rem; border-radius: 10px; border-left: 4px solid #4a90e2; box-shadow: 0 2px 10px rgba(0,0,0,0.05);">
                         <h4 style="color: #4a90e2; margin-bottom: 0.5rem;">${similarTitle}</h4>
                         <p style="color: #666; line-height: 1.6;">${typeDescription.mostSimilar}</p>
                     </div>
-                    <div style="background: white; padding: 1.5rem; border-radius: 10px; border-left: 4px solid #28a745;">
-                        <h4 style="color: #28a745; margin-bottom: 0.5rem;">${complementaryTitle}</h4>
+                    <div style="background: white; padding: 1.5rem; border-radius: 10px; border-left: 4px solid #6f42c1; box-shadow: 0 2px 10px rgba(0,0,0,0.05);">
+                        <h4 style="color: #6f42c1; margin-bottom: 0.5rem;">${complementaryTitle}</h4>
                         <p style="color: #666; line-height: 1.6;">${typeDescription.mostComplementary}</p>
                     </div>
                 </div>
                 
+                <!-- Explanation Box -->
                 <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 10px; border: 1px solid #dee2e6;">
                     <h4 style="color: #6c757d; margin-bottom: 1rem; font-size: 1.1rem;">${explanationTitle}</h4>
                     <div style="margin-bottom: 0.8rem;">
@@ -1278,7 +1305,7 @@ class WebJungianAssessment {
                         <span style="color: #666; line-height: 1.6;">${explanationText.similar}</span>
                     </div>
                     <div>
-                        <strong style="color: #28a745;">${complementaryTitle}:</strong>
+                        <strong style="color: #6f42c1;">${complementaryTitle}:</strong>
                         <span style="color: #666; line-height: 1.6;">${explanationText.complementary}</span>
                     </div>
                 </div>
@@ -1882,12 +1909,40 @@ class WebJungianAssessment {
             doc.setFontSize(14);
             doc.setTextColor(primaryColor[0], primaryColor[1], primaryColor[2]);
             doc.setFont(undefined, 'bold');
-            const descriptionTitle = this.currentLanguage === 'zh' ? 'Type Description' : 'Type Description';
+            const descriptionTitle = this.currentLanguage === 'zh' ? '類型描述' : 'Type Description';
             addSafeText(descriptionTitle, leftMargin, yPosition);
             yPosition += 8;
 
             yPosition = addWrappedText(typeDescription.description, leftMargin, yPosition, rightMargin - leftMargin, 11, secondaryColor);
             yPosition += 10;
+            
+            // Add Strengths section
+            if (typeDescription.strengths) {
+                doc.setFontSize(12);
+                doc.setTextColor(40, 167, 69); // Green color for strengths
+                doc.setFont(undefined, 'bold');
+                const strengthsTitle = this.currentLanguage === 'zh' ? '你的優勢' : 'Your Strengths';
+                addSafeText(strengthsTitle, leftMargin, yPosition);
+                yPosition += 6;
+                
+                doc.setFont(undefined, 'normal');
+                yPosition = addWrappedText(typeDescription.strengths, leftMargin, yPosition, rightMargin - leftMargin, 10, secondaryColor);
+                yPosition += 8;
+            }
+            
+            // Add Challenges section
+            if (typeDescription.challenges) {
+                doc.setFontSize(12);
+                doc.setTextColor(255, 152, 0); // Orange color for challenges
+                doc.setFont(undefined, 'bold');
+                const challengesTitle = this.currentLanguage === 'zh' ? '你的挑戰' : 'Your Challenges';
+                addSafeText(challengesTitle, leftMargin, yPosition);
+                yPosition += 6;
+                
+                doc.setFont(undefined, 'normal');
+                yPosition = addWrappedText(typeDescription.challenges, leftMargin, yPosition, rightMargin - leftMargin, 10, secondaryColor);
+                yPosition += 8;
+            }
         }
 
         // Scoring Model Documentation
