@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cognitive Functions Reference - Jungian Assessment</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="Jung8_logo.png" type="image/png">
+    
+    <!-- Open Graph / Social Media Meta Tags -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://zl0618.github.io/Jungian_Assessment/functions-reference.html">
+    <meta property="og:title" content="Cognitive Functions Reference - Jungian Assessment">
+    <meta property="og:description" content="Learn about the 8 cognitive functions in Jungian psychology">
+    <meta property="og:image" content="https://zl0618.github.io/Jungian_Assessment/Jung8_logo.png">
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Cognitive Functions Reference - Jungian Assessment">
+    <meta name="twitter:description" content="Learn about the 8 cognitive functions in Jungian psychology">
+    <meta name="twitter:image" content="https://zl0618.github.io/Jungian_Assessment/Jung8_logo.png">
+    <style>
+        .functions-reference {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .functions-header {
+            background: linear-gradient(45deg, rgb(255, 149, 0), #ff6347);
+            color: white;
+            padding: 3rem 2rem;
+            border-radius: 15px;
+            text-align: center;
+            margin-bottom: 3rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        
+        .functions-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .functions-header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .language-toggle {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 3rem;
+        }
+        
+        .lang-btn {
+            padding: 0.8rem 2rem;
+            border: 2px solid rgb(255, 149, 0);
+            background: white;
+            color: rgb(255, 149, 0);
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+        
+        .lang-btn.active {
+            background: rgb(255, 149, 0);
+            color: white;
+        }
+        
+        .functions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        
+        .function-card {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            border-left: 5px solid rgb(255, 149, 0);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .function-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+        
+        .function-title {
+            color: rgb(255, 149, 0);
+            font-size: 1.4rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .function-symbol {
+            background: rgb(255, 149, 0);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+        
+        .function-content {
+            line-height: 1.8;
+            color: #333;
+            text-align: justify;
+        }
+        
+        .back-to-assessment {
+            position: fixed;
+            top: 2rem;
+            right: 2rem;
+            background: linear-gradient(45deg, rgb(255, 149, 0), #ff6347);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 500;
+            box-shadow: 0 4px 15px rgba(255, 149, 0, 0.3);
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+        
+        .back-to-assessment:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 149, 0, 0.4);
+        }
+        
+        .category-section {
+            margin-bottom: 4rem;
+        }
+        
+        .category-title {
+            text-align: center;
+            color: #333;
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 3px solid rgb(255, 149, 0);
+            display: inline-block;
+            width: 100%;
+        }
+        
+        @media (max-width: 768px) {
+            .functions-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            
+            .functions-header h1 {
+                font-size: 2rem;
+            }
+            
+            .back-to-assessment {
+                position: static;
+                display: block;
+                text-align: center;
+                margin: 2rem auto;
+                width: fit-content;
+            }
+            
+            .function-card {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <a href="#" class="back-to-assessment" onclick="goBack()">← Back to Results</a>
+    
+    <div class="functions-reference">
+        <div class="functions-header">
+            <div class="logo-container">
+                <img src="Jung8_logo.png" alt="Jung8 Logo" class="page-logo small">
+            </div>
+            <h1>Cognitive Functions Reference</h1>
+            <p>Understanding the Eight Jungian Cognitive Functions</p>
+        </div>
+        
+        <div class="language-toggle">
+            <button class="lang-btn active" onclick="switchLanguage('en')">English</button>
+            <button class="lang-btn" onclick="switchLanguage('zh')">繁體中文</button>
+        </div>
+        
+        <!-- Thinking Functions -->
+        <div class="category-section">
+            <h2 class="category-title">
+                <span class="en-text">Thinking Functions</span>
+                <span class="zh-text" style="display: none;">思維功能</span>
+            </h2>
+            
+            <div class="functions-grid">
+                <!-- Te Card -->
+                <div class="function-card">
+                    <div class="function-title">
+                        <div class="function-symbol">Te</div>
+                        <span class="en-text">Extraverted Thinking</span>
+                        <span class="zh-text" style="display: none;">外向思維</span>
+                    </div>
+                    <div class="function-content en-text">
+                        Extraverted Thinking is oriented toward organizing, structuring, and evaluating the external world according to objective facts, rules, and collective standards. It seeks logical order and effectiveness, using external data and generally accepted ideas as its main criteria. People who lead with Te value efficiency, clarity, and practical results, often striving to bring their environment or systems into alignment with what is rational and objectively valid. They tend to make decisions based on what works and can be demonstrated, sometimes at the expense of personal feelings or unique perspectives. When overdeveloped, Te can become rigid, dogmatic, or dismissive of subjective needs.
+                    </div>
+                    <div class="function-content zh-text" style="display: none;">
+                        外向思維（Te）傾向於根據客觀事實、規則和集體標準來組織、結構化和評價外部世界。它追求邏輯秩序與效率，以外在數據和普遍接受的觀念作為主要判斷標準。以Te為主導的人重視效率、明確性和實際成果，經常努力使環境或系統符合理性與客觀標準。他們做決定時依據可行且可證明的方法，有時會忽略個人感受或獨特觀點。當Te過度發展時，可能變得僵化、教條，甚至忽視主觀需求。
+                    </div>
+                </div>
+                
+                <!-- Ti Card -->
+                <div class="function-card">
+                    <div class="function-title">
+                        <div class="function-symbol">Ti</div>
+                        <span class="en-text">Introverted Thinking</span>
+                        <span class="zh-text" style="display: none;">內向思維</span>
+                    </div>
+                    <div class="function-content en-text">
+                        Introverted Thinking is directed inward, seeking clarity, coherence, and logical consistency within the individual's own mind. It values inner principles and subjective frameworks over external rules, often questioning accepted ideas and developing unique systems of understanding. Ti strives for precision, depth, and internal harmony, sometimes appearing detached or hard to explain to others. It is less concerned with external validation and more with whether something "makes sense" personally. Overuse of Ti can lead to excessive analysis, isolation, or difficulty acting in the real world.
+                    </div>
+                    <div class="function-content zh-text" style="display: none;">
+                        內向思維（Ti）是向內聚焦，追求個人內心的清晰、一致與邏輯性。它重視內在原則與主觀架構，常質疑既有觀念並發展獨特的理解系統。Ti追求精確、深度與內在和諧，有時顯得冷漠或難以向他人解釋。它較不在乎外在認同，更關心事情是否「對自己有道理」。過度使用Ti可能導致過度分析、孤立，或難以在現實中行動。
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Feeling Functions -->
+        <div class="category-section">
+            <h2 class="category-title">
+                <span class="en-text">Feeling Functions</span>
+                <span class="zh-text" style="display: none;">情感功能</span>
+            </h2>
+            
+            <div class="functions-grid">
+                <!-- Fe Card -->
+                <div class="function-card">
+                    <div class="function-title">
+                        <div class="function-symbol">Fe</div>
+                        <span class="en-text">Extraverted Feeling</span>
+                        <span class="zh-text" style="display: none;">外向情感</span>
+                    </div>
+                    <div class="function-content en-text">
+                        Extraverted Feeling is attuned to the emotional atmosphere, values, and expectations of the external world. It seeks harmony, connection, and consensus, adapting behavior to meet the needs and standards of others or society. Fe types are often empathetic, warm, and skilled at building relationships, but may suppress their own feelings to maintain group harmony. Their judgments are guided by what is considered appropriate or valuable by the collective. When overemphasized, Fe can result in people-pleasing, loss of individuality, or emotional exhaustion.
+                    </div>
+                    <div class="function-content zh-text" style="display: none;">
+                        外向情感（Fe）敏銳感受外部世界的情緒氛圍、價值觀與期待。它追求和諧、連結與共識，會調整行為以符合他人或社會的需求與標準。Fe型人通常富有同理心、溫暖且善於建立關係，但可能為維持團體和諧而壓抑自我感受。他們的判斷以集體認可或價值為依歸。當Fe過度發展時，容易討好他人、失去自我，或情感耗竭。
+                    </div>
+                </div>
+                
+                <!-- Fi Card -->
+                <div class="function-card">
+                    <div class="function-title">
+                        <div class="function-symbol">Fi</div>
+                        <span class="en-text">Introverted Feeling</span>
+                        <span class="zh-text" style="display: none;">內向情感</span>
+                    </div>
+                    <div class="function-content en-text">
+                        Introverted Feeling is focused on the individual's own inner values, ideals, and emotional authenticity. It forms deep, often inexpressible convictions about what is right, meaningful, or important. Fi types are guided by a personal moral compass and seek to act in harmony with their true selves, often regardless of external expectations. They may appear reserved or private, revealing their feelings only to those they trust deeply. Overuse of Fi can lead to withdrawal, stubbornness, or difficulty communicating one's values.
+                    </div>
+                    <div class="function-content zh-text" style="display: none;">
+                        內向情感（Fi）專注於個人內在的價值、理想與情感真誠。它對於何為正確、有意義或重要有深刻且難以言喻的信念。Fi型人以個人道德為指引，追求行動與真我一致，常不顧外在期待。他們可能顯得內斂、保留，只向最信任的人表露感受。Fi過度發展時，可能導致退縮、固執，或難以表達自身價值。
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Sensing Functions -->
+        <div class="category-section">
+            <h2 class="category-title">
+                <span class="en-text">Sensing Functions</span>
+                <span class="zh-text" style="display: none;">感覺功能</span>
+            </h2>
+            
+            <div class="functions-grid">
+                <!-- Se Card -->
+                <div class="function-card">
+                    <div class="function-title">
+                        <div class="function-symbol">Se</div>
+                        <span class="en-text">Extraverted Sensing</span>
+                        <span class="zh-text" style="display: none;">外向感覺</span>
+                    </div>
+                    <div class="function-content en-text">
+                        Extraverted Sensing is highly responsive to the present moment and the concrete, physical world. It seeks vivid, direct experiences and is attuned to sensory details, changes, and opportunities in the environment. Se types are action-oriented, adaptable, and enjoy engaging with life through their senses. They often excel at reacting quickly and making the most of immediate situations. If overused, Se can lead to impulsiveness, overindulgence, or neglect of future consequences.
+                    </div>
+                    <div class="function-content zh-text" style="display: none;">
+                        外向感覺（Se）高度關注當下與具體的物質世界。它追求鮮明、直接的體驗，對環境中的感官細節、變化與機會極為敏銳。Se型人行動導向、適應力強，喜歡通過感官全情投入生活，善於迅速反應並把握當下。若Se過度發展，可能導致衝動、過度沉迷或忽略未來後果。
+                    </div>
+                </div>
+                
+                <!-- Si Card -->
+                <div class="function-card">
+                    <div class="function-title">
+                        <div class="function-symbol">Si</div>
+                        <span class="en-text">Introverted Sensing</span>
+                        <span class="zh-text" style="display: none;">內向感覺</span>
+                    </div>
+                    <div class="function-content en-text">
+                        Introverted Sensing draws upon inner impressions, memories, and the subjective quality of past experiences. It compares current situations to what has been experienced before, valuing stability, tradition, and personal comfort. Si types are detail-oriented, reliable, and often have a rich inner world shaped by past impressions. They are sensitive to changes that disrupt their sense of familiarity or inner harmony. Overemphasis on Si can result in rigidity, nostalgia, or resistance to new experiences.
+                    </div>
+                    <div class="function-content zh-text" style="display: none;">
+                        內向感覺（Si）從內在印象、記憶與過去經驗的主觀品質中汲取資源。它會將現況與過往經歷比較，重視穩定、傳統與個人舒適。Si型人注重細節、可靠，並擁有由過去印象塑造的豐富內在世界。他們對於破壞熟悉感或內在和諧的變化特別敏感。Si過度發展時，可能變得僵化、懷舊，或抗拒新事物。
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Intuition Functions -->
+        <div class="category-section">
+            <h2 class="category-title">
+                <span class="en-text">Intuition Functions</span>
+                <span class="zh-text" style="display: none;">直覺功能</span>
+            </h2>
+            
+            <div class="functions-grid">
+                <!-- Ne Card -->
+                <div class="function-card">
+                    <div class="function-title">
+                        <div class="function-symbol">Ne</div>
+                        <span class="en-text">Extraverted Intuition</span>
+                        <span class="zh-text" style="display: none;">外向直覺</span>
+                    </div>
+                    <div class="function-content en-text">
+                        Extraverted Intuition constantly scans the external world for new possibilities, patterns, and connections. It is imaginative, future-oriented, and quick to generate ideas or see alternatives. Ne types are open-minded, adaptable, and thrive on change and novelty. They enjoy exploring "what could be" and often inspire others with their vision. When overused, Ne can lead to distractibility, lack of follow-through, or difficulty focusing on the present.
+                    </div>
+                    <div class="function-content zh-text" style="display: none;">
+                        外向直覺（Ne）不斷在外部世界尋找新可能性、模式與聯結。它富於想像、著眼未來，能迅速產生新點子或看見替代方案。Ne型人思想開放、適應力強，喜歡變化與新奇，樂於探索「可能性」，常以願景啟發他人。Ne過度發展時，可能分心、缺乏持續力，或難以專注於當下。
+                    </div>
+                </div>
+                
+                <!-- Ni Card -->
+                <div class="function-card">
+                    <div class="function-title">
+                        <div class="function-symbol">Ni</div>
+                        <span class="en-text">Introverted Intuition</span>
+                        <span class="zh-text" style="display: none;">內向直覺</span>
+                    </div>
+                    <div class="function-content en-text">
+                        Introverted Intuition is oriented toward inner images, symbols, and the deeper meaning or archetypal patterns behind experiences. It synthesizes impressions into holistic insights, often foreseeing how events will unfold. Ni types are visionary, reflective, and drawn to the hidden or "timeless" aspects of reality. Their perceptions can seem mysterious or difficult to explain, but they often have a strong sense of destiny or purpose. If Ni is overused, it can lead to detachment from reality, preoccupation with inner visions, or difficulty communicating ideas.
+                    </div>
+                    <div class="function-content zh-text" style="display: none;">
+                        內向直覺（Ni）著重於內在圖像、象徵，以及經驗背後的深層意義或原型模式。它將印象綜合為整體洞見，常能預見事件的發展。Ni型人富有願景、善於反思，並被現實隱藏或「永恆」的面向所吸引。他們的感知常顯得神秘或難以解釋，但往往有強烈的使命感或目標感。Ni過度發展時，可能脫離現實，過度沉溺於內在幻象，或難以溝通想法。
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function switchLanguage(lang) {
+            const enTexts = document.querySelectorAll('.en-text');
+            const zhTexts = document.querySelectorAll('.zh-text');
+            const langBtns = document.querySelectorAll('.lang-btn');
+            
+            // Remove active class from all buttons
+            langBtns.forEach(btn => btn.classList.remove('active'));
+            
+            if (lang === 'en') {
+                // Show English, hide Chinese
+                enTexts.forEach(el => {
+                    el.style.display = '';
+                    el.style.removeProperty('display');
+                });
+                zhTexts.forEach(el => el.style.display = 'none');
+                langBtns[0].classList.add('active');
+            } else {
+                // Show Chinese, hide English
+                enTexts.forEach(el => el.style.display = 'none');
+                zhTexts.forEach(el => {
+                    el.style.display = '';
+                    el.style.removeProperty('display');
+                });
+                langBtns[1].classList.add('active');
+            }
+        }
+        
+        function goBack() {
+            // Check URL parameters to see if we came from results
+            const urlParams = new URLSearchParams(window.location.search);
+            const fromResults = urlParams.get('from') === 'results';
+            
+            if (fromResults) {
+                // If we explicitly came from results, navigate back to main page with a hash to scroll to results
+                window.location.href = 'index.html#results';
+            } else if (document.referrer && document.referrer.includes('index.html')) {
+                // If we have a referrer from index.html, use history.back()
+                window.history.back();
+            } else {
+                // Fallback: go to main page and try to show results if available
+                window.location.href = 'index.html#results';
+            }
+        }
+    </script>
+</body>
+</html>

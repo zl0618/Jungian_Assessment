@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jung8 Cognitive Function Assessment</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="Jung8_logo.png" type="image/png">
+    
+    <!-- Open Graph / Social Media Meta Tags -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://zl0618.github.io/Jungian_Assessment/">
+    <meta property="og:title" content="Jung8 Cognitive Function Assessment">
+    <meta property="og:description" content="Discover your psychological type through Carl Jung's cognitive function theory">
+    <meta property="og:image" content="https://zl0618.github.io/Jungian_Assessment/Jung8_logo.png">
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Jung8 Cognitive Function Assessment">
+    <meta name="twitter:description" content="Discover your psychological type through Carl Jung's cognitive function theory">
+    <meta name="twitter:image" content="https://zl0618.github.io/Jungian_Assessment/Jung8_logo.png">
+    
+    <!-- Firebase SDK removed -->
+    
+    <!-- jsPDF for PDF generation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <!-- Fallback for jsPDF if CDN fails -->
+    <script>
+        // Check if jsPDF loaded correctly, if not, show a warning in console
+        window.addEventListener('DOMContentLoaded', function() {
+            if (!window.jspdf || !window.jspdf.jsPDF) {
+                console.warn('jsPDF did not load correctly from CDN. PDF downloads may not work.');
+            }
+        });
+    </script>
+    
+    <!-- Functions Reference Navigation -->
+    <style>
+        .functions-nav {
+            position: fixed;
+            top: 2rem;
+            right: 2rem;
+            z-index: 1000;
+            display: none; /* Hidden by default */
+        }
+        
+        .functions-nav a {
+            background: linear-gradient(45deg, #ff8c00, #ff6347);
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.9rem;
+            box-shadow: 0 4px 15px rgba(255, 140, 0, 0.3);
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+        
+        .functions-nav a:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 140, 0, 0.4);
+        }
+        
+        @media (max-width: 768px) {
+            .functions-nav {
+                position: static;
+                text-align: center;
+                margin-bottom: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="functions-nav">
+        <a href="#" id="functions-link" onclick="navigateToFunctionsReference()">Functions Reference</a>
+    </div>
+    
+    <div class="container">
+        <!-- Welcome Screen -->
+        <div id="welcome-screen" class="screen active">
+            <div class="logo-container">
+                <img src="Jung8_logo.png" alt="Jung8 Logo" class="page-logo">
+            </div>
+            <div class="screen-header">
+                <h1 id="main-title">Jungian Cognitive Function Assessment</h1>
+                <p class="subtitle" id="main-subtitle">Discover your psychological type through Carl Jung's cognitive function theory</p>
+            </div>
+            <div class="screen-content">
+                <div class="language-selection">
+                    <h3 id="language-title">Choose Language / 選擇語言</h3>
+                    <div class="language-buttons">
+                        <button id="btn-english" class="language-btn active" data-lang="en">English</button>
+                        <button id="btn-chinese" class="language-btn" data-lang="zh">繁體中文</button>
+                    </div>
+                </div>
+                
+                <div class="start-section">
+                    <p id="time-estimate" class="time-estimate">Estimated time/ 預計時間: 15 minutes</p>
+                    
+                    <div class="rating-scale-explanation">
+                        <p id="rating-explanation-title">Rating Scale:</p>
+                        <div class="rating-guide">
+                            <div class="rating-guide-item"><span class="rating-number">1</span> <span id="strongly-disagree-guide">Strongly Disagree</span></div>
+                            <div class="rating-guide-item"><span class="rating-number">2</span> <span id="disagree-guide">Disagree</span></div>
+                            <div class="rating-guide-item"><span class="rating-number">3</span> <span id="neutral-guide">Neutral</span></div>
+                            <div class="rating-guide-item"><span class="rating-number">4</span> <span id="agree-guide">Agree</span></div>
+                            <div class="rating-guide-item"><span class="rating-number">5</span> <span id="strongly-agree-guide">Strongly Agree</span></div>
+                        </div>
+                    </div>
+                    
+                    <button id="start-btn" class="btn btn-primary">Start Assessment</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Assessment Screen -->
+        <div id="assessment-screen" class="screen">
+            <div class="progress-container">
+                <div class="progress-bar">
+                    <div id="progress-fill" class="progress-fill"></div>
+                </div>
+                <p id="question-number" class="progress-text">Question 1 of 56</p>
+                <p id="time-estimate" class="time-estimate">Estimated time/ 預計時間: 15 minutes</p>
+            </div>
+            
+            <div class="question-container">
+                <h2 id="question-text" class="question-text">Loading question...</h2>
+                
+                <div class="rating-scale">
+                    <div class="rating-labels">
+                        <span id="strongly-disagree" class="label-left">Strongly Disagree</span>
+                        <span id="neutral" class="label-center">Neutral</span>
+                        <span id="strongly-agree" class="label-right">Strongly Agree</span>
+                    </div>
+                    <div class="rating-buttons">
+                        <button class="rating-btn" data-value="1">1</button>
+                        <button class="rating-btn" data-value="2">2</button>
+                        <button class="rating-btn" data-value="3">3</button>
+                        <button class="rating-btn" data-value="4">4</button>
+                        <button class="rating-btn" data-value="5">5</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="navigation">
+                <button id="prev-btn" class="btn btn-secondary" style="display: none;">Previous</button>
+            </div>
+        </div>
+
+        <!-- Results Screen -->
+        <div id="results-screen" class="screen">
+            <div class="logo-container small">
+                <img src="Jung8_logo.png" alt="Jung8 Logo" class="page-logo small">
+            </div>
+            <div class="screen-header">
+                <h1 id="results-title">Your Results</h1>
+                <p class="subtitle" id="results-subtitle">Your Jungian cognitive function profile</p>
+            </div>
+            <div class="results-container">
+                <div id="results-content">
+                    <!-- Results will be dynamically inserted here -->
+                </div>
+                
+                <div class="results-actions">
+                    <button id="download-btn" class="btn btn-primary">Download Results</button>
+                    <button id="restart-btn" class="btn btn-secondary">Take Assessment Again</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript Files -->
+    <script src="translations.js"></script>
+    <script src="type-descriptions.js"></script>
+    <script src="questions-en.js"></script>
+    <script src="questions-zh.js"></script>
+    <script src="jung-data.js"></script>
+    <script src="jung-app.js"></script>
+</body>
+</html>
